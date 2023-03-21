@@ -30,7 +30,7 @@ namespace PCBuilder.Controllers
                 Threads = request.Threads,
                 BaseClock = request.BaseClock,
                 MaxBoostClock = request.MaxBoostClock,
-                Socket = request.Socket
+                /*Socket = request.Socket*/
             };
 
 

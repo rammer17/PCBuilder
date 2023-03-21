@@ -15,6 +15,9 @@ namespace PCBuilder
         public DbSet<RAM> Memories { get; set; }
         public DbSet<StorageSlot> StorageSlots { get; set; }
         public DbSet<Socket> Sockets { get; set; }
+        public DbSet<Chipset> Chipsets { get; set; }
+        public DbSet<InternalConnector> InternalConnectors { get; set; }
+
 
 
 

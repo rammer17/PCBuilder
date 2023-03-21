@@ -9,12 +9,11 @@
         public int Threads { get; set; }
         public double BaseClock { get; set; }
         public double MaxBoostClock { get; set; }
-        public string Socket { get; set; }
+        // 1:n relationship with Socket
+        public Socket Socket { get; set; }
+        // n:n relationship with Motherboard
         public ICollection<Motherboard> CompatibleMotherboards { get; set; }
+        // n:n relationship with CpuCooler
         public ICollection<CPUCooler> CompatibleCpuCoolers { get; set; }
-        public ICollection<RAM> CompatibleRam { get; set; }
-
-
-
     }
 }

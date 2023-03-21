@@ -11,8 +11,7 @@
         public string MemoryType { get; set; }
         public int MemoryBus { get; set; }
         public int TDP { get; set; }
-        public ICollection<Motherboard> CompatibleMotherboards { get; set; }
-        public ICollection<PowerSupply> CompatiblePowerSupplies { get; set; }
+        // n:n relationship with Case
         public ICollection<Case> CompatibleCases { get; set; }
 
 

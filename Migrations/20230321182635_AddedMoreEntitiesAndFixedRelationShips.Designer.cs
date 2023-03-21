@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PCBuilder;
 
@@ -11,9 +12,11 @@ using PCBuilder;
 namespace PCBuilder.Migrations
 {
     [DbContext(typeof(PCBuilderDbContext))]
-    partial class PCBuilderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230321182635_AddedMoreEntitiesAndFixedRelationShips")]
+    partial class AddedMoreEntitiesAndFixedRelationShips
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,21 +98,6 @@ namespace PCBuilder.Migrations
                     b.HasIndex("CompatibleMotherboardsId");
 
                     b.ToTable("CaseMotherboard");
-                });
-
-            modelBuilder.Entity("CasePowerSupply", b =>
-                {
-                    b.Property<int>("CompatibleCasesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CompatiblePowerSuppliesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CompatibleCasesId", "CompatiblePowerSuppliesId");
-
-                    b.HasIndex("CompatiblePowerSuppliesId");
-
-                    b.ToTable("CasePowerSupply");
                 });
 
             modelBuilder.Entity("CaseStorage", b =>
@@ -461,6 +449,9 @@ namespace PCBuilder.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CaseId")
+                        .HasColumnType("int");
+
                     b.Property<string>("EfficiencyRating")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -485,6 +476,8 @@ namespace PCBuilder.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CaseId");
 
                     b.ToTable("PowerSupplies");
                 });
@@ -678,21 +671,6 @@ namespace PCBuilder.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CasePowerSupply", b =>
-                {
-                    b.HasOne("PCBuilder.Models.DB.Case", null)
-                        .WithMany()
-                        .HasForeignKey("CompatibleCasesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PCBuilder.Models.DB.PowerSupply", null)
-                        .WithMany()
-                        .HasForeignKey("CompatiblePowerSuppliesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("CaseStorage", b =>
                 {
                     b.HasOne("PCBuilder.Models.DB.Case", null)
@@ -813,6 +791,18 @@ namespace PCBuilder.Migrations
                     b.Navigation("Chipset");
 
                     b.Navigation("Socket");
+                });
+
+            modelBuilder.Entity("PCBuilder.Models.DB.PowerSupply", b =>
+                {
+                    b.HasOne("PCBuilder.Models.DB.Case", null)
+                        .WithMany("CompatiblePowerSupplies")
+                        .HasForeignKey("CaseId");
+                });
+
+            modelBuilder.Entity("PCBuilder.Models.DB.Case", b =>
+                {
+                    b.Navigation("CompatiblePowerSupplies");
                 });
 
             modelBuilder.Entity("PCBuilder.Models.DB.RAM", b =>
