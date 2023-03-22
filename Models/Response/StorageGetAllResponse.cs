@@ -1,6 +1,6 @@
-﻿namespace PCBuilder.Models.DB
+﻿namespace PCBuilder.Models.Response
 {
-    public class Storage
+    public class StorageGetAllResponse
     {
         public int Id { get; set; }
         public string Manufacturer { get; set; }
@@ -11,7 +11,5 @@
         public int ReadSpeed { get; set; }
         public int WriteSpeed { get; set; }
         public string Interface { get; set; }
-        public ICollection<Case> CompatibleCases { get; set; }
-
     }
 }

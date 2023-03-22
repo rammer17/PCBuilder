@@ -1,8 +1,7 @@
-﻿namespace PCBuilder.Models.DB
+﻿namespace PCBuilder.Models.Request
 {
-    public class GPU
+    public class GpuAddRequest
     {
-        public int Id { get; set; }
         public string Manufacturer { get; set; }
         public string Model { get; set; }
         public double BaseClock { get; set; }
@@ -11,9 +10,5 @@
         public string MemoryType { get; set; }
         public int MemoryBus { get; set; }
         public int TDP { get; set; }
-        // n:n relationship with Case
-        public ICollection<Case> CompatibleCases { get; set; }
-
-
     }
 }

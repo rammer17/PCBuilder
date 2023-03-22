@@ -7,11 +7,10 @@ namespace PCBuilder.Controllers
 {
     [Route("[controller]/[action]")]
     [ApiController]
-    public class StorageSlotController : ControllerBase
+    public class PortController : ControllerBase
     {
         private readonly PCBuilderDbContext _dbContext;
-
-        public StorageSlotController(PCBuilderDbContext dbContext)
+        public PortController(PCBuilderDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -19,24 +18,24 @@ namespace PCBuilder.Controllers
         [HttpGet]
         public ActionResult GetAll()
         {
-            var storageSlots = _dbContext.StorageSlots.Select(x => new StorageSlotGetAllResponse
+            var ports = _dbContext.Ports.Select(x => new PortGetAllResponse
             {
                 Id = x.Id,
-                Type = x.Type
+                Name = x.Name
             }).ToList();
 
-            return Ok(storageSlots);
+            return Ok(ports);
         }
 
         [HttpPost]
-        public ActionResult Add(StorageSlotAddRequest request)
+        public ActionResult Add(PortAddRequest request)
         {
-            var newStorageSlot = new StorageSlot
+            var newPort = new Port
             {
-                Type = request.Type
+                Name = request.Name
             };
 
-            _dbContext.StorageSlots.Add(newStorageSlot);
+            _dbContext.Ports.Add(newPort);
             _dbContext.SaveChanges();
 
             return Ok();
@@ -45,11 +44,11 @@ namespace PCBuilder.Controllers
         [HttpDelete]
         public ActionResult Delete(int id)
         {
-            var storageSlotForDelete = _dbContext.StorageSlots.FirstOrDefault(x => x.Id == id);
+            var portForDelete = _dbContext.Ports.FirstOrDefault(x => x.Id == id);
 
-            if (storageSlotForDelete == null) return BadRequest("Invalid Id");
+            if (portForDelete == null) return BadRequest("Invalid Id");
 
-            _dbContext.StorageSlots.Remove(storageSlotForDelete);
+            _dbContext.Ports.Remove(portForDelete);
             _dbContext.SaveChanges();
 
             return Ok();

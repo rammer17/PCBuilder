@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PCBuilder;
 
@@ -11,9 +12,11 @@ using PCBuilder;
 namespace PCBuilder.Migrations
 {
     [DbContext(typeof(PCBuilderDbContext))]
-    partial class PCBuilderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230322160927_BugFix")]
+    partial class BugFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -216,7 +219,7 @@ namespace PCBuilder.Migrations
                     b.Property<int>("Cores")
                         .HasColumnType("int");
 
-                    b.Property<string>("Manufacturer")
+                    b.Property<string>("Make")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -253,7 +256,7 @@ namespace PCBuilder.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Manufacturer")
+                    b.Property<string>("Make")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -287,7 +290,7 @@ namespace PCBuilder.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Manufacturer")
+                    b.Property<string>("Manufactorer")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -336,7 +339,7 @@ namespace PCBuilder.Migrations
                     b.Property<double>("BaseClock")
                         .HasColumnType("float");
 
-                    b.Property<string>("Manufacturer")
+                    b.Property<string>("Make")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -400,7 +403,7 @@ namespace PCBuilder.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Manufacturer")
+                    b.Property<string>("Make")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -500,7 +503,7 @@ namespace PCBuilder.Migrations
                     b.Property<int>("Frequency")
                         .HasColumnType("int");
 
-                    b.Property<string>("Manufacturer")
+                    b.Property<string>("Make")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -557,7 +560,7 @@ namespace PCBuilder.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Manufacturer")
+                    b.Property<string>("Make")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -587,6 +590,9 @@ namespace PCBuilder.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.Property<string>("Type")
                         .IsRequired()

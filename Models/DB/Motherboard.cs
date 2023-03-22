@@ -3,7 +3,7 @@
     public class Motherboard
     {
         public int Id { get; set; }
-        public string Make { get; set; }
+        public string Manufacturer { get; set; }
         public string Model { get; set; }
         public string FormFactor { get; set; }
         // 1:n relationship with Socket

@@ -3,7 +3,7 @@
     public class Case
     {
         public int Id { get; set; }
-        public string Manufactorer { get; set; }
+        public string Manufacturer { get; set; }
         public string Model { get; set; }
         public string Type { get; set; }
         public string MotherboardFormFactor { get; set; }

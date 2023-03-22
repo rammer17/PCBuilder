@@ -7,11 +7,10 @@ namespace PCBuilder.Controllers
 {
     [Route("[controller]/[action]")]
     [ApiController]
-    public class StorageSlotController : ControllerBase
+    public class ChipsetController : ControllerBase
     {
         private readonly PCBuilderDbContext _dbContext;
-
-        public StorageSlotController(PCBuilderDbContext dbContext)
+        public ChipsetController(PCBuilderDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -19,24 +18,24 @@ namespace PCBuilder.Controllers
         [HttpGet]
         public ActionResult GetAll()
         {
-            var storageSlots = _dbContext.StorageSlots.Select(x => new StorageSlotGetAllResponse
+            var chipsets = _dbContext.Chipsets.Select(x => new ChipsetGetAllResponse
             {
                 Id = x.Id,
-                Type = x.Type
+                Name = x.Name
             }).ToList();
 
-            return Ok(storageSlots);
+            return Ok(chipsets);
         }
 
         [HttpPost]
-        public ActionResult Add(StorageSlotAddRequest request)
+        public ActionResult Add(ChipsetAddRequest request)
         {
-            var newStorageSlot = new StorageSlot
+            var newChipset = new Chipset
             {
-                Type = request.Type
+                Name = request.Name
             };
 
-            _dbContext.StorageSlots.Add(newStorageSlot);
+            _dbContext.Chipsets.Add(newChipset);
             _dbContext.SaveChanges();
 
             return Ok();
@@ -45,11 +44,11 @@ namespace PCBuilder.Controllers
         [HttpDelete]
         public ActionResult Delete(int id)
         {
-            var storageSlotForDelete = _dbContext.StorageSlots.FirstOrDefault(x => x.Id == id);
+            var chipsetForDelete = _dbContext.Chipsets.FirstOrDefault(x => x.Id == id);
 
-            if (storageSlotForDelete == null) return BadRequest("Invalid Id");
+            if (chipsetForDelete == null) return BadRequest("Invalid Id");
 
-            _dbContext.StorageSlots.Remove(storageSlotForDelete);
+            _dbContext.Chipsets.Remove(chipsetForDelete);
             _dbContext.SaveChanges();
 
             return Ok();

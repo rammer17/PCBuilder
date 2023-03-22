@@ -7,11 +7,10 @@ namespace PCBuilder.Controllers
 {
     [Route("[controller]/[action]")]
     [ApiController]
-    public class PowerSupplyController : ControllerBase
+    public class StorageController : ControllerBase
     {
         private readonly PCBuilderDbContext _dbContext;
-
-        public PowerSupplyController(PCBuilderDbContext dbContext)
+        public StorageController(PCBuilderDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -19,47 +18,50 @@ namespace PCBuilder.Controllers
         [HttpGet]
         public ActionResult GetAll()
         {
-            var powerSupplies = _dbContext.PowerSupplies.Select(x => new PowerSupplyGetAllResponse
+            var storages = _dbContext.Storages.Select(x => new StorageGetAllResponse
             {
                 Id = x.Id,
                 Manufacturer = x.Manufacturer,
                 Model = x.Model,
                 Type = x.Type,
-                EfficiencyRating = x.EfficiencyRating,
+                Capacity = x.Capacity,
                 FormFactor = x.FormFactor,
-                Wattage = x.Wattage
+                ReadSpeed = x.ReadSpeed,
+                WriteSpeed = x.WriteSpeed,
+                Interface = x.Interface
             }).ToList();
 
-            return Ok(powerSupplies);
+            return Ok(storages);
         }
 
         [HttpPost]
-        public ActionResult Add(PowerSupplyAddRequest request)
+        public ActionResult Add(StorageAddRequest request)
         {
-            var newPowerSupply = new PowerSupply
+            var newStorage = new Storage
             {
                 Manufacturer = request.Manufacturer,
                 Model = request.Model,
                 Type = request.Type,
-                EfficiencyRating = request.EfficiencyRating,
+                Capacity = request.Capacity,
                 FormFactor = request.FormFactor,
-                Wattage = request.Wattage
+                ReadSpeed = request.ReadSpeed,
+                WriteSpeed = request.WriteSpeed,
+                Interface = request.Interface
             };
 
-            _dbContext.PowerSupplies.Add(newPowerSupply);
+            _dbContext.Storages.Add(newStorage);
             _dbContext.SaveChanges();
-
             return Ok();
         }
 
         [HttpDelete]
         public ActionResult Delete(int id)
         {
-            var powerSupplyForDelete = _dbContext.PowerSupplies.FirstOrDefault(x => x.Id == id);
+            var storageForDelete = _dbContext.Storages.FirstOrDefault(x => x.Id == id);
 
-            if (powerSupplyForDelete == null) return BadRequest("Invalid Id");
+            if (storageForDelete == null) return BadRequest("Invalid Id");
 
-            _dbContext.PowerSupplies.Remove(powerSupplyForDelete);
+            _dbContext.Storages.Remove(storageForDelete);
             _dbContext.SaveChanges();
 
             return Ok();
