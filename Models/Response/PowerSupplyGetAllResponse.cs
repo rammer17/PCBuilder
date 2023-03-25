@@ -1,4 +1,6 @@
-﻿namespace PCBuilder.Models.Response
+﻿using PCBuilder.Models.DB;
+
+namespace PCBuilder.Models.Response
 {
     public class PowerSupplyGetAllResponse
     {
@@ -9,5 +11,6 @@
         public string EfficiencyRating { get; set; }
         public string FormFactor { get; set; }
         public int Wattage { get; set; }
+        public List<InternalConnectorGetAllResponse> Connectors { get; set; }
     }
 }

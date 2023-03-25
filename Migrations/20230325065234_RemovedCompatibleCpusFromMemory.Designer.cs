@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PCBuilder;
 
@@ -11,9 +12,11 @@ using PCBuilder;
 namespace PCBuilder.Migrations
 {
     [DbContext(typeof(PCBuilderDbContext))]
-    partial class PCBuilderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230325065234_RemovedCompatibleCpusFromMemory")]
+    partial class RemovedCompatibleCpusFromMemory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,6 +113,21 @@ namespace PCBuilder.Migrations
                     b.HasIndex("CompatiblePowerSuppliesId");
 
                     b.ToTable("CasePowerSupply");
+                });
+
+            modelBuilder.Entity("CaseStorage", b =>
+                {
+                    b.Property<int>("CompatibleCasesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CompatibleStoragesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CompatibleCasesId", "CompatibleStoragesId");
+
+                    b.HasIndex("CompatibleStoragesId");
+
+                    b.ToTable("CaseStorage");
                 });
 
             modelBuilder.Entity("InternalConnectorMotherboard", b =>
@@ -267,21 +285,15 @@ namespace PCBuilder.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("FormFactor")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Manufacturer")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MaxGpuHeight")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaxGpuWidth")
-                        .HasColumnType("int");
-
                     b.Property<string>("Model")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MotherboardFormFactor")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -322,9 +334,6 @@ namespace PCBuilder.Migrations
                     b.Property<double>("BaseClock")
                         .HasColumnType("float");
 
-                    b.Property<int>("Height")
-                        .HasColumnType("int");
-
                     b.Property<string>("Manufacturer")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -347,9 +356,6 @@ namespace PCBuilder.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TDP")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Width")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -675,6 +681,21 @@ namespace PCBuilder.Migrations
                     b.HasOne("PCBuilder.Models.DB.PowerSupply", null)
                         .WithMany()
                         .HasForeignKey("CompatiblePowerSuppliesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CaseStorage", b =>
+                {
+                    b.HasOne("PCBuilder.Models.DB.Case", null)
+                        .WithMany()
+                        .HasForeignKey("CompatibleCasesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PCBuilder.Models.DB.Storage", null)
+                        .WithMany()
+                        .HasForeignKey("CompatibleStoragesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

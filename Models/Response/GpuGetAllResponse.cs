@@ -11,5 +11,7 @@
         public string MemoryType { get; set; }
         public int MemoryBus { get; set; }
         public int TDP { get; set; }
+        public int Height { get; set; }
+        public int Width { get; set; }
     }
 }

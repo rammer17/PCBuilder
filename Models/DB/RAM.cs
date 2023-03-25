@@ -10,8 +10,7 @@
         public string Type { get; set; }
         public string Timing { get; set; }
         // n:n relationship with Motherboard
-        public ICollection<Motherboard> CompatibleMotherboards { get; set; }
-        public ICollection<CPU> CompatibleCpus { get; set; }
+        public List<Motherboard> CompatibleMotherboards { get; set; }
 
     }
 }

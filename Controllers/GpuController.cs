@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PCBuilder.Models.DB;
 using PCBuilder.Models.Request;
+using PCBuilder.Models.Request.Compatible;
 using PCBuilder.Models.Response;
 
 namespace PCBuilder.Controllers
@@ -29,10 +31,35 @@ namespace PCBuilder.Controllers
                 MemorySize = x.MemorySize,
                 MemoryType = x.MemoryType,
                 MemoryBus = x.MemoryBus,
-                TDP = x.TDP
+                TDP = x.TDP,
+                Height = x.Height,
+                Width = x.Width
             }).ToList();
 
             return Ok(gpus);
+        }
+
+        [HttpPost] 
+        public ActionResult GetCompatible(GpuGetCompatibleRequest request)
+        {
+            var pcCase = _dbContext.Cases.Include(x => x.CompatibleGpus).FirstOrDefault(x => x.Id == request.CaseId);
+            if(pcCase == null) return BadRequest("Invalid case Id");
+            var compatibleGpus = pcCase.CompatibleGpus.Select(x => new GpuGetAllResponse
+            {
+                Id = x.Id,
+                Manufacturer = x.Manufacturer,
+                Model = x.Model,
+                BaseClock = x.BaseClock,
+                MaxBoostClock = x.MaxBoostClock,
+                MemorySize = x.MemorySize,
+                MemoryType = x.MemoryType,
+                MemoryBus = x.MemoryBus,
+                TDP = x.TDP,
+                Height = x.Height,
+                Width = x.Width
+            }).ToList();
+
+            return Ok(compatibleGpus);
         }
 
         [HttpPost]
@@ -47,8 +74,14 @@ namespace PCBuilder.Controllers
                 MemorySize = request.MemorySize,
                 MemoryType = request.MemoryType,
                 MemoryBus = request.MemoryBus,
-                TDP = request.TDP
+                TDP = request.TDP,
+                Width = request.Width,
+                Height = request.Height,
+                CompatibleCases = new List<Case>()
             };
+
+            var compatibleCases = _dbContext.Cases.Where(x => x.MaxGpuHeight >= newGpu.Height && x.MaxGpuWidth >= newGpu.Width).ToList();
+            newGpu.CompatibleCases.AddRange(compatibleCases);
 
             _dbContext.GPUs.Add(newGpu);
             _dbContext.SaveChanges();

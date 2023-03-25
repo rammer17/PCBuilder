@@ -12,8 +12,8 @@
         // 1:n relationship with Socket
         public Socket Socket { get; set; }
         // n:n relationship with Motherboard
-        public ICollection<Motherboard> CompatibleMotherboards { get; set; }
+        public List<Motherboard> CompatibleMotherboards { get; set; }
         // n:n relationship with CpuCooler
-        public ICollection<CPUCooler> CompatibleCpuCoolers { get; set; }
+        public List<CPUCooler> CompatibleCpuCoolers { get; set; }
     }
 }

@@ -16,11 +16,11 @@
         public int MaxMemorySpeed { get; set; }
         public bool Wifi { get; set; }
         // n:n relationship with CPU
-        public ICollection<CPU> CompatibleCpus { get; set; }
+        public List<CPU> CompatibleCpus { get; set; }
         // n:n relationship with RAM
-        public ICollection<RAM> CompatibleRam { get; set; }
+        public List<RAM> CompatibleRam { get; set; }
         // n:n relationship with Case
-        public ICollection<Case> CompatibleCases { get; set; }
+        public List<Case> CompatibleCases { get; set; }
         // n:n relationship with Port
         public ICollection<Port> BackPanelPorts { get; set; }
         // n:n relationship with Internal Connector

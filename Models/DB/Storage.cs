@@ -11,7 +11,6 @@
         public int ReadSpeed { get; set; }
         public int WriteSpeed { get; set; }
         public string Interface { get; set; }
-        public ICollection<Case> CompatibleCases { get; set; }
 
     }
 }
