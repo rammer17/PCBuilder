@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-cpu',
+  standalone: true,
+  imports: [],
   templateUrl: './cpu.component.html',
   styleUrls: ['./cpu.component.scss']
 })
