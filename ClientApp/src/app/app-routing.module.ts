@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
+import { PcBuilderComponent } from './pc-builder/pc-builder.component';
+import { PcCommunityBuildsComponent } from './pc-community-builds/pc-community-builds.component';
 
 const routes: Routes = [
-  {path: '', component: HomeComponent},
-  {path: '**', redirectTo: '', pathMatch: 'full'}
+  {path: '', component: PcBuilderComponent},
+  {path: 'builder', component: PcBuilderComponent},
+  {path: 'community', component: PcCommunityBuildsComponent},
+  {path: '**', redirectTo: 'builder', pathMatch: 'full'}
 ];
 
 @NgModule({
