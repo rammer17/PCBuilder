@@ -4,6 +4,7 @@ using PCBuilder.Models.DB;
 using PCBuilder.Models.Request;
 using PCBuilder.Models.Request.Compatible;
 using PCBuilder.Models.Response;
+using System.Linq;
 
 namespace PCBuilder.Controllers
 {
@@ -48,20 +49,23 @@ namespace PCBuilder.Controllers
                 .Include(x => x.CompatibleMotherboards)
                 .ThenInclude(y => y.Socket)
                 .FirstOrDefault(x => x.Id == request.CpuId);
-            if (cpu == null) return BadRequest("Invalid CPU Id");
-            var compatibleCpus = cpu.CompatibleMotherboards.Select(x => new MotherboardGetAllResponse
+            var compatibleCpus = new List<MotherboardGetAllResponse>();
+            if (cpu != null)
             {
-                Id = x.Id,
-                Manufacturer = x.Manufacturer,
-                Model = x.Model,
-                FormFactor = x.FormFactor,
-                Socket = x.Socket.Name,
-                Chipset = x.Chipset.Name,
-                MemorySlots = x.MemorySlots,
-                MemoryType = x.MemoryType,
-                MaxMemorySpeed = x.MaxMemorySpeed,
-                Wifi = x.Wifi
-            }).ToList();
+                compatibleCpus = cpu.CompatibleMotherboards.Select(x => new MotherboardGetAllResponse
+                {
+                    Id = x.Id,
+                    Manufacturer = x.Manufacturer,
+                    Model = x.Model,
+                    FormFactor = x.FormFactor,
+                    Socket = x.Socket.Name,
+                    Chipset = x.Chipset.Name,
+                    MemorySlots = x.MemorySlots,
+                    MemoryType = x.MemoryType,
+                    MaxMemorySpeed = x.MaxMemorySpeed,
+                    Wifi = x.Wifi
+                }).ToList();
+            }
 
             var pcCase = _dbContext.Cases
                 .Include(x => x.CompatibleMotherboards)
@@ -69,20 +73,25 @@ namespace PCBuilder.Controllers
                 .Include(x => x.CompatibleMotherboards)
                 .ThenInclude(y => y.Socket)
                 .FirstOrDefault(x => x.Id == request.CaseId);
-            if (pcCase == null) return BadRequest("Invalid case Id");
-            var compatibleCases = pcCase.CompatibleMotherboards.Select(x => new MotherboardGetAllResponse
+            var compatibleCases = new List<MotherboardGetAllResponse>();
+
+            if (pcCase != null)
             {
-                Id = x.Id,
-                Manufacturer = x.Manufacturer,
-                Model = x.Model,
-                FormFactor = x.FormFactor,
-                Socket = x.Socket.Name,
-                Chipset = x.Chipset.Name,
-                MemorySlots = x.MemorySlots,
-                MemoryType = x.MemoryType,
-                MaxMemorySpeed = x.MaxMemorySpeed,
-                Wifi = x.Wifi
-            }).ToList();
+                compatibleCases = pcCase.CompatibleMotherboards.Select(x => new MotherboardGetAllResponse
+                {
+                    Id = x.Id,
+                    Manufacturer = x.Manufacturer,
+                    Model = x.Model,
+                    FormFactor = x.FormFactor,
+                    Socket = x.Socket.Name,
+                    Chipset = x.Chipset.Name,
+                    MemorySlots = x.MemorySlots,
+                    MemoryType = x.MemoryType,
+                    MaxMemorySpeed = x.MaxMemorySpeed,
+                    Wifi = x.Wifi
+                }).ToList();
+
+            }
 
             var ram = _dbContext.Memories
                 .Include(x => x.CompatibleMotherboards)
@@ -90,23 +99,26 @@ namespace PCBuilder.Controllers
                 .Include(x => x.CompatibleMotherboards)
                 .ThenInclude(y => y.Socket)
                 .FirstOrDefault(x => x.Id == request.RamId);
-            if (ram == null) return BadRequest("Invalid ram Id");
-            var compatibleRam = ram.CompatibleMotherboards.Select(x => new MotherboardGetAllResponse
+            var compatibleRam = new List<MotherboardGetAllResponse>();
+
+            if (ram != null)
             {
-                Id = x.Id,
-                Manufacturer = x.Manufacturer,
-                Model = x.Model,
-                FormFactor = x.FormFactor,
-                Socket = x.Socket.Name,
-                Chipset = x.Chipset.Name,
-                MemorySlots = x.MemorySlots,
-                MemoryType = x.MemoryType,
-                MaxMemorySpeed = x.MaxMemorySpeed,
-                Wifi = x.Wifi
-            }).ToList();
+                compatibleRam = ram.CompatibleMotherboards.Select(x => new MotherboardGetAllResponse
+                {
+                    Id = x.Id,
+                    Manufacturer = x.Manufacturer,
+                    Model = x.Model,
+                    FormFactor = x.FormFactor,
+                    Socket = x.Socket.Name,
+                    Chipset = x.Chipset.Name,
+                    MemorySlots = x.MemorySlots,
+                    MemoryType = x.MemoryType,
+                    MaxMemorySpeed = x.MaxMemorySpeed,
+                    Wifi = x.Wifi
+                }).ToList();
+            }
 
-            var compatibleMotherboards = compatibleCpus.Where(x => compatibleCases.Any(y => y.Id == x.Id)).Where(x => compatibleRam.Any(y => y.Id == x.Id)).ToList();
-
+            var compatibleMotherboards = GetIntersectionByProperty<MotherboardGetAllResponse, int>(x => x.Id, compatibleCases, compatibleCpus, compatibleRam);
 
             return Ok(compatibleMotherboards);
         }
@@ -188,6 +200,48 @@ namespace PCBuilder.Controllers
             _dbContext.SaveChanges();
 
             return Ok();
+        }
+        static List<T> GetIntersectionByProperty<T, TKey>(Func<T, TKey> keySelector, params List<T>[] lists)
+        {
+            if (lists == null || lists.Length == 0)
+            {
+                return new List<T>();
+            }
+
+            Dictionary<TKey, int> keyCounts = new Dictionary<TKey, int>();
+            foreach (List<T> list in lists.Where(l => l.Any()))
+            {
+                foreach (T item in list)
+                {
+                    TKey key = keySelector(item);
+                    if (keyCounts.ContainsKey(key))
+                    {
+                        keyCounts[key]++;
+                    }
+                    else
+                    {
+                        keyCounts.Add(key, 1);
+                    }
+                }
+            }
+
+            List<TKey> keys = keyCounts.Where(kvp => kvp.Value == lists.Count(l => l.Any())).Select(kvp => kvp.Key).ToList();
+
+            Dictionary<TKey, T> objectMap = new Dictionary<TKey, T>();
+            foreach (List<T> list in lists)
+            {
+                foreach (T item in list)
+                {
+                    TKey key = keySelector(item);
+                    if (keys.Contains(key) && !objectMap.ContainsKey(key))
+                    {
+                        objectMap.Add(key, item);
+                    }
+                }
+            }
+            List<T> result = objectMap.Values.ToList();
+
+            return result;
         }
     }
 }

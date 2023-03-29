@@ -2,23 +2,80 @@ import { Component } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { CpuService } from '../core/services/cpu.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-pc-builder',
   standalone: true,
-  imports: [TableModule, ButtonModule, RippleModule],
+  imports: [TableModule, ButtonModule, RippleModule, DialogModule],
   templateUrl: './pc-builder.component.html',
-  styleUrls: ['./pc-builder.component.scss']
+  styleUrls: ['./pc-builder.component.scss'],
 })
 export class PcBuilderComponent {
-  products = [
+  components = [
     {
-      component: 'CPU'
+      name: 'CPU',
     },
     {
-      component: 'CPU Cooler'
-    }
-  ]
+      name: 'CPU Cooler',
+    },
+    {
+      name: 'Motherboard',
+    },
+    {
+      name: 'Memory',
+    },
+    {
+      name: 'Graphics Card',
+    },
+    {
+      name: 'Case',
+    },
+    {
+      name: 'Power Supply',
+    },
+  ];
 
-  constructor() {}
+  visible = false;
+  currentComponent: string = '';
+
+  constructor(private cpuService: CpuService) {}
+
+  onAddComponent(component: string) {
+    this.visible = true;
+    this.currentComponent = component;
+
+    switch (component) {
+      case 'CPU': {
+        this.cpuService
+          .getCompatible({
+            CpuCoolerId: 0,
+            MotherboardId: 0,
+          })
+          .pipe(take(1))
+          .subscribe((value) => console.log(value));
+        break;
+      }
+      case 'CPU Cooler': {
+        break;
+      }
+      case 'Motherboard': {
+        break;
+      }
+      case 'Memory': {
+        break;
+      }
+      case 'Graphics Card': {
+        break;
+      }
+      case 'Case': {
+        break;
+      }
+      case 'Power Supply': {
+        break;
+      }
+    }
+  }
 }

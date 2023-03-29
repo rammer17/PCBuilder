@@ -1,35 +1,64 @@
 :host ::ng-deep {
-    .container-lg {
-        color: var(--white);
+  .container-lg {
+    color: var(--white);
+  }
+  th:first-of-type {
+    max-width: 50px;
+  }
+  th:last-of-type {
+    max-width: 20px;
+  }
+  .p-datatable .p-datatable-tbody > tr {
+    background-color: var(--primary-dark);
+    td {
+      border: none;
     }
-    th:first-of-type {
-        max-width: 50px;
+    td:last-of-type {
+      text-align: center;
     }
-    th:last-of-type {
-        max-width: 20px;
-    }
-    .p-datatable .p-datatable-tbody > tr {
-        background-color: var(--primary-dark);
-        td {
-            border: none;
-        }
-        td:last-of-type {
-            text-align: center;
-        }
-    }
+  }
 
-    .p-datatable .p-datatable-thead > tr > th {
-        background-color: var(--primary-dark);
-        border: none;
-    }
+  .p-datatable .p-datatable-thead > tr > th {
+    background-color: var(--primary-dark);
+    border-color: var(--secondary-medium);
+  }
 
-    .p-datatable .p-datatable-tbody > tr > td:last-of-type,
-    .p-datatable .p-datatable-thead > tr > th:last-of-type {
-        max-width: 20px;
-        text-align: center;
-    }
-    .p-datatable .p-datatable-tbody > tr > td:first-of-type,
-    .p-datatable .p-datatable-thead > tr > th:first-of-type {
-        max-width: 20px;
-    }
+  .p-datatable .p-datatable-tbody > tr > td:last-of-type,
+  .p-datatable .p-datatable-thead > tr > th:last-of-type {
+    max-width: 20px;
+    text-align: center;
+  }
+  .p-datatable .p-datatable-tbody > tr > td:first-of-type,
+  .p-datatable .p-datatable-thead > tr > th:first-of-type {
+    max-width: 20px;
+  }
+  h1:hover,
+  span:hover {
+    cursor: default;
+  }
+
+  .p-datatable .p-datatable-tbody > tr {
+    color: var(--secondary-medium);
+  }
+  .p-datatable .p-datatable-thead > tr > th > span {
+    font-size: 20px;
+    color: var(--secondary-medium);
+  }
+  .p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
+    background-color: var(--primary-medium);
+  }
+
+  .p-dialog .p-dialog-header,
+  .p-dialog .p-dialog-content {
+    background-color: var(--primary-light);
+    color: var(--white);
+  }
+  .p-dialog .p-dialog-header .p-dialog-header-icon {
+    color: var(--secondary-light);
+  }
+  .p-dialog .p-dialog-header .p-dialog-header-icon:hover {
+    border-color: var(--secondary-dark);
+    background-color: var(--primary-light);
+    color: var(--secondary-dark);
+  }
 }

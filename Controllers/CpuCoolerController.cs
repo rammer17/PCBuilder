@@ -40,19 +40,35 @@ namespace PCBuilder.Controllers
         public ActionResult GetCompatible(CpuCoolerGetCompatibleRequest request)
         {
             var cpu = _dbContext.CPUs.Include(x => x.CompatibleCpuCoolers).Include(x => x.Socket).FirstOrDefault(x => x.Id == request.CpuId);
-            if (cpu == null) return BadRequest("Invalid CPU Id");
-            var cpuCpuCoolerIds = cpu.CompatibleCpuCoolers.Select(x => x.Id).ToList();
-            var cpuCpuCoolers = _dbContext.CPUCoolers.Include(x => x.Sockets).Where(x => cpuCpuCoolerIds.Contains(x.Id)).Select(x => new CpuCoolerGetAllResponse
+            var cpuCpuCoolers = new List<CpuCoolerGetAllResponse>();
+            if (cpu != null)
             {
-                Id = x.Id,
-                Manufacturer = x.Manufacturer,
-                Model = x.Model,
-                Type = x.Type,
-                TDP = x.TDP,
-                NoiseLevel = x.NoiseLevel,
-                MaxRPM = x.MaxRPM,
-                Sockets = GetSocketNames(x.Sockets)
-            }).ToList();
+                var cpuCpuCoolerIds = cpu.CompatibleCpuCoolers.Select(x => x.Id).ToList();
+                cpuCpuCoolers = _dbContext.CPUCoolers.Include(x => x.Sockets).Where(x => cpuCpuCoolerIds.Contains(x.Id)).Select(x => new CpuCoolerGetAllResponse
+                {
+                    Id = x.Id,
+                    Manufacturer = x.Manufacturer,
+                    Model = x.Model,
+                    Type = x.Type,
+                    TDP = x.TDP,
+                    NoiseLevel = x.NoiseLevel,
+                    MaxRPM = x.MaxRPM,
+                    Sockets = GetSocketNames(x.Sockets)
+                }).ToList();
+            } else
+            {
+                cpuCpuCoolers = _dbContext.CPUCoolers.Select(x => new CpuCoolerGetAllResponse
+                {
+                    Id = x.Id,
+                    Manufacturer = x.Manufacturer,
+                    Model = x.Model,
+                    Type = x.Type,
+                    TDP = x.TDP,
+                    NoiseLevel = x.NoiseLevel,
+                    MaxRPM = x.MaxRPM,
+                    Sockets = GetSocketNames(x.Sockets)
+                }).ToList();
+            }
 
             return Ok(cpuCpuCoolers);
         }

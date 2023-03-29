@@ -8,8 +8,8 @@ import { HeaderComponent } from './shared/layout/header/header.component';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { PcCommunityBuildsComponent } from './pc-community-builds/pc-community-builds.component';
-import { RippleModule } from 'primeng/ripple';
 import { PrimeNGConfig } from 'primeng/api';
+import { HttpClientModule } from '@angular/common/http';
 
 const initializeAppFactory = (primeConfig: PrimeNGConfig) => () => {
   primeConfig.ripple = true;
@@ -28,7 +28,7 @@ const initializeAppFactory = (primeConfig: PrimeNGConfig) => () => {
     AppRoutingModule,
     SharedModule,
     BrowserAnimationsModule,
-    RippleModule
+    HttpClientModule
   ],
   providers: [
     {

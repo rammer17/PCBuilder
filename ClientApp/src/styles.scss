@@ -11,10 +11,12 @@
 .p-button-primary {
   background: var(--secondary-medium);
   border: 2px solid var(--secondary-dark);
+  color: var(--black);
 }
 .p-button.p-button-primary:enabled:hover {
   background: var(--secondary-dark);
   border: 2px solid var(--secondary-dark);
+  color: var(--black);
 }
 button:focus {
   box-shadow: none !important;
