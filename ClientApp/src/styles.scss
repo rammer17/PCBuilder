@@ -8,12 +8,27 @@
   font-family: "Rubik", sans-serif;
 }
 
+.p-button-primary {
+  background: var(--secondary-medium);
+  border: 2px solid var(--secondary-dark);
+}
+.p-button.p-button-primary:enabled:hover {
+  background: var(--secondary-dark);
+  border: 2px solid var(--secondary-dark);
+}
+button:focus {
+  box-shadow: none !important;
+}
+
 :root {
   --primary-light: #4f5057;
   --primary-medium: #2e2e38;
   --primary-dark: #21212b;
 
-  --secondary: #ffecaa;
+  --secondary-light: #ffecaa;
+  --secondary-medium: #ffea9c;
+  --secondary-dark: #ffdd60;
+
 
   --black: #04040c;
   --white: #f1f1f1;

@@ -1,0 +1,35 @@
+:host ::ng-deep {
+    .container-lg {
+        color: var(--white);
+    }
+    th:first-of-type {
+        max-width: 50px;
+    }
+    th:last-of-type {
+        max-width: 20px;
+    }
+    .p-datatable .p-datatable-tbody > tr {
+        background-color: var(--primary-dark);
+        td {
+            border: none;
+        }
+        td:last-of-type {
+            text-align: center;
+        }
+    }
+
+    .p-datatable .p-datatable-thead > tr > th {
+        background-color: var(--primary-dark);
+        border: none;
+    }
+
+    .p-datatable .p-datatable-tbody > tr > td:last-of-type,
+    .p-datatable .p-datatable-thead > tr > th:last-of-type {
+        max-width: 20px;
+        text-align: center;
+    }
+    .p-datatable .p-datatable-tbody > tr > td:first-of-type,
+    .p-datatable .p-datatable-thead > tr > th:first-of-type {
+        max-width: 20px;
+    }
+}
