@@ -21,7 +21,7 @@ export class CpuService {
 
   getCompatible(body: CpuGetCompatibleRequest): Observable<CpuGetResponse> {
     return this.http.post<CpuGetResponse>(
-      `${this.url}/Cpu/GetAllCompatible`,
+      `${this.url}/Cpu/GetCompatible`,
       body
     );
   }
