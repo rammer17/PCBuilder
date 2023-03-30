@@ -35,7 +35,7 @@ namespace PCBuilder.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetAllCompatible(CpuGetCompatibleRequest request)
+        public ActionResult GetCompatible(CpuGetCompatibleRequest request)
         {
 
             var mb = _dbContext.MotherBoards.Include(x => x.CompatibleCpus).FirstOrDefault(x => x.Id == request.MotherboardId);

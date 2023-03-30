@@ -43,21 +43,24 @@ namespace PCBuilder.Controllers
         public ActionResult GetCompatible(GpuGetCompatibleRequest request)
         {
             var pcCase = _dbContext.Cases.Include(x => x.CompatibleGpus).FirstOrDefault(x => x.Id == request.CaseId);
-            if(pcCase == null) return BadRequest("Invalid case Id");
-            var compatibleGpus = pcCase.CompatibleGpus.Select(x => new GpuGetAllResponse
+            var compatibleGpus = new List<GpuGetAllResponse>();
+            if (pcCase != null)
             {
-                Id = x.Id,
-                Manufacturer = x.Manufacturer,
-                Model = x.Model,
-                BaseClock = x.BaseClock,
-                MaxBoostClock = x.MaxBoostClock,
-                MemorySize = x.MemorySize,
-                MemoryType = x.MemoryType,
-                MemoryBus = x.MemoryBus,
-                TDP = x.TDP,
-                Height = x.Height,
-                Width = x.Width
-            }).ToList();
+                compatibleGpus = pcCase.CompatibleGpus.Select(x => new GpuGetAllResponse
+                {
+                    Id = x.Id,
+                    Manufacturer = x.Manufacturer,
+                    Model = x.Model,
+                    BaseClock = x.BaseClock,
+                    MaxBoostClock = x.MaxBoostClock,
+                    MemorySize = x.MemorySize,
+                    MemoryType = x.MemoryType,
+                    MemoryBus = x.MemoryBus,
+                    TDP = x.TDP,
+                    Height = x.Height,
+                    Width = x.Width
+                }).ToList();
+            }
 
             return Ok(compatibleGpus);
         }

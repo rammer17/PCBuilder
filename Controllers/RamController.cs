@@ -39,18 +39,20 @@ namespace PCBuilder.Controllers
         public ActionResult GetCompatible(RamGetCompatibleRequest request)
         {
             var mb = _dbContext.MotherBoards.Include(x => x.CompatibleRam).FirstOrDefault(x => x.Id == request.MotherboardId);
-            if (mb == null) return BadRequest("Invalid motherboard Id");
-            var compatibleRam = mb.CompatibleRam.Select(x => new RamGetAllResponse
+            var compatibleRam = new List<RamGetAllResponse>();
+            if (mb != null)
             {
-                Id = x.Id,
-                Manufacturer = x.Manufacturer,
-                Model = x.Model,
-                Capacity = x.Capacity,
-                Frequency = x.Frequency,
-                Type = x.Type,
-                Timing = x.Timing
-            }).ToList();
-
+                compatibleRam = mb.CompatibleRam.Select(x => new RamGetAllResponse
+                {
+                    Id = x.Id,
+                    Manufacturer = x.Manufacturer,
+                    Model = x.Model,
+                    Capacity = x.Capacity,
+                    Frequency = x.Frequency,
+                    Type = x.Type,
+                    Timing = x.Timing
+                }).ToList();
+            }
 
             return Ok(compatibleRam);
         }

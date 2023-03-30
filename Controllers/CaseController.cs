@@ -39,45 +39,54 @@ namespace PCBuilder.Controllers
         public ActionResult GetCompatible(CaseGetCompatibleRequest request)
         {
             var mb = _dbContext.MotherBoards.Include(x => x.CompatibleCases).FirstOrDefault(x => x.Id == request.MotherboardId);
-            if (mb == null) return BadRequest("Invalid motherboard Id");
-            var mbCases = mb.CompatibleCases.Select(x => new CaseGetAllResponse
+            var mbCases = new List<CaseGetAllResponse>();
+            if (mb != null)
             {
-                Id = x.Id,
-                Manufacturer = x.Manufacturer,
-                Model = x.Model,
-                Type = x.Type,
-                FormFactor = x.FormFactor,
-                MaxGpuHeight = x.MaxGpuHeight,
-                MaxGpuWidth = x.MaxGpuWidth
-            }).ToList();
+                mbCases = mb.CompatibleCases.Select(x => new CaseGetAllResponse
+                {
+                    Id = x.Id,
+                    Manufacturer = x.Manufacturer,
+                    Model = x.Model,
+                    Type = x.Type,
+                    FormFactor = x.FormFactor,
+                    MaxGpuHeight = x.MaxGpuHeight,
+                    MaxGpuWidth = x.MaxGpuWidth
+                }).ToList();
+            }
 
             var psu = _dbContext.PowerSupplies.Include(x => x.CompatibleCases).FirstOrDefault(x => x.Id == request.PowerSupplyId);
-            if (psu == null) return BadRequest("Invalid power supply Id");
-            var psuCases = psu.CompatibleCases.Select(x => new CaseGetAllResponse
+            var psuCases = new List<CaseGetAllResponse>();
+            if (psu != null)
             {
-                Id = x.Id,
-                Manufacturer = x.Manufacturer,
-                Model = x.Model,
-                Type = x.Type,
-                FormFactor = x.FormFactor,
-                MaxGpuHeight = x.MaxGpuHeight,
-                MaxGpuWidth = x.MaxGpuWidth
-            }).ToList();
-            
-            var gpu = _dbContext.GPUs.Include(x => x.CompatibleCases).FirstOrDefault(x => x.Id == request.GpuId);
-            if (gpu == null) return BadRequest("Invalid GPU Id");
-            var gpuCases = gpu.CompatibleCases.Select(x => new CaseGetAllResponse
-            {
-                Id = x.Id,
-                Manufacturer = x.Manufacturer,
-                Model = x.Model,
-                Type = x.Type,
-                FormFactor = x.FormFactor,
-                MaxGpuHeight = x.MaxGpuHeight,
-                MaxGpuWidth = x.MaxGpuWidth
-            }).ToList();
+                psuCases = psu.CompatibleCases.Select(x => new CaseGetAllResponse
+                {
+                    Id = x.Id,
+                    Manufacturer = x.Manufacturer,
+                    Model = x.Model,
+                    Type = x.Type,
+                    FormFactor = x.FormFactor,
+                    MaxGpuHeight = x.MaxGpuHeight,
+                    MaxGpuWidth = x.MaxGpuWidth
+                }).ToList();
+            }
 
-            var compatibleCases = mbCases.Where(x => psuCases.Any(y => y.Id == x.Id)).Where(x => gpuCases.Any(y => y.Id == x.Id)).ToList();
+            var gpu = _dbContext.GPUs.Include(x => x.CompatibleCases).FirstOrDefault(x => x.Id == request.GpuId);
+            var gpuCases = new List<CaseGetAllResponse>();
+            if (gpu != null)
+            {
+                gpuCases = gpu.CompatibleCases.Select(x => new CaseGetAllResponse
+                {
+                    Id = x.Id,
+                    Manufacturer = x.Manufacturer,
+                    Model = x.Model,
+                    Type = x.Type,
+                    FormFactor = x.FormFactor,
+                    MaxGpuHeight = x.MaxGpuHeight,
+                    MaxGpuWidth = x.MaxGpuWidth
+                }).ToList();
+            }
+
+            var compatibleCases = GetIntersectionByProperty<CaseGetAllResponse, int>(x => x.Id, mbCases, psuCases, gpuCases);
 
             return Ok(compatibleCases);
         }
@@ -124,6 +133,50 @@ namespace PCBuilder.Controllers
             _dbContext.SaveChanges();
 
             return Ok();
+        }
+
+
+        static List<T> GetIntersectionByProperty<T, TKey>(Func<T, TKey> keySelector, params List<T>[] lists)
+        {
+            if (lists == null || lists.Length == 0)
+            {
+                return new List<T>();
+            }
+
+            Dictionary<TKey, int> keyCounts = new Dictionary<TKey, int>();
+            foreach (List<T> list in lists.Where(l => l.Any()))
+            {
+                foreach (T item in list)
+                {
+                    TKey key = keySelector(item);
+                    if (keyCounts.ContainsKey(key))
+                    {
+                        keyCounts[key]++;
+                    }
+                    else
+                    {
+                        keyCounts.Add(key, 1);
+                    }
+                }
+            }
+
+            List<TKey> keys = keyCounts.Where(kvp => kvp.Value == lists.Count(l => l.Any())).Select(kvp => kvp.Key).ToList();
+
+            Dictionary<TKey, T> objectMap = new Dictionary<TKey, T>();
+            foreach (List<T> list in lists)
+            {
+                foreach (T item in list)
+                {
+                    TKey key = keySelector(item);
+                    if (keys.Contains(key) && !objectMap.ContainsKey(key))
+                    {
+                        objectMap.Add(key, item);
+                    }
+                }
+            }
+            List<T> result = objectMap.Values.ToList();
+
+            return result;
         }
     }
 }

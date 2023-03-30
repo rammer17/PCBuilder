@@ -44,25 +44,27 @@ namespace PCBuilder.Controllers
         [HttpPost]
         public ActionResult GetCompatible(PowerSupplyGetCompatibleRequest request)
         {
-            var pcCase = _dbContext.Cases.Include(x => x.CompatiblePowerSupplies).FirstOrDefault(x => x.Id == request.CaseId);
-            if (pcCase == null) return BadRequest("Invalid case Id");
-            var compatiblePsuIds = pcCase.CompatiblePowerSupplies.Select(x => x.Id).ToList();
-            var compatiblePSUs = _dbContext.PowerSupplies.Include(x => x.Connectors).Where(x => compatiblePsuIds.Contains(x.Id)).Select(x => new PowerSupplyGetAllResponse
+            var pcCase = _dbContext.Cases.Include(x => x.CompatiblePowerSupplies).ThenInclude(y => y.Connectors).FirstOrDefault(x => x.Id == request.CaseId);
+            var compatiblePSUs = new List<PowerSupplyGetAllResponse>();
+            if (pcCase != null)
             {
-                Id = x.Id,
-                Manufacturer = x.Manufacturer,
-                Model = x.Model,
-                Type = x.Type,
-                EfficiencyRating = x.EfficiencyRating,
-                FormFactor = x.FormFactor,
-                Wattage = x.Wattage,
-                Connectors = x.Connectors.Select(x => new InternalConnectorGetAllResponse
+                compatiblePSUs = pcCase.CompatiblePowerSupplies.Select(x => new PowerSupplyGetAllResponse
                 {
                     Id = x.Id,
+                    Manufacturer = x.Manufacturer,
+                    Model = x.Model,
                     Type = x.Type,
-                    Quantity = x.Quantity,
-                }).ToList()
-            }).ToList();
+                    EfficiencyRating = x.EfficiencyRating,
+                    FormFactor = x.FormFactor,
+                    Wattage = x.Wattage,
+                    Connectors = x.Connectors.Select(x => new InternalConnectorGetAllResponse
+                    {
+                        Id = x.Id,
+                        Type = x.Type,
+                        Quantity = x.Quantity,
+                    }).ToList()
+                }).ToList();
+            }
 
 
             return Ok(compatiblePSUs);
