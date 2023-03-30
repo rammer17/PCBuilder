@@ -5,11 +5,13 @@ import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { CpuService } from '../core/services/cpu.service';
 import { take } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { PcAddComponentComponent } from './pc-add-component/pc-add-component.component';
 
 @Component({
   selector: 'app-pc-builder',
   standalone: true,
-  imports: [TableModule, ButtonModule, RippleModule, DialogModule],
+  imports: [CommonModule, TableModule, ButtonModule, RippleModule, DialogModule, PcAddComponentComponent],
   templateUrl: './pc-builder.component.html',
   styleUrls: ['./pc-builder.component.scss'],
 })
@@ -26,6 +28,9 @@ export class PcBuilderComponent {
     },
     {
       name: 'Memory',
+    },
+    {
+      name: 'Storage',
     },
     {
       name: 'Graphics Card',
