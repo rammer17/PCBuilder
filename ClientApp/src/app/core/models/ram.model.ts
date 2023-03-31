@@ -1,22 +1,22 @@
 export type RamGetResponse = {
-  Id: number;
-  Manufacturer: string;
-  Model: string;
-  Capacity: number;
-  Frequency: number;
-  Type: string;
-  Timing: string;
+  id: number;
+  manufacturer: string;
+  model: string;
+  capacity: number;
+  frequency: number;
+  type: string;
+  timing: string;
 }[];
 
 export type RamGetCompatibleRequest = {
-  MotherboardId: number;
+  motherboardId: number;
 };
 
 export type RamAddRequest = {
-  Manufacturer: string;
-  Model: string;
-  Capacity: number;
-  Frequency: number;
-  Type: string;
-  Timing: string;
+  manufacturer: string;
+  model: string;
+  capacity: number;
+  frequency: number;
+  type: string;
+  timing: string;
 };

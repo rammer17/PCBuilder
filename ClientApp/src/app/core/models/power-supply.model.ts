@@ -1,26 +1,26 @@
 import { InternalConnectorGetResponse } from './internal-connector.model';
 
 export type PowerSupplyGetResponse = {
-  Id: number;
-  Manufacturer: string;
-  Model: string;
-  Type: string;
-  EfficiencyRating: string;
-  FormFactor: string;
-  Wattage: number;
-  Connectors: InternalConnectorGetResponse[];
+  id: number;
+  manufacturer: string;
+  model: string;
+  type: string;
+  efficiencyRating: string;
+  formFactor: string;
+  wattage: number;
+  connectors: InternalConnectorGetResponse[];
 }[];
 
 export type PowerSupplyGetCompatibleRequest = {
-  CaseId: number;
+  caseId: number;
 };
 
 export type PowerSupplyAddRequest = {
-  Manufacturer: string;
-  Model: string;
-  Type: string;
-  EfficiencyRating: string;
-  FormFactor: string;
-  Wattage: number;
-  InternalConnectorIds: number[];
+  manufacturer: string;
+  model: string;
+  type: string;
+  efficiencyRating: string;
+  formFactor: string;
+  wattage: number;
+  internalConnectorIds: number[];
 };

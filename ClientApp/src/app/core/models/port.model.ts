@@ -1,8 +1,8 @@
 export type PortGetResponse = {
-    Id: number;
-    Name: string;
+    id: number;
+    name: string;
   }[];
   
   export type PortAddRequest = {
-    Name: string;
+    name: string;
   };

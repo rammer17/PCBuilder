@@ -39,8 +39,10 @@
       </p-table>
 
       <ng-container
-        *ngIf="visible">
-        <app-pc-add-component></app-pc-add-component>
+        *ngIf="isDialogVisible">
+        <app-pc-add-component 
+            [component]="currentComponent"
+            (closeAddComponent)="onCloseAddComponent($event)"></app-pc-add-component>
       </ng-container>
     </div>
   </div>

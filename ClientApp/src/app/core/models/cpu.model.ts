@@ -1,25 +1,25 @@
 export type CpuGetResponse = {
-  Id: number;
-  Manufacturer: string;
-  Model: string;
-  Cores: number;
-  Threads: number;
-  BaseClock: number;
-  MaxBoostClock: number;
-  Socket: string;
+  id: number;
+  manufacturer: string;
+  model: string;
+  cores: number;
+  threads: number;
+  baseClock: number;
+  maxBoostClock: number;
+  socket: string;
 }[];
 
 export type CpuGetCompatibleRequest = {
-  CpuCoolerId: number;
-  MotherboardId: number;
+  cpuCoolerId: number;
+  motherboardId: number;
 };
 
 export type CpuAddRequest = {
-  Manufacturer: string;
-  Model: string;
-  Cores: number;
-  Threads: number;
-  BaseClock: number;
-  MaxBoostClock: number;
-  Socket: string;
+  manufacturer: string;
+  model: string;
+  cores: number;
+  threads: number;
+  baseClock: number;
+  maxBoostClock: number;
+  socket: string;
 };

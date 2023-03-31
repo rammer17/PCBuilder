@@ -1,10 +1,10 @@
 export type InternalConnectorGetResponse = {
-  Id: number;
-  Type: string;
-  Quantity: number;
+  id: number;
+  type: string;
+  quantity: number;
 }[];
 
 export type InternalConnectorAddRequest = {
-  Type: string;
-  Quantity: number;
+  type: string;
+  quantity: number;
 };

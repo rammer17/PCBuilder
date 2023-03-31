@@ -1,24 +1,24 @@
 export type CaseGetResponse = {
-  Id: number;
-  Manufacturer: string;
-  Model: string;
-  Type: string;
-  FormFactor: string;
-  MaxGpuHeight: number;
-  MaxGpuWidth: number;
+  id: number;
+  manufacturer: string;
+  model: string;
+  type: string;
+  formFactor: string;
+  maxGpuHeight: number;
+  maxGpuWidth: number;
 }[];
 
 export type CaseGetCompatibleRequest = {
-  MotherboardId: number;
-  PowerSupplyId: number;
-  GpuId: number;
+  motherboardId: number;
+  powerSupplyId: number;
+  gpuId: number;
 };
 
 export type CaseAddRequest = {
-  Manufacturer: string;
-  Model: string;
-  Type: string;
-  FormFactor: string;
-  MaxGpuHeight: number;
-  MaxGpuWidth: number;
+  manufacturer: string;
+  model: string;
+  type: string;
+  formFactor: string;
+  maxGpuHeight: number;
+  maxGpuWidth: number;
 };

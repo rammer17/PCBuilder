@@ -1,0 +1,10 @@
+:host::ng-deep {
+  .component-header {
+    font-size: 24px;
+    font-weight: 400;
+    word-break: break-all;
+  }
+  .component-container:nth-child(odd) {
+    background: var(--primary-dark);
+  }
+}

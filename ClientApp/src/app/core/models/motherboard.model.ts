@@ -1,33 +1,33 @@
 export type MotherboardGetResponse = {
-  Id: number;
-  Manufacturer: string;
-  Model: string;
-  FormFactor: string;
-  SocketId: number;
-  ChipsetId: number;
-  MemorySlots: number;
-  MemoryType: string;
-  MemorySpeed: number;
-  Wifi: boolean;
+  id: number;
+  manufacturer: string;
+  model: string;
+  formFactor: string;
+  socketId: number;
+  chipsetId: number;
+  memorySlots: number;
+  memoryType: string;
+  memorySpeed: number;
+  wifi: boolean;
 }[];
 
 export type MotherboardGetCompatibleRequest = {
-  CpuId: number;
-  RamId: number;
-  CaseId: number;
+  cpuId: number;
+  ramId: number;
+  caseId: number;
 };
 
 export type MotherboardAddRequest = {
-  Manufacturer: string;
-  Model: string;
-  FormFactor: string;
-  SocketId: number;
-  ChipsetId: number;
-  MemorySlots: number;
-  MemoryType: string;
-  MemorySpeed: number;
-  Wifi: boolean;
-  PortIds: number[];
-  ConnectorIds: number[];
-  StorageSlotIds: number[];
+  manufacturer: string;
+  model: string;
+  formFactor: string;
+  socketId: number;
+  chipsetId: number;
+  memorySlots: number;
+  memoryType: string;
+  memorySpeed: number;
+  wifi: boolean;
+  portIds: number[];
+  connectorIds: number[];
+  storageSlotIds: number[];
 };

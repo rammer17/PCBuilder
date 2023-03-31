@@ -1,8 +1,8 @@
 export type ChipsetGetResponse = {
-  Id: number;
-  Name: string;
+  id: number;
+  name: string;
 }[];
 
 export type ChipsetAddRequest = {
-  Name: string;
+  name: string;
 };

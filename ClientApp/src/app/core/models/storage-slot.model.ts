@@ -1,8 +1,8 @@
 export type StorageSlotGetResponse = {
-    Id: number;
-    Type: string;
+    id: number;
+    type: string;
 }[];
 
 export type StorageSlotAddRequest = {
-    Type: string;
+    type: string;
 }

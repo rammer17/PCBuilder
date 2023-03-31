@@ -1,30 +1,30 @@
 export type GpuGetResponse = {
-  Id: number;
-  Manufacturer: string;
-  Model: string;
-  BaseClock: number;
-  MaxBoostClock: number;
-  MemorySize: number;
-  MemoryType: string;
-  MemoryBus: number;
-  TDP: number;
-  Height: number;
-  Width: number;
+  id: number;
+  manufacturer: string;
+  model: string;
+  baseClock: number;
+  maxBoostClock: number;
+  memorySize: number;
+  memoryType: string;
+  memoryBus: number;
+  tdp: number;
+  height: number;
+  width: number;
 }[];
 
 export type GpuGetCompatibleRequest = {
-  CaseId: number;
+  caseId: number;
 };
 
 export type GpuAddRequest = {
-  Manufacturer: string;
-  Model: string;
-  BaseClock: number;
-  MaxBoostClock: number;
-  MemorySize: number;
-  MemoryType: string;
-  MemoryBus: number;
-  TDP: number;
-  Height: number;
-  Width: number;
+  manufacturer: string;
+  model: string;
+  baseClock: number;
+  maxBoostClock: number;
+  memorySize: number;
+  memoryType: string;
+  memoryBus: number;
+  tdp: number;
+  height: number;
+  width: number;
 };

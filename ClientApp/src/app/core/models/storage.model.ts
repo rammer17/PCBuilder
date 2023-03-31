@@ -1,22 +1,22 @@
 export type StorageGetResponse = {
-  Id: number;
-  Manufacturer: string;
-  Model: string;
-  Type: string;
-  Capacity: number;
-  FormFactor: string;
-  ReadSpeed: number;
-  WriteSpeed: number;
-  Interface: string;
+  id: number;
+  manufacturer: string;
+  model: string;
+  type: string;
+  capacity: number;
+  formFactor: string;
+  readSpeed: number;
+  writeSpeed: number;
+  interface: string;
 }[];
 
 export type StorageAddRequest = {
-  Manufacturer: string;
-  Model: string;
-  Type: string;
-  Capacity: number;
-  FormFactor: string;
-  ReadSpeed: number;
-  WriteSpeed: number;
-  Interface: string;
+  manufacturer: string;
+  model: string;
+  type: string;
+  capacity: number;
+  formFactor: string;
+  readSpeed: number;
+  writeSpeed: number;
+  interface: string;
 };

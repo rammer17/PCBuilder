@@ -1,8 +1,8 @@
 export type SocketGetResponse = {
-    Id: number;
-    Name: string;
+    id: number;
+    name: string;
 }[];
 
 export type SocketAddRequest = {
-    Name: string;
+    name: string;
 }
