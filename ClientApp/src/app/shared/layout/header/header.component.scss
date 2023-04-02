@@ -8,6 +8,9 @@
         background: var(--primary-medium);
         color: var(--white);
     }
+    span:hover {
+        cursor: pointer;
+    }
     .nav-tab:hover {
         cursor: pointer;
         color: var(--secondary-medium);

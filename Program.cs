@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PCBuilder;
+using PCBuilder.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddDbContext<PCBuilderDbContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
+builder.Services.AddScoped<IIntersectByPropertyService, IntersectByPropertyService>();
 
 var app = builder.Build();
 

@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { FooterComponent } from './shared/layout/footer/footer.component';
 import { HeaderComponent } from './shared/layout/header/header.component';
 import { SharedModule } from './shared/shared.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PcCommunityBuildsComponent } from './pc-community-builds/pc-community-builds.component';
 import { PrimeNGConfig } from 'primeng/api';
 import { HttpClientModule } from '@angular/common/http';
@@ -16,19 +16,17 @@ const initializeAppFactory = (primeConfig: PrimeNGConfig) => () => {
 };
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     HeaderComponent,
     FooterComponent,
     PcCommunityBuildsComponent,
-    
+
     BrowserModule,
     AppRoutingModule,
     SharedModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     {
@@ -36,8 +34,8 @@ const initializeAppFactory = (primeConfig: PrimeNGConfig) => () => {
       useFactory: initializeAppFactory,
       deps: [PrimeNGConfig],
       multi: true,
-   },
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

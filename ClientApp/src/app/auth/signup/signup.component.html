@@ -1,0 +1,30 @@
+<div class="container-fluid d-flex justify-content-center align-items-center">
+    <div class="row">
+      <div class="col-12">
+        <form
+          class="d-flex flex-column align-items-center justify-content-center"
+          [formGroup]="signUpForm"
+          (ngSubmit)="onSignUp()">
+          <h1 class="my-5">Sign Up</h1>
+          <span class="p-input-icon-left my-3">
+            <i class="pi pi-user" style="color: #ffea9c"></i>
+            <input pInputText type="text" placeholder="Enter your full name"/>
+          </span>
+          <span class="p-input-icon-left my-3">
+            <i class="pi pi-envelope" style="color: #ffea9c"></i>
+            <input pInputText type="email" placeholder="Enter your email"/>
+          </span>
+          <span
+            class="p-input-icon-left my-3">
+            <i class="pi pi-lock" style="color: #ffea9c"></i>
+            <input pInputText type="password" placeholder="Enter your password"/>
+          </span>
+          <button
+            pButton
+            pRipple
+            label="Sign Up"
+            class="p-button-primary my-3 px-5 py-2"></button>
+        </form>
+      </div>
+    </div>
+  </div>
