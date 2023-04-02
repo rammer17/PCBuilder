@@ -6,7 +6,7 @@ export type CaseGetResponse = {
   formFactor: string;
   maxGpuHeight: number;
   maxGpuWidth: number;
-}[];
+};
 
 export type CaseGetCompatibleRequest = {
   motherboardId: number;

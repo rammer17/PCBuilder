@@ -3,13 +3,13 @@ export type MotherboardGetResponse = {
   manufacturer: string;
   model: string;
   formFactor: string;
-  socketId: number;
-  chipsetId: number;
+  socket: number;
+  chipset: number;
   memorySlots: number;
   memoryType: string;
   memorySpeed: number;
   wifi: boolean;
-}[];
+};
 
 export type MotherboardGetCompatibleRequest = {
   cpuId: number;
@@ -21,8 +21,8 @@ export type MotherboardAddRequest = {
   manufacturer: string;
   model: string;
   formFactor: string;
-  socketId: number;
-  chipsetId: number;
+  socket: number;
+  chipset: number;
   memorySlots: number;
   memoryType: string;
   memorySpeed: number;

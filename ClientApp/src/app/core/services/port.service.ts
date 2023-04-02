@@ -11,8 +11,8 @@ export class PortService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<PortGetResponse> {
-    return this.http.get<PortGetResponse>(`${this.url}/Port/GetAll`);
+  getAll(): Observable<PortGetResponse[]> {
+    return this.http.get<PortGetResponse[]>(`${this.url}/Port/GetAll`);
   }
   add(body: PortAddRequest): Observable<void> {
     return this.http.post<void>(`${this.url}/Port/Add`, body);

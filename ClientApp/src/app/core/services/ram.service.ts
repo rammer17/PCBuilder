@@ -15,13 +15,13 @@ export class RamService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<RamGetResponse> {
-    return this.http.get<RamGetResponse>(`${this.url}/Ram/GetAll`);
+  getAll(): Observable<RamGetResponse[]> {
+    return this.http.get<RamGetResponse[]>(`${this.url}/Ram/GetAll`);
   }
 
-  getCompatible(body: RamGetCompatibleRequest): Observable<RamGetResponse> {
-    return this.http.post<RamGetResponse>(
-      `${this.url}/Ram/GetAllCompatible`,
+  getCompatible(body: RamGetCompatibleRequest): Observable<RamGetResponse[]> {
+    return this.http.post<RamGetResponse[]>(
+      `${this.url}/Ram/GetCompatible`,
       body
     );
   }

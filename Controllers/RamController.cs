@@ -52,6 +52,18 @@ namespace PCBuilder.Controllers
                     Type = x.Type,
                     Timing = x.Timing
                 }).ToList();
+            } else
+            {
+                compatibleRam  = _dbContext.Memories.Select(x => new RamGetAllResponse
+                {
+                    Id = x.Id,
+                    Manufacturer = x.Manufacturer,
+                    Model = x.Model,
+                    Capacity = x.Capacity,
+                    Frequency = x.Frequency,
+                    Type = x.Type,
+                    Timing = x.Timing
+                }).ToList();
             }
 
             return Ok(compatibleRam);

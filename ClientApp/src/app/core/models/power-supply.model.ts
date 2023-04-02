@@ -9,7 +9,7 @@ export type PowerSupplyGetResponse = {
   formFactor: string;
   wattage: number;
   connectors: InternalConnectorGetResponse[];
-}[];
+};
 
 export type PowerSupplyGetCompatibleRequest = {
   caseId: number;

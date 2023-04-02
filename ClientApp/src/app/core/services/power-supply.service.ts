@@ -15,17 +15,17 @@ export class PowerSupplyService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<PowerSupplyGetResponse> {
-    return this.http.get<PowerSupplyGetResponse>(
+  getAll(): Observable<PowerSupplyGetResponse[]> {
+    return this.http.get<PowerSupplyGetResponse[]>(
       `${this.url}/PowerSupply/GetAll`
     );
   }
 
   getCompatible(
     body: PowerSupplyGetCompatibleRequest
-  ): Observable<PowerSupplyGetResponse> {
-    return this.http.post<PowerSupplyGetResponse>(
-      `${this.url}/PowerSupply/GetAllCompatible`,
+  ): Observable<PowerSupplyGetResponse[]> {
+    return this.http.post<PowerSupplyGetResponse[]>(
+      `${this.url}/PowerSupply/GetCompatible`,
       body
     );
   }

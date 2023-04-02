@@ -64,6 +64,24 @@ namespace PCBuilder.Controllers
                         Quantity = x.Quantity,
                     }).ToList()
                 }).ToList();
+            } else
+            {
+                compatiblePSUs = _dbContext.PowerSupplies.Select(x => new PowerSupplyGetAllResponse
+                {
+                    Id = x.Id,
+                    Manufacturer = x.Manufacturer,
+                    Model = x.Model,
+                    Type = x.Type,
+                    EfficiencyRating = x.EfficiencyRating,
+                    FormFactor = x.FormFactor,
+                    Wattage = x.Wattage,
+                    Connectors = x.Connectors.Select(x => new InternalConnectorGetAllResponse
+                    {
+                        Id = x.Id,
+                        Type = x.Type,
+                        Quantity = x.Quantity,
+                    }).ToList()
+                }).ToList();
             }
 
 

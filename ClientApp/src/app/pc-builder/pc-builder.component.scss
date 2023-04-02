@@ -25,12 +25,12 @@
 
   .p-datatable .p-datatable-tbody > tr > td:last-of-type,
   .p-datatable .p-datatable-thead > tr > th:last-of-type {
-    max-width: 20px;
+    width: 20px;
     text-align: center;
   }
   .p-datatable .p-datatable-tbody > tr > td:first-of-type,
   .p-datatable .p-datatable-thead > tr > th:first-of-type {
-    max-width: 20px;
+    width: 20px;
   }
   h1:hover,
   span:hover {

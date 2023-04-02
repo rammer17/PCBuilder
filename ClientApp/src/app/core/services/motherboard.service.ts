@@ -15,17 +15,17 @@ export class MotherboardService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<MotherboardGetResponse> {
-    return this.http.get<MotherboardGetResponse>(
+  getAll(): Observable<MotherboardGetResponse[]> {
+    return this.http.get<MotherboardGetResponse[]>(
       `${this.url}/Motherboard/GetAll`
     );
   }
 
   getCompatible(
     body: MotherboardGetCompatibleRequest
-  ): Observable<MotherboardGetResponse> {
-    return this.http.post<MotherboardGetResponse>(
-      `${this.url}/Cpu/GetAllCompatible`,
+  ): Observable<MotherboardGetResponse[]> {
+    return this.http.post<MotherboardGetResponse[]>(
+      `${this.url}/Motherboard/GetCompatible`,
       body
     );
   }

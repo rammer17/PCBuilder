@@ -15,13 +15,13 @@ export class GpuService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<GpuGetResponse> {
-    return this.http.get<GpuGetResponse>(`${this.url}/Gpu/GetAll`);
+  getAll(): Observable<GpuGetResponse[]> {
+    return this.http.get<GpuGetResponse[]>(`${this.url}/Gpu/GetAll`);
   }
 
-  getCompatible(body: GpuGetCompatibleRequest): Observable<GpuGetResponse> {
-    return this.http.post<GpuGetResponse>(
-      `${this.url}/Gpu/GetAllCompatible`,
+  getCompatible(body: GpuGetCompatibleRequest): Observable<GpuGetResponse[]> {
+    return this.http.post<GpuGetResponse[]>(
+      `${this.url}/Gpu/GetCompatible`,
       body
     );
   }

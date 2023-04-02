@@ -15,13 +15,13 @@ export class CaseService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<CaseGetResponse> {
-    return this.http.get<CaseGetResponse>(`${this.url}/Case/GetAll`);
+  getAll(): Observable<CaseGetResponse[]> {
+    return this.http.get<CaseGetResponse[]>(`${this.url}/Case/GetAll`);
   }
 
-  getCompatible(body: CaseGetCompatibleRequest): Observable<CaseGetResponse> {
-    return this.http.post<CaseGetResponse>(
-      `${this.url}/Case/GetAllCompatible`,
+  getCompatible(body: CaseGetCompatibleRequest): Observable<CaseGetResponse[]> {
+    return this.http.post<CaseGetResponse[]>(
+      `${this.url}/Case/GetCompatible`,
       body
     );
   }

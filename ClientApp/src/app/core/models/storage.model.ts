@@ -8,7 +8,7 @@ export type StorageGetResponse = {
   readSpeed: number;
   writeSpeed: number;
   interface: string;
-}[];
+};
 
 export type StorageAddRequest = {
   manufacturer: string;

@@ -60,6 +60,22 @@ namespace PCBuilder.Controllers
                     Height = x.Height,
                     Width = x.Width
                 }).ToList();
+            } else
+            {
+                compatibleGpus = _dbContext.GPUs.Select(x => new GpuGetAllResponse
+                {
+                    Id = x.Id,
+                    Manufacturer = x.Manufacturer,
+                    Model = x.Model,
+                    BaseClock = x.BaseClock,
+                    MaxBoostClock = x.MaxBoostClock,
+                    MemorySize = x.MemorySize,
+                    MemoryType = x.MemoryType,
+                    MemoryBus = x.MemoryBus,
+                    TDP = x.TDP,
+                    Height = x.Height,
+                    Width = x.Width
+                }).ToList();
             }
 
             return Ok(compatibleGpus);

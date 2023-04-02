@@ -14,8 +14,8 @@ export class StorageSlotService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<StorageSlotGetResponse> {
-    return this.http.get<StorageSlotGetResponse>(
+  getAll(): Observable<StorageSlotGetResponse[]> {
+    return this.http.get<StorageSlotGetResponse[]>(
       `${this.url}/StorageSlot/GetAll`
     );
   }

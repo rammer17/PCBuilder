@@ -11,8 +11,8 @@ export class StorageService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<StorageGetResponse> {
-    return this.http.get<StorageGetResponse>(`${this.url}/Storage/GetAll`);
+  getAll(): Observable<StorageGetResponse[]> {
+    return this.http.get<StorageGetResponse[]>(`${this.url}/Storage/GetAll`);
   }
   add(body: StorageAddRequest): Observable<void> {
     return this.http.post<void>(`${this.url}/Storage/Add`, body);

@@ -74,7 +74,26 @@ namespace PCBuilder.Controllers
                     Socket = x.Socket.Name,
                 }).ToList();
             }
-            var compatibleCpus = GetIntersectionByProperty<CpuGetAllResponse, int>(x => x.Id, cpuCoolerCpus, mbCpus);
+
+            var compatibleCpus = new List<CpuGetAllResponse>();
+            if (cpuCoolerCpus.Count <= 0 && mbCpus.Count <= 0)
+            {
+                compatibleCpus = _dbContext.CPUs.Select(x => new CpuGetAllResponse
+                {
+                    Id = x.Id,
+                    Manufacturer = x.Manufacturer,
+                    Model = x.Model,
+                    Cores = x.Cores,
+                    Threads = x.Threads,
+                    BaseClock = x.BaseClock,
+                    MaxBoostClock = x.MaxBoostClock,
+                    Socket = x.Socket.Name,
+                }).ToList();
+            }
+            else
+            {
+                compatibleCpus = GetIntersectionByProperty<CpuGetAllResponse, int>(x => x.Id, cpuCoolerCpus, mbCpus);
+            }
 
             return Ok(compatibleCpus);
         }

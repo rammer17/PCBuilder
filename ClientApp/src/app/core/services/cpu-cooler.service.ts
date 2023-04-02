@@ -18,14 +18,14 @@ export class CpuCoolerService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<CpuCoolerGetResponse> {
-    return this.http.get<CpuCoolerGetResponse>(`${this.url}/CpuCooler/GetAll`);
+  getAll(): Observable<CpuCoolerGetResponse[]> {
+    return this.http.get<CpuCoolerGetResponse[]>(`${this.url}/CpuCooler/GetAll`);
   }
 
   getCompatible(
     body: CpuCoolerGetCompatibleRequest
-  ): Observable<CpuCoolerGetResponse> {
-    return this.http.post<CpuCoolerGetResponse>(
+  ): Observable<CpuCoolerGetResponse[]> {
+    return this.http.post<CpuCoolerGetResponse[]>(
       `${this.url}/CpuCooler/GetCompatible`,
       body
     );

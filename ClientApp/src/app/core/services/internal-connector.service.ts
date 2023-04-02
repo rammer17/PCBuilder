@@ -14,8 +14,8 @@ export class InternalConnectorService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<InternalConnectorGetResponse> {
-    return this.http.get<InternalConnectorGetResponse>(
+  getAll(): Observable<InternalConnectorGetResponse[]> {
+    return this.http.get<InternalConnectorGetResponse[]>(
       `${this.url}/InternalConnector/GetAll`
     );
   }

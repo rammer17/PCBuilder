@@ -11,6 +11,10 @@
     .nav-tab:hover {
         cursor: pointer;
         color: var(--secondary-medium);
+        span::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
     }
     .nav-tab {
         list-style: none;
@@ -30,10 +34,6 @@
             background-color: var(--secondary-medium);
             transform-origin: bottom right;
             transition: transform 0.2s ease-in-out;
-        }
-        span:hover::after {
-            transform: scaleX(1);
-            transform-origin: bottom left;
         }
     }
 }

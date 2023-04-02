@@ -11,8 +11,8 @@ export class ChipsetService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<ChipsetGetResponse> {
-    return this.http.get<ChipsetGetResponse>(`${this.url}/Chipset/GetAll`);
+  getAll(): Observable<ChipsetGetResponse[]> {
+    return this.http.get<ChipsetGetResponse[]>(`${this.url}/Chipset/GetAll`);
   }
 
   add(body: ChipsetAddRequest): Observable<void> {

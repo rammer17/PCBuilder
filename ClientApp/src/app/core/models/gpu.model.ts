@@ -10,7 +10,7 @@ export type GpuGetResponse = {
   tdp: number;
   height: number;
   width: number;
-}[];
+};
 
 export type GpuGetCompatibleRequest = {
   caseId: number;

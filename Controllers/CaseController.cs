@@ -86,7 +86,23 @@ namespace PCBuilder.Controllers
                 }).ToList();
             }
 
-            var compatibleCases = GetIntersectionByProperty<CaseGetAllResponse, int>(x => x.Id, mbCases, psuCases, gpuCases);
+            var compatibleCases = new List<CaseGetAllResponse>();
+            if(gpuCases.Count <= 0 && mbCases.Count <= 0 && psuCases.Count <= 0)
+            {
+                compatibleCases = _dbContext.Cases.Select(x => new CaseGetAllResponse
+                {
+                    Id = x.Id,
+                    Manufacturer = x.Manufacturer,
+                    Model = x.Model,
+                    Type = x.Type,
+                    FormFactor = x.FormFactor,
+                    MaxGpuHeight = x.MaxGpuHeight,
+                    MaxGpuWidth = x.MaxGpuWidth
+                }).ToList();
+            } else
+            {
+                compatibleCases = GetIntersectionByProperty<CaseGetAllResponse, int>(x => x.Id, mbCases, psuCases, gpuCases);
+            }
 
             return Ok(compatibleCases);
         }

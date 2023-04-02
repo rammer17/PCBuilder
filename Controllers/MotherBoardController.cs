@@ -118,7 +118,27 @@ namespace PCBuilder.Controllers
                 }).ToList();
             }
 
-            var compatibleMotherboards = GetIntersectionByProperty<MotherboardGetAllResponse, int>(x => x.Id, compatibleCases, compatibleCpus, compatibleRam);
+            var compatibleMotherboards = new List<MotherboardGetAllResponse>();
+            if(compatibleRam.Count <= 0 && compatibleCpus.Count <= 0 && compatibleCases.Count <= 0)
+            {
+                compatibleMotherboards = _dbContext.MotherBoards.Select(x => new MotherboardGetAllResponse
+                {
+                    Id = x.Id,
+                    Manufacturer = x.Manufacturer,
+                    Model = x.Model,
+                    FormFactor = x.FormFactor,
+                    Socket = x.Socket.Name,
+                    Chipset = x.Chipset.Name,
+                    MemorySlots = x.MemorySlots,
+                    MemoryType = x.MemoryType,
+                    MaxMemorySpeed = x.MaxMemorySpeed,
+                    Wifi = x.Wifi
+                }).ToList();
+            } else
+            {
+                compatibleMotherboards = GetIntersectionByProperty<MotherboardGetAllResponse, int>(x => x.Id, compatibleCases, compatibleCpus, compatibleRam);
+
+            }
 
             return Ok(compatibleMotherboards);
         }

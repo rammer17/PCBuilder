@@ -15,12 +15,12 @@ export class CpuService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<CpuGetResponse> {
-    return this.http.get<CpuGetResponse>(`${this.url}/Cpu/GetAll`);
+  getAll(): Observable<CpuGetResponse[]> {
+    return this.http.get<CpuGetResponse[]>(`${this.url}/Cpu/GetAll`);
   }
 
-  getCompatible(body: CpuGetCompatibleRequest): Observable<CpuGetResponse> {
-    return this.http.post<CpuGetResponse>(
+  getCompatible(body: CpuGetCompatibleRequest): Observable<CpuGetResponse[]> {
+    return this.http.post<CpuGetResponse[]>(
       `${this.url}/Cpu/GetCompatible`,
       body
     );

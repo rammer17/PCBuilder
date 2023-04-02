@@ -6,7 +6,7 @@ export type RamGetResponse = {
   frequency: number;
   type: string;
   timing: string;
-}[];
+};
 
 export type RamGetCompatibleRequest = {
   motherboardId: number;

@@ -11,8 +11,8 @@ export class SocketService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<SocketGetResponse> {
-    return this.http.get<SocketGetResponse>(`${this.url}/Socket/GetAll`);
+  getAll(): Observable<SocketGetResponse[]> {
+    return this.http.get<SocketGetResponse[]>(`${this.url}/Socket/GetAll`);
   }
   add(body: SocketAddRequest): Observable<void> {
     return this.http.post<void>(`${this.url}/Socket/Add`, body);
