@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PCBuilder;
 
@@ -11,9 +12,11 @@ using PCBuilder;
 namespace PCBuilder.Migrations
 {
     [DbContext(typeof(PCBuilderDbContext))]
-    partial class PCBuilderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230403093429_AddedUserAndPCBuildTables")]
+    partial class AddedUserAndPCBuildTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
