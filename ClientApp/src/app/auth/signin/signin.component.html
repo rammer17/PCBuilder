@@ -8,14 +8,34 @@
         <h1 class="my-5">Sign In</h1>
         <span class="p-input-icon-left my-3">
           <i class="pi pi-envelope" style="color: #ffea9c"></i>
-          <input pInputText type="email" placeholder="Enter your email"/>
+          <input
+            (keyup.enter)="focusableInput.focus()"
+            formControlName="email"
+            pInputText
+            type="email"
+            placeholder="Enter your email" />
+          <form-validation
+            [control]="signInForm.get('email')!"
+            [controlName]="'Email'"
+            [maxLength]="40"></form-validation>
         </span>
-        <span
-          class="p-input-icon-left my-3">
+        <span class="p-input-icon-left my-3">
           <i class="pi pi-lock" style="color: #ffea9c"></i>
-          <input pInputText type="password" placeholder="Enter your password"/>
+          <input
+            #focusableInput
+            (keyup.enter)="focusableInput.blur()"
+            formControlName="password"
+            pInputText
+            type="password"
+            placeholder="Enter your password" />
+          <form-validation
+            [control]="signInForm.get('password')!"
+            [controlName]="'Password'"
+            [minLength]="6"
+            [maxLength]="30"></form-validation>
         </span>
         <button
+          [disabled]="!signInForm.valid"
           pButton
           pRipple
           label="Sign In"

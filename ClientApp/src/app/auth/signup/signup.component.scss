@@ -1,38 +1,46 @@
 :host::ng-deep {
-    .container-fluid {
-        min-height: 1000px;
+  .container-fluid {
+    min-height: 1000px;
+  }
+  form {
+    width: 1000px;
+    background: rgba(6, 6, 6, 0.14);
+    span {
+      // width: 100%;
+      input {
+        // width: 80%;
+        background: var(--primary-medium);
+      }
     }
-    form {
-        width: 1000px;
-        background: rgba(6, 6, 6, 0.14);
-        span {
-            // width: 100%;
-            input {
-                // width: 80%;
-                background: var(--primary-medium);
-            }
-        }
-    }
-    h1 {
-        color: var(--white);
-    }
-    .p-inputtext {
-        border: none;
-        width: 500px;
-        color: var(--white);
-        font-size: 20px;
-    }
-    .p-inputtext:hover {
-        background-color: var(--primary-light);
-    }
-    .p-inputtext:focus {
-        background-color: var(--primary-light);
-        box-shadow: none;
-    }
-    .p-inputtext:focus::placeholder {
-        color: transparent;
-    }
-    button {
-        font-size: 24px;
-    }
+  }
+  h1 {
+    color: var(--white);
+  }
+  .p-inputtext {
+    border: 2px solid var(--primary-medium);
+    width: 500px;
+    color: var(--white);
+    font-size: 20px;
+  }
+  .p-inputtext:hover {
+    background-color: var(--primary-light);
+    border-color: var(--primary-medium);
+  }
+  .p-inputtext:focus {
+    background-color: var(--primary-light);
+    box-shadow: none;
+    border-color: var(--primary-medium);
+  }
+  .p-inputtext:focus::placeholder {
+    color: transparent;
+  }
+  button {
+    font-size: 24px;
+  }
+  .p-inputtext.ng-dirty.ng-invalid {
+    border-color: red;
+  }
+  .p-inputtext.ng-valid {
+    border-color: green;
+  }
 }

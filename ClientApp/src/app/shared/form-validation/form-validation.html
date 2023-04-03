@@ -1,0 +1,16 @@
+<div
+  *ngIf="!control?.valid && (control?.dirty || control?.touched)"
+  style="position: absolute; color: red">
+  <div *ngIf="control?.errors?.['required']">
+    The field {{ controlName }} is required!
+  </div>
+  <div *ngIf="control?.errors?.['email']">
+    The field {{ controlName }} must be in correct format!
+  </div>
+  <div *ngIf="control?.errors?.['minlength']">
+    The field {{ controlName }} must be longer than {{ minLength }}
+  </div>
+  <div *ngIf="control?.errors?.['maxlength']">
+    The field {{ controlName }} must be shorter than {{ maxLength }}
+  </div>
+</div>

@@ -17,22 +17,31 @@
         color: var(--white);
     }
     .p-inputtext {
-        border: none;
+        border: 2px solid var(--primary-medium);
         width: 500px;
         color: var(--white);
         font-size: 20px;
     }
     .p-inputtext:hover {
         background-color: var(--primary-light);
+        border-color: var(--primary-medium);
     }
     .p-inputtext:focus {
         background-color: var(--primary-light);
         box-shadow: none;
+        border-color: var(--primary-medium);
     }
     .p-inputtext:focus::placeholder {
         color: transparent;
     }
     button {
         font-size: 24px;
+    }
+
+    .p-inputtext.ng-dirty.ng-invalid {
+        border-color: red;
+    }
+    .p-inputtext.ng-valid {
+        border-color: green;
     }
 }
