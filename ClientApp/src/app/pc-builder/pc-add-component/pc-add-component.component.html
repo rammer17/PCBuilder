@@ -8,22 +8,53 @@
   <ng-template pTemplate="header">
     <span class="component-header">Select compatible {{ component }}</span>
   </ng-template>
-  <div
-    class="p-4 component-container d-flex justify-content-between align-items-center"
-    *ngFor="let component of component$ | async">
+  <div *ngIf="component$ | async as components; else loading">
     <div
-      class="component-wrapper d-flex justify-content-start align-items-center">
-      <div class="mx-3">
-        <img [src]="" alt="Not found" />
+      class="p-4 component-container d-flex justify-content-between align-items-center"
+      *ngFor="let component of components">
+      <div
+        class="component-wrapper d-flex justify-content-start align-items-center">
+        <div class="mx-3">
+          <img [src]="" alt="Not found" />
+        </div>
+        <span class="mx-3">{{ component.manufacturer }}</span>
+        <span class="mx-3">{{ component.model }}</span>
       </div>
-      <span class="mx-3">{{ component.manufacturer }}</span>
-      <span class="mx-3">{{ component.model }}</span>
+      <button
+        pButton
+        pRipple
+        icon="pi pi-cart-plus"
+        class="p-button-primary mx-3"
+        (click)="onAddComponent(component)"></button>
     </div>
-    <button
-      pButton
-      pRipple
-      icon="pi pi-cart-plus"
-      class="p-button-primary mx-3"
-      (click)="onAddComponent(component)"></button>
   </div>
 </p-dialog>
+
+<ng-template #loading>
+    <div class="d-flex align-items-center w-100 mb-3">
+      <p-skeleton shape="circle" size="6rem"></p-skeleton>
+      <div class="w-100 px-2">
+        <p-skeleton height="2rem" styleClass="mb-3"></p-skeleton>
+        <p-skeleton width="5rem"></p-skeleton>
+      </div>
+      <p-skeleton height="3rem" width="3rem"></p-skeleton>
+    </div>
+
+    <div class="d-flex align-items-center w-100 mb-3">
+      <p-skeleton shape="circle" size="6rem"></p-skeleton>
+      <div class="w-100 px-2">
+        <p-skeleton height="2rem" styleClass="mb-3"></p-skeleton>
+        <p-skeleton width="5rem"></p-skeleton>
+      </div>
+      <p-skeleton height="3rem" width="3rem"></p-skeleton>
+    </div>
+
+    <div class="d-flex align-items-center w-100 mb-3">
+      <p-skeleton shape="circle" size="6rem"></p-skeleton>
+      <div class="w-100 px-2">
+        <p-skeleton height="2rem" styleClass="mb-3"></p-skeleton>
+        <p-skeleton width="5rem"></p-skeleton>
+      </div>
+      <p-skeleton height="3rem" width="3rem"></p-skeleton>
+    </div>
+</ng-template>

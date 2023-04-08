@@ -10,6 +10,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PcCommunityBuildsComponent } from './pc-community-builds/pc-community-builds.component';
 import { PrimeNGConfig } from 'primeng/api';
 import { HttpClientModule } from '@angular/common/http';
+import { LoaderComponent } from './shared/loader/loader.component';
+import { NgHttpLoaderModule } from 'ng-http-loader';
+
 
 const initializeAppFactory = (primeConfig: PrimeNGConfig) => () => {
   primeConfig.ripple = true;
@@ -20,6 +23,7 @@ const initializeAppFactory = (primeConfig: PrimeNGConfig) => () => {
   imports: [
     HeaderComponent,
     FooterComponent,
+    LoaderComponent,
     PcCommunityBuildsComponent,
 
     BrowserModule,
@@ -27,6 +31,7 @@ const initializeAppFactory = (primeConfig: PrimeNGConfig) => () => {
     SharedModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    NgHttpLoaderModule.forRoot()
   ],
   providers: [
     {
@@ -34,7 +39,7 @@ const initializeAppFactory = (primeConfig: PrimeNGConfig) => () => {
       useFactory: initializeAppFactory,
       deps: [PrimeNGConfig],
       multi: true,
-    },
+    }
   ],
   bootstrap: [AppComponent],
 })

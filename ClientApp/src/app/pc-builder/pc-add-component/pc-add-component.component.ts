@@ -24,11 +24,18 @@ import { RippleModule } from 'primeng/ripple';
 import { PCComponent } from 'src/app/core/models/pc-component.model';
 import { PcBuildService } from 'src/app/core/services/communication/pc-build.service';
 import { PC } from 'src/app/core/models/pc.model';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-pc-add-component',
   standalone: true,
-  imports: [CommonModule, DialogModule, ButtonModule, RippleModule],
+  imports: [
+    CommonModule,
+    DialogModule,
+    ButtonModule,
+    RippleModule,
+    SkeletonModule,
+  ],
   templateUrl: './pc-add-component.component.html',
   styleUrls: ['./pc-add-component.component.scss'],
 })
