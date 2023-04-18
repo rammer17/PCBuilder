@@ -1,18 +1,20 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { UserSignInRequest, UserSignUpRequest } from "../models/user.model";
-import { Observable } from "rxjs";
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { UserSignInRequest, UserSignUpRequest } from '../models/user.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class UserService {
-  private readonly url = "http://localhost:5001";
+  private readonly url = 'http://localhost:5001';
 
   constructor(private http: HttpClient) {}
 
-  signIn(body: UserSignInRequest): Observable<string> {
-    return this.http.post<string>(`${this.url}/User/SignIn`, body);
+  signIn(body: UserSignInRequest): Observable<any> {
+    return this.http.post(`${this.url}/User/SignIn`, body, {
+      responseType: 'text',
+    });
   }
 
   signUp(body: UserSignUpRequest): Observable<void> {
@@ -20,7 +22,7 @@ export class UserService {
   }
 
   delete(id: number): Observable<void> {
-    const queryParams = new HttpParams().set("id", id);
+    const queryParams = new HttpParams().set('id', id);
     return this.http.delete<void>(`${this.url}/User/Delete`, {
       params: queryParams,
     });

@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using PCBuilder.Models.DB;
 using PCBuilder.Models.Request;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -10,10 +13,12 @@ namespace PCBuilder.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        private readonly IConfiguration _configuration;
         private readonly PCBuilderDbContext _dbContext;
 
-        public UserController(PCBuilderDbContext dbContext)
+        public UserController(PCBuilderDbContext dbContext, IConfiguration configuration)
         {
+            _configuration = configuration;
             _dbContext = dbContext;
         }
 
@@ -25,7 +30,9 @@ namespace PCBuilder.Controllers
             if (user is null)
                 return BadRequest("Incorect credentials");
 
-            return Ok("JWT token");
+            var token = GenerateToken();
+
+            return Ok(token);
         }
 
         [HttpPost] 
@@ -79,6 +86,19 @@ namespace PCBuilder.Controllers
                 }
                 return builder.ToString();
             }
+        }
+        private JwtSecurityToken GenerateToken()
+        {
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["JWT:ValidIssuer"],
+                audience: _configuration["JWT:ValidAudience"],
+                expires: DateTime.Now.AddHours(3),
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                );
+
+            return token;
         }
     }
 }

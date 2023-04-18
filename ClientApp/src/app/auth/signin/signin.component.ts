@@ -51,7 +51,9 @@ export class SignInComponent {
       .signIn(body)
       .pipe(take(1))
       .subscribe({
-        next: (resp) => console.log(resp),
+        next: (resp) => {
+          localStorage.setItem('token', resp);
+        },
         complete: () => {
           this.signInForm.reset();
           this.router.navigateByUrl('/builder');
