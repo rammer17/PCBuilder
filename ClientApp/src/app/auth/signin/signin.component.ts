@@ -14,6 +14,7 @@ import { take } from 'rxjs';
 import { UserSignInRequest } from 'src/app/core/models/user.model';
 import { Router } from '@angular/router';
 import { FormValidationComponent } from 'src/app/shared/form-validation/form-validation.component';
+import { AuthService } from 'src/app/core/services/communication/auth.service';
 
 @Component({
   selector: 'app-signin',
@@ -38,7 +39,8 @@ export class SignInComponent {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   onSignIn(): void {
@@ -52,10 +54,11 @@ export class SignInComponent {
       .pipe(take(1))
       .subscribe({
         next: (resp) => {
-          localStorage.setItem('token', resp);
+          localStorage.setItem('token', JSON.stringify(resp));
         },
         complete: () => {
           this.signInForm.reset();
+          this.authService.signedIn();
           this.router.navigateByUrl('/builder');
         },
       });

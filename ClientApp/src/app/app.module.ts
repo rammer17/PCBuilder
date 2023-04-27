@@ -8,11 +8,13 @@ import { HeaderComponent } from './shared/layout/header/header.component';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PcCommunityBuildsComponent } from './pc-community-builds/pc-community-builds.component';
-import { PrimeNGConfig } from 'primeng/api';
-import { HttpClientModule } from '@angular/common/http';
+import { MessageService, PrimeNGConfig } from 'primeng/api';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { LoaderComponent } from './shared/loader/loader.component';
 import { NgHttpLoaderModule } from 'ng-http-loader';
-
+import { AuthInterceptor } from './auth/auth.interceptor';
+import { ErrorInterceptor } from './error.interceptor';
+import { ToastModule } from 'primeng/toast';
 
 const initializeAppFactory = (primeConfig: PrimeNGConfig) => () => {
   primeConfig.ripple = true;
@@ -31,7 +33,8 @@ const initializeAppFactory = (primeConfig: PrimeNGConfig) => () => {
     SharedModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    NgHttpLoaderModule.forRoot()
+    NgHttpLoaderModule.forRoot(),
+    ToastModule,
   ],
   providers: [
     {
@@ -39,7 +42,10 @@ const initializeAppFactory = (primeConfig: PrimeNGConfig) => () => {
       useFactory: initializeAppFactory,
       deps: [PrimeNGConfig],
       multi: true,
-    }
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    MessageService
   ],
   bootstrap: [AppComponent],
 })
