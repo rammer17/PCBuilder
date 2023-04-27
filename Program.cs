@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
 using PCBuilder;
 using PCBuilder.Services;
 using System.Text;
@@ -16,7 +18,29 @@ builder.Services.AddDbContext<PCBuilderDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"));
 });
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please insert JWT with Bearer into field",
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                   {
+                     new OpenApiSecurityScheme
+                     {
+                       Reference = new OpenApiReference
+                       {
+                         Type = ReferenceType.SecurityScheme,
+                         Id = "Bearer"
+                       }
+                      },
+                      new string[] { }
+                    }
+                  });
+});
 builder.Services.AddCors();
 builder.Services.AddScoped<IIntersectByPropertyService, IntersectByPropertyService>();
 builder.Services.AddAuthentication(options =>
@@ -38,7 +62,12 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true
     };
 });
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ComponentDelete", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("ComponentAdd", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("AccessBuilder", policy => policy.RequireRole("Admin", "User"));
+});
 
 
 var app = builder.Build();

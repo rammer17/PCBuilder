@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PCBuilder.Models.DB;
 using PCBuilder.Models.Request;
 using PCBuilder.Models.Response;
 
 namespace PCBuilder.Controllers
 {
+    [Authorize]
     [Route("[controller]/[action]")]
     [ApiController]
     public class SocketController : ControllerBase
@@ -26,7 +28,7 @@ namespace PCBuilder.Controllers
 
             return Ok(sockets);
         }
-
+        [Authorize(Policy = "ComponentAdd")]
         [HttpPost]
         public ActionResult Add(SocketAddRequest request)
         {
@@ -41,6 +43,7 @@ namespace PCBuilder.Controllers
             return Ok();
         }
 
+        [Authorize(Policy = "ComponentDelete")]
         [HttpDelete]
         public ActionResult Delete(int id)
         {

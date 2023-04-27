@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using PCBuilder.Models.DB;
 using PCBuilder.Models.Request;
@@ -30,9 +31,9 @@ namespace PCBuilder.Controllers
             if (user is null)
                 return BadRequest("Incorect credentials");
 
-            var token = GenerateToken();
+            var encryptedToken = GenerateJwtToken(user);
 
-            return Ok(token);
+            return Ok(encryptedToken);
         }
 
         [HttpPost] 
@@ -48,14 +49,15 @@ namespace PCBuilder.Controllers
             {
                 FullName = request.FullName,
                 Email = request.Email,
-                Password = ComputeSha256Hash(request.Password)
+                Password = ComputeSha256Hash(request.Password),
+                Role = request.Role
             };
             _dbContext.Users.Add(newUser);
             _dbContext.SaveChanges();
 
             return Ok();
         }
-
+        [Authorize]
         [HttpDelete]
         public ActionResult Delete(int id)
         {
@@ -87,18 +89,22 @@ namespace PCBuilder.Controllers
                 return builder.ToString();
             }
         }
-        private JwtSecurityToken GenerateToken()
+        private string GenerateJwtToken(User user)
         {
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_configuration["JWT:Key"]);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()), new Claim(ClaimTypes.Role, user.Role) }),
+                Expires = DateTime.UtcNow.AddHours(3),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+                Issuer = _configuration["JWT:Issuer"],
+                Audience = _configuration["JWT:Audience"]
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var encryptedToken = tokenHandler.WriteToken(token);
 
-            var token = new JwtSecurityToken(
-                issuer: _configuration["JWT:ValidIssuer"],
-                audience: _configuration["JWT:ValidAudience"],
-                expires: DateTime.Now.AddHours(3),
-                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                );
-
-            return token;
+            return encryptedToken;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PCBuilder.Models.DB;
 using PCBuilder.Models.Request;
@@ -7,6 +8,7 @@ using PCBuilder.Models.Response;
 
 namespace PCBuilder.Controllers
 {
+    [Authorize]
     [Route("[controller]/[action]")]
     [ApiController]
     public class PowerSupplyController : ControllerBase
@@ -87,7 +89,7 @@ namespace PCBuilder.Controllers
 
             return Ok(compatiblePSUs);
         }
-
+        [Authorize(Policy = "ComponentAdd")]
         [HttpPost]
         public ActionResult Add(PowerSupplyAddRequest request)
         {
@@ -119,6 +121,7 @@ namespace PCBuilder.Controllers
             return Ok();
         }
 
+        [Authorize(Policy = "ComponentDelete")]
         [HttpDelete]
         public ActionResult Delete(int id)
         {
