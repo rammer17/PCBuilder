@@ -1,19 +1,27 @@
 import { Injectable } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { BehaviorSubject, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private isLoggedIn: boolean = localStorage.getItem('token') ? true : false;;
+  private isSignedIn$ = new BehaviorSubject<boolean>(this.validateToken());
 
-  get isSignedIn(): boolean {
-    return this.isLoggedIn;
+  test() {
+    return this.isSignedIn$.asObservable();
   }
 
-  signedIn(): void {
-    this.isLoggedIn = true;
+  constructor(private jwtHelperService: JwtHelperService) {}
+
+  private validateToken() {
+    const token = localStorage.getItem('token');
+    if(!token) return false;
+    return !this.jwtHelperService.isTokenExpired(token);
+  } 
+
+  update() {
+    this.isSignedIn$.next(this.validateToken());
   }
-  signedOut(): void {
-    this.isLoggedIn = false;
-  }
+
 }

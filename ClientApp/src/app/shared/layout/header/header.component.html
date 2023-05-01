@@ -1,11 +1,21 @@
 <div
   class="container-fluid d-flex justify-content-between align-items-center m-0 py-3 px-5">
   <h1 class="m-0">PCBuilder</h1>
-  <div>
-    <span [routerLink]="['/signin']">SignIn</span>
-    |
-    <span [routerLink]="['/signup']">SignUp</span>
+  <div *ngIf="isSignedIn$ | async; else signOut">
+    <button
+      (click)="onSignOut()"
+      pButton
+      pRipple
+      label="Sign Out"
+      class="p-button-danger"></button>
   </div>
+  <ng-template #signOut>
+    <div>
+      <span [routerLink]="['/signin']">SignIn</span>
+      |
+      <span [routerLink]="['/signup']">SignUp</span>
+    </div>
+  </ng-template>
 </div>
 <div
   class="container-fluid d-flex justify-content-between align-items-center m-0 px-5">

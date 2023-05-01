@@ -58,7 +58,7 @@ export class SignInComponent {
         },
         complete: () => {
           this.signInForm.reset();
-          this.authService.signedIn();
+          this.authService.update();
           this.router.navigateByUrl('/builder');
         },
       });

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
-  CanActivate,
   Router,
   RouterStateSnapshot,
   UrlTree,
@@ -23,7 +22,7 @@ export class AuthGuard {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.AuthService.isSignedIn) {
+    if (localStorage.getItem('token')) {
       this.router.navigateByUrl('/home')
       return false;
     }

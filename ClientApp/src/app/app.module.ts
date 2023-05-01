@@ -15,6 +15,7 @@ import { NgHttpLoaderModule } from 'ng-http-loader';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { ErrorInterceptor } from './error.interceptor';
 import { ToastModule } from 'primeng/toast';
+import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 
 const initializeAppFactory = (primeConfig: PrimeNGConfig) => () => {
   primeConfig.ripple = true;
@@ -43,6 +44,7 @@ const initializeAppFactory = (primeConfig: PrimeNGConfig) => () => {
       deps: [PrimeNGConfig],
       multi: true,
     },
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS }, JwtHelperService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     MessageService

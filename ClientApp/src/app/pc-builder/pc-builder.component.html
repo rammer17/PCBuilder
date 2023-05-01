@@ -11,7 +11,12 @@
           <tr>
             <th><span>Component</span></th>
             <th><span>Selection</span></th>
-            <th></th>
+            <th><button
+                (click)="onShare()"
+                pButton
+                pRipple
+                icon="pi pi-share-alt"
+                class="p-button-warning"></button></th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-component let-i="rowIndex">
@@ -46,6 +51,9 @@
           [component]="currentComponent"
           (closeAddComponent)="onCloseAddComponent($event)"
           (addedComponent)="onComponentAdded($event)"></app-pc-add-component>
+      </ng-container>
+      <ng-container *ngIf="isShareDialogVisible">
+        <app-share-dialog (closeShareDialog)="onCloseShareDialog($event)" ></app-share-dialog>
       </ng-container>
     </div>
   </div>

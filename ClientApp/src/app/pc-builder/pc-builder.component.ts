@@ -14,6 +14,7 @@ import { PcAddComponentComponent } from './pc-add-component/pc-add-component.com
 import { PCComponent } from '../core/models/pc-component.model';
 import { PC } from '../core/models/pc.model';
 import { PcBuildService } from '../core/services/communication/pc-build.service';
+import { ShareDialogComponent } from './share-dialog/share-dialog.component';
 
 @Component({
   selector: 'app-pc-builder',
@@ -25,6 +26,7 @@ import { PcBuildService } from '../core/services/communication/pc-build.service'
     RippleModule,
     DialogModule,
     PcAddComponentComponent,
+    ShareDialogComponent
   ],
   templateUrl: './pc-builder.component.html',
   styleUrls: ['./pc-builder.component.scss'],
@@ -59,9 +61,11 @@ export class PcBuilderComponent {
     },
   ];
   isDialogVisible: boolean = false;
+  isShareDialogVisible: boolean = false;
   showAddBtns: boolean[] = [true, true, true, true, true, true, true, true];
   currentComponent: string = '';
   chosenComponent: string = '';
+  
 
   pc: PC = {
     cpuId: 0,
@@ -173,5 +177,13 @@ export class PcBuilderComponent {
 
   onCloseAddComponent(e: boolean): void {
     this.isDialogVisible = e;
+  }
+
+  onCloseShareDialog(e: boolean): void {
+    this.isShareDialogVisible = e;
+  }
+
+  onShare(): void {
+    this.isShareDialogVisible = true;
   }
 }
