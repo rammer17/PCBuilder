@@ -1,10 +1,10 @@
 export type PC = {
-    cpuId?: number;
-    cpuCoolerId?: number;
-    motherboardId?: number;
-    ramId?: number;
-    storageId?: number;
-    gpuId?: number;
-    caseId?: number;
-    powerSupplyId?: number;
+    cpuId?: number | null;
+    cpuCoolerId?: number | null;
+    motherboardId?: number | null;
+    ramId?: number | null;
+    storageId?: number | null;
+    gpuId?: number | null;
+    caseId?: number | null;
+    powerSupplyId?: number | null;
 }

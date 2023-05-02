@@ -60,7 +60,6 @@ export class ShareDialogComponent {
   };
 
   onCopy(e: any): void {
-    console.log(e.currentTarget);
     e.currentTarget.classList.replace('p-button-primary', 'p-button-success');
     this.buttonLabel = 'Copied';
     navigator.clipboard.writeText(this.linkInput?.nativeElement.value)

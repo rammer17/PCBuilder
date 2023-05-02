@@ -1,0 +1,15 @@
+:host::ng-deep {
+  .p-inputgroup-addon {
+    border: none;
+    background-color: transparent;
+    i {
+      color: var(--secondary-medium);
+    }
+  }
+  input:disabled {
+    background-color: var(--primary-dark);
+    border-color: var(--secondary-medium);
+    color: var(--white);
+  }
+
+}

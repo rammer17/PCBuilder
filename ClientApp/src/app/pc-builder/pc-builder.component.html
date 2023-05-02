@@ -11,12 +11,22 @@
           <tr>
             <th><span>Component</span></th>
             <th><span>Selection</span></th>
-            <th><button
+            <th>
+              <button
+                [disabled]="!pcForm.valid"
                 (click)="onShare()"
                 pButton
                 pRipple
                 icon="pi pi-share-alt"
-                class="p-button-warning"></button></th>
+                class="p-button-warning">
+                <input
+                  pTooltip="Finish your build before sharing it!"
+                  tooltipPosition="top"
+                  [tooltipDisabled]="pcForm.valid"
+                  class="tooltip-input"
+                  [ngStyle]="{'cursor': pcForm.valid ? 'pointer' : 'default'}"/>
+              </button>
+            </th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-component let-i="rowIndex">
@@ -39,7 +49,7 @@
                 pButton
                 pRipple
                 class="p-button-danger"
-                (click)="onRemoveComponent(i)"
+                (click)="onRemoveComponent(component.name, i)"
                 icon="pi pi-times"></button>
             </td>
           </tr>
@@ -53,7 +63,8 @@
           (addedComponent)="onComponentAdded($event)"></app-pc-add-component>
       </ng-container>
       <ng-container *ngIf="isShareDialogVisible">
-        <app-share-dialog (closeShareDialog)="onCloseShareDialog($event)" ></app-share-dialog>
+        <app-share-dialog
+          (closeShareDialog)="onCloseShareDialog($event)"></app-share-dialog>
       </ng-container>
     </div>
   </div>

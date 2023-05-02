@@ -15,6 +15,9 @@ import { PCComponent } from '../core/models/pc-component.model';
 import { PC } from '../core/models/pc.model';
 import { PcBuildService } from '../core/services/communication/pc-build.service';
 import { ShareDialogComponent } from './share-dialog/share-dialog.component';
+import { FormBuilder } from '@angular/forms';
+import { Validators } from '@angular/forms';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-pc-builder',
@@ -25,8 +28,9 @@ import { ShareDialogComponent } from './share-dialog/share-dialog.component';
     ButtonModule,
     RippleModule,
     DialogModule,
+    TooltipModule,
     PcAddComponentComponent,
-    ShareDialogComponent
+    ShareDialogComponent,
   ],
   templateUrl: './pc-builder.component.html',
   styleUrls: ['./pc-builder.component.scss'],
@@ -65,26 +69,39 @@ export class PcBuilderComponent {
   showAddBtns: boolean[] = [true, true, true, true, true, true, true, true];
   currentComponent: string = '';
   chosenComponent: string = '';
-  
 
-  pc: PC = {
-    cpuId: 0,
-    cpuCoolerId: 0,
-    motherboardId: 0,
-    ramId: 0,
-    storageId: 0,
-    gpuId: 0,
-    caseId: 0,
-    powerSupplyId: 0,
-  };
+  isShareDisabled: boolean = true;
+
+  pcForm = this.fb.group({
+    cpuId: this.fb.control(0, [Validators.required, Validators.min(1)]),
+    cpuCoolerId: this.fb.control(0, [Validators.required, Validators.min(1)]),
+    motherboardId: this.fb.control(0, [Validators.required, Validators.min(1)]),
+    ramId: this.fb.control(0, [Validators.required, Validators.min(1)]),
+    storageId: this.fb.control(0, [Validators.required, Validators.min(1)]),
+    gpuId: this.fb.control(0, [Validators.required, Validators.min(1)]),
+    caseId: this.fb.control(0, [Validators.required, Validators.min(1)]),
+    powerSupplyId: this.fb.control(0, [Validators.required, Validators.min(1)]),
+  });
 
   constructor(
     private renderer: Renderer2,
-    private pcComService: PcBuildService
+    private pcComService: PcBuildService,
+    private fb: FormBuilder
   ) {}
 
   onAddComponent(component: string): void {
-    this.pcComService.setPC(this.pc);
+    const data: PC = {
+      cpuId: this.pcForm.get('cpuId')?.value,
+      cpuCoolerId: this.pcForm.get('cpuCoolerId')?.value,
+      motherboardId: this.pcForm.get('motherboardId')?.value,
+      ramId: this.pcForm.get('ramId')?.value,
+      storageId: this.pcForm.get('storageId')?.value,
+      gpuId: this.pcForm.get('gpuId')?.value,
+      caseId: this.pcForm.get('caseId')?.value,
+      powerSupplyId: this.pcForm.get('powerSupplyId')?.value,
+    };
+
+    this.pcComService.setPC(data);
 
     this.isDialogVisible = true;
     this.currentComponent = component;
@@ -96,42 +113,58 @@ export class PcBuilderComponent {
     if ('cores' in component) {
       details = `${component.manufacturer} ${component.model} ${component.socket} ${component.cores}-Core Processor`;
       this.renderComponent(0, details);
-      this.pc.cpuId = component.id;
+      this.pcForm.patchValue({
+        cpuId: component.id,
+      });
       return;
     } else if ('maxRPM' in component) {
       details = `${component.manufacturer} ${component.model} ${component.type} Cooler`;
       this.renderComponent(1, details);
-      this.pc.cpuCoolerId = component.id;
+      this.pcForm.patchValue({
+        cpuCoolerId: component.id,
+      });
       return;
     } else if ('wifi' in component) {
       details = `${component.manufacturer} ${component.model} ${component.chipset} ${component.formFactor} ${component.socket}`;
       this.renderComponent(2, details);
-      this.pc.motherboardId = component.id;
+      this.pcForm.patchValue({
+        motherboardId: component.id,
+      });
       return;
     } else if ('frequency' in component) {
       details = `${component.manufacturer} ${component.model} ${component.type} ${component.capacity}GB ${component.frequency}MHz`;
       this.renderComponent(3, details);
-      this.pc.ramId = component.id;
+      this.pcForm.patchValue({
+        ramId: component.id,
+      });
       return;
     } else if ('readSpeed' in component) {
       details = `${component.manufacturer} ${component.model} ${component.type} ${component.formFactor}" ${component.capacity}MB ${component.interface}`;
       this.renderComponent(4, details);
-      this.pc.storageId = component.id;
+      this.pcForm.patchValue({
+        storageId: component.id,
+      });
       return;
     } else if ('height' in component) {
       details = `${component.manufacturer} ${component.model} ${component.memoryType} ${component.memorySize}GB`;
       this.renderComponent(5, details);
-      this.pc.gpuId = component.id;
+      this.pcForm.patchValue({
+        gpuId: component.id,
+      });
       return;
     } else if ('maxGpuWidth' in component) {
       details = `${component.manufacturer} ${component.model} ${component.formFactor} ${component.type}`;
       this.renderComponent(6, details);
-      this.pc.caseId = component.id;
+      this.pcForm.patchValue({
+        caseId: component.id,
+      });
       return;
     } else if ('wattage' in component) {
       details = `${component.manufacturer} ${component.model} ${component.wattage}W ${component.formFactor} ${component.efficiencyRating} ${component.type}`;
       this.renderComponent(7, details);
-      this.pc.powerSupplyId = component.id;
+      this.pcForm.patchValue({
+        powerSupplyId: component.id,
+      });
       return;
     }
   }
@@ -161,7 +194,7 @@ export class PcBuilderComponent {
     );
   }
 
-  onRemoveComponent(index: number): void {
+  onRemoveComponent(componentName: string, index: number): void {
     const component = this.componentSites?.get(index);
 
     this.renderer.removeChild(
@@ -171,8 +204,11 @@ export class PcBuilderComponent {
 
     this.showAddBtns[index] = true;
 
-    const objPropName = Object.keys(this.pc)[index] as keyof typeof this.pc;
-    this.pc[objPropName] = 0;
+    const objPropName = this.convertToObjePropName(componentName);
+
+    this.pcForm.patchValue({
+      [objPropName]: 0,
+    });
   }
 
   onCloseAddComponent(e: boolean): void {
@@ -185,5 +221,17 @@ export class PcBuilderComponent {
 
   onShare(): void {
     this.isShareDialogVisible = true;
+  }
+
+  private convertToObjePropName(string: string) {
+    return (
+      string
+        .toLowerCase()
+        .trim()
+        .split(/[.\-_\s]/g)
+        .reduce(
+          (string, word) => string + word[0].toUpperCase() + word.slice(1)
+        ) + 'Id'
+    );
   }
 }

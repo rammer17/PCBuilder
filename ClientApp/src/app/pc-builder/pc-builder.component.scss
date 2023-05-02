@@ -65,4 +65,10 @@
     -moz-box-shadow: 5px 5px 25px 10px rgba(0, 0, 0, 0.6);
     box-shadow: 5px 5px 25px 10px rgba(0, 0, 0, 0.6);
   }
+  .tooltip-input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    cursor: default;
+  }
 }

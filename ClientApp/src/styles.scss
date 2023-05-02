@@ -1,11 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
-@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap');
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Rubik", sans-serif;
+  font-family: 'Rubik', sans-serif;
 }
 
 .p-button-primary {
@@ -31,7 +31,11 @@ button:focus {
   --secondary-medium: #ffea9c;
   --secondary-dark: #ffdd60;
 
-
   --black: #04040c;
   --white: #f1f1f1;
+}
+
+.p-tooltip .p-tooltip-text {
+  background-color: var(--primary-medium);
+  color: var(--secondary-dark);
 }

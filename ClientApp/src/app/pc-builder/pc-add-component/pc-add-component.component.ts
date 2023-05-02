@@ -116,9 +116,9 @@ export class PcAddComponentComponent
         this.component$ = this.cpuService
           .getCompatible({
             cpuCoolerId:
-              this.pc.cpuCoolerId !== undefined ? this.pc.cpuCoolerId : 0,
+              this.pc.cpuCoolerId ? this.pc.cpuCoolerId : 0,
             motherboardId:
-              this.pc.motherboardId !== undefined ? this.pc.motherboardId : 0,
+              this.pc.motherboardId ? this.pc.motherboardId : 0,
           })
           .pipe(take(1));
         break;
@@ -126,7 +126,7 @@ export class PcAddComponentComponent
       case 'CPU Cooler': {
         this.component$ = this.cpuCoolerService
           .getCompatible({
-            cpuId: this.pc.cpuId !== undefined ? this.pc.cpuId : 0,
+            cpuId: this.pc.cpuId ? this.pc.cpuId : 0,
           })
           .pipe(take(1));
         break;
@@ -134,9 +134,9 @@ export class PcAddComponentComponent
       case 'Motherboard': {
         this.component$ = this.motherboardService
           .getCompatible({
-            cpuId: this.pc.cpuId !== undefined ? this.pc.cpuId : 0,
-            caseId: this.pc.caseId !== undefined ? this.pc.caseId : 0,
-            ramId: this.pc.ramId !== undefined ? this.pc.ramId : 0,
+            cpuId: this.pc.cpuId ? this.pc.cpuId : 0,
+            caseId: this.pc.caseId ? this.pc.caseId : 0,
+            ramId: this.pc.ramId ? this.pc.ramId : 0,
           })
           .pipe(take(1));
         break;
@@ -145,7 +145,7 @@ export class PcAddComponentComponent
         this.component$ = this.ramService
           .getCompatible({
             motherboardId:
-              this.pc.motherboardId !== undefined ? this.pc.motherboardId : 0,
+              this.pc.motherboardId ? this.pc.motherboardId : 0,
           })
           .pipe(take(1));
         break;
@@ -157,7 +157,7 @@ export class PcAddComponentComponent
       case 'Graphics Card': {
         this.component$ = this.gpuService
           .getCompatible({
-            caseId: this.pc.caseId !== undefined ? this.pc.caseId : 0,
+            caseId: this.pc.caseId ? this.pc.caseId : 0,
           })
           .pipe(take(1));
         break;
@@ -166,10 +166,10 @@ export class PcAddComponentComponent
         this.component$ = this.caseService
           .getCompatible({
             motherboardId:
-              this.pc.motherboardId !== undefined ? this.pc.motherboardId : 0,
+              this.pc.motherboardId ? this.pc.motherboardId : 0,
             powerSupplyId:
-              this.pc.powerSupplyId !== undefined ? this.pc.powerSupplyId : 0,
-            gpuId: this.pc.gpuId !== undefined ? this.pc.gpuId : 0,
+              this.pc.powerSupplyId ? this.pc.powerSupplyId : 0,
+            gpuId: this.pc.gpuId ? this.pc.gpuId : 0,
           })
           .pipe(take(1));
         break;
@@ -177,7 +177,7 @@ export class PcAddComponentComponent
       case 'Power Supply': {
         this.component$ = this.psuService
           .getCompatible({
-            caseId: this.pc.caseId !== undefined ? this.pc.caseId : 0,
+            caseId: this.pc.caseId ? this.pc.caseId : 0,
           })
           .pipe(take(1));
         break;
