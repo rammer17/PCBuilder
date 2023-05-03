@@ -45,6 +45,17 @@ namespace PCBuilder.Controllers
             return Ok(motherboards);
         }
 
+        [HttpGet]
+        public ActionResult GetById(int id)
+        {
+            var mb = _dbContext.MotherBoards.FirstOrDefault(x => x.Id == id);
+
+            if (mb == null)
+                return NotFound();
+
+            return Ok(mb);
+        }
+
         [HttpPost]
         public ActionResult GetCompatible(MotherboardGetCompatibleRequest request)
         {

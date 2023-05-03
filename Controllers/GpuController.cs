@@ -41,6 +41,17 @@ namespace PCBuilder.Controllers
             return Ok(gpus);
         }
 
+        [HttpGet]
+        public ActionResult GetById(int id)
+        {
+            var gpu = _dbContext.GPUs.FirstOrDefault(x => x.Id == id);
+
+            if (gpu == null)
+                return NotFound();
+
+            return Ok(gpu);
+        }
+
         [HttpPost] 
         public ActionResult GetCompatible(GpuGetCompatibleRequest request)
         {

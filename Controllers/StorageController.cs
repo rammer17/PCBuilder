@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client.Extensions.Msal;
 using PCBuilder.Models.DB;
 using PCBuilder.Models.Request;
 using PCBuilder.Models.Response;
+using Storage = PCBuilder.Models.DB.Storage;
 
 namespace PCBuilder.Controllers
 {
@@ -35,6 +37,18 @@ namespace PCBuilder.Controllers
 
             return Ok(storages);
         }
+
+        [HttpGet]
+        public ActionResult GetById(int id)
+        {
+            var storage = _dbContext.Storages.FirstOrDefault(x => x.Id == id);
+
+            if (storage == null)
+                return NotFound();
+
+            return Ok(storage);
+        }
+
         [Authorize(Policy = "ComponentAdd")]
         [HttpPost]
         public ActionResult Add(StorageAddRequest request)

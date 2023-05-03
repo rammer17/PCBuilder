@@ -5,6 +5,7 @@ using PCBuilder.Models.DB;
 using PCBuilder.Models.Request;
 using PCBuilder.Models.Request.Compatible;
 using PCBuilder.Models.Response;
+using System.Runtime.Intrinsics.Arm;
 
 namespace PCBuilder.Controllers
 {
@@ -33,6 +34,17 @@ namespace PCBuilder.Controllers
                 Type = x.Type,
                 Timing = x.Timing
             }).ToList();
+
+            return Ok(ram);
+        }
+
+        [HttpGet]
+        public ActionResult GetById(int id)
+        {
+            var ram = _dbContext.Memories.FirstOrDefault(x => x.Id == id);
+
+            if (ram == null)
+                return NotFound();
 
             return Ok(ram);
         }

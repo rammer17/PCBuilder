@@ -39,6 +39,17 @@ namespace PCBuilder.Controllers
             return Ok(cpus);
         }
 
+        [HttpGet]
+        public ActionResult GetById(int id)
+        {
+            var cpu = _dbContext.CPUs.FirstOrDefault(x => x.Id == id);
+
+            if (cpu == null)
+                return NotFound();
+
+            return Ok(cpu);
+        }
+
         [HttpPost]
         public ActionResult GetCompatible(CpuGetCompatibleRequest request)
         {

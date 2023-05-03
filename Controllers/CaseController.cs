@@ -40,6 +40,17 @@ namespace PCBuilder.Controllers
             return Ok(cases);
         }
 
+        [HttpGet]
+        public ActionResult GetById(int id)
+        {
+            var pcCase = _dbContext.Cases.FirstOrDefault(x => x.Id == id);
+
+            if (pcCase == null)
+                return NotFound();
+
+            return Ok(pcCase);
+        }
+
         [HttpPost]
         public ActionResult GetCompatible(CaseGetCompatibleRequest request)
         {

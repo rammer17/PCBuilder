@@ -43,6 +43,17 @@ namespace PCBuilder.Controllers
             return Ok(powerSupplies);
         }
 
+        [HttpGet]
+        public ActionResult GetById(int id)
+        {
+            var powerSupply = _dbContext.PowerSupplies.FirstOrDefault(x => x.Id == id);
+
+            if (powerSupply == null)
+                return NotFound();
+
+            return Ok(powerSupply);
+        }
+
         [HttpPost]
         public ActionResult GetCompatible(PowerSupplyGetCompatibleRequest request)
         {

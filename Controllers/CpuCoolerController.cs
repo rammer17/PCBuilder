@@ -38,6 +38,17 @@ namespace PCBuilder.Controllers
             return Ok(cpuCoolers);
         }
 
+        [HttpGet]
+        public ActionResult GetById(int id)
+        {
+            var cpuCooler = _dbContext.CPUCoolers.FirstOrDefault(x => x.Id == id);
+
+            if (cpuCooler == null)
+                return NotFound();
+
+            return Ok(cpuCooler);
+        }
+
         [HttpPost] 
         public ActionResult GetCompatible(CpuCoolerGetCompatibleRequest request)
         {
