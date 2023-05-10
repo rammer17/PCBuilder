@@ -11,7 +11,8 @@
     span:hover {
         cursor: pointer;
     }
-    .nav-tab:hover {
+    .nav-tab:hover,
+    .my-account-wrapper:hover {
         cursor: pointer;
         color: var(--secondary-medium);
         span::after {
@@ -19,7 +20,8 @@
             transform-origin: bottom left;
         }
     }
-    .nav-tab {
+    .nav-tab,
+    .my-account-wrapper {
         list-style: none;
         transition: .4s;
         font-size: 18px;
@@ -38,5 +40,12 @@
             transform-origin: bottom right;
             transition: transform 0.2s ease-in-out;
         }
+    }
+    label.my-account {
+        font-size: 24px;
+    }
+    .my-account-wrapper,
+    .my-account-wrapper > span > label {
+        cursor: pointer;
     }
 }

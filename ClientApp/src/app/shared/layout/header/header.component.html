@@ -1,7 +1,13 @@
 <div
   class="container-fluid d-flex justify-content-between align-items-center m-0 py-3 px-5">
   <h1 class="m-0">PCBuilder</h1>
-  <div *ngIf="isSignedIn$ | async; else signOut">
+  <div *ngIf="isSignedIn$ | async; else signOut" class="d-flex align-items-center justify-content-center">
+    <div class="mx-3 my-account-wrapper">
+      <span>
+        <i class="pi pi-user" style="font-size: 24px"></i>
+        <label class="my-account mx-2">My account</label>
+      </span>
+    </div>
     <button
       (click)="onSignOut()"
       pButton

@@ -16,12 +16,17 @@ export class AuthService {
 
   private validateToken() {
     const token = localStorage.getItem('token');
-    if(!token) return false;
+    if (!token) return false;
     return !this.jwtHelperService.isTokenExpired(token);
-  } 
+  }
 
   update() {
     this.isSignedIn$.next(this.validateToken());
   }
 
+  onLoadApplication(): void {
+    const token = localStorage.getItem('token');
+    if (this.jwtHelperService.isTokenExpired(token))
+      localStorage.removeItem('token');
+  }
 }

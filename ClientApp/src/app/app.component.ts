@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { LoaderComponent } from './shared/loader/loader.component';
+import { AuthService } from './core/services/communication/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +8,8 @@ import { LoaderComponent } from './shared/loader/loader.component';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  private authService = inject(AuthService);
+
   private url: string = 'http://localhost:5001';
   public loaderComponent = LoaderComponent;
   filteredUrls: string[] = [
@@ -14,9 +17,13 @@ export class AppComponent {
     `${this.url}/CpuCooler/GetCompatible`,
     `${this.url}/Motherboard/GetCompatible`,
     `${this.url}/Ram/GetCompatible`,
-    `${this.url}/Storage/GetCompatible`,
+    `${this.url}/Storage/GetAll`,
     `${this.url}/Gpu/GetCompatible`,
     `${this.url}/Case/GetCompatible`,
     `${this.url}/PowerSupply/GetCompatible`,
   ]
+
+  ngOnInit(): void {
+    this.authService.onLoadApplication();
+  }
 }

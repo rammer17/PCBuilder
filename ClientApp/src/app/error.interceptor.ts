@@ -20,6 +20,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    console.log('err intercept')
     return next.handle(req).pipe(
       retry(1),
       tap(
@@ -69,7 +70,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                 detail: `Unauthorized`,
                 life: 3000,
               });
-              this.router.navigate(['/home']);
+              this.router.navigate(['/signin']);
             } else {
               this.messageService.add({
                 key: 'tc',

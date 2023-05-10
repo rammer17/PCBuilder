@@ -9,6 +9,7 @@
         <span class="p-input-icon-left my-3">
           <i class="pi pi-user" style="color: #ffea9c"></i>
           <input
+            (keyup.enter)="focusableEmail.focus()"
             formControlName="name"
             pInputText
             type="text"
@@ -22,6 +23,8 @@
         <span class="p-input-icon-left my-3">
           <i class="pi pi-envelope" style="color: #ffea9c"></i>
           <input
+            #focusableEmail
+            (keyup.enter)="focusablePassword.focus()"
             formControlName="email"
             pInputText
             type="email"
@@ -34,6 +37,7 @@
         <span class="p-input-icon-left my-3">
           <i class="pi pi-lock" style="color: #ffea9c"></i>
           <input
+            #focusablePassword
             formControlName="password"
             pInputText
             type="password"
