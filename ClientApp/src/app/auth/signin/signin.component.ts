@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -31,17 +31,16 @@ import { AuthService } from 'src/app/core/services/communication/auth.service';
   styleUrls: ['./signin.component.scss'],
 })
 export class SignInComponent {
+  //* Injecting dependencies
+  private fb: FormBuilder = inject(FormBuilder);
+  private userService: UserService = inject(UserService);
+  private router: Router = inject(Router);
+  private authService: AuthService = inject(AuthService);
+
   signInForm: FormGroup = this.fb.group({
     email: this.fb.control('', [Validators.required]),
     password: this.fb.control('', [Validators.required]),
   });
-
-  constructor(
-    private fb: FormBuilder,
-    private userService: UserService,
-    private router: Router,
-    private authService: AuthService
-  ) {}
 
   onSignIn(): void {
     const body: UserSignInRequest = {

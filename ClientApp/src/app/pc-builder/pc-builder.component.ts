@@ -4,6 +4,7 @@ import {
   QueryList,
   Renderer2,
   ViewChildren,
+  inject,
 } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
@@ -36,6 +37,11 @@ import { TooltipModule } from 'primeng/tooltip';
   styleUrls: ['./pc-builder.component.scss'],
 })
 export class PcBuilderComponent {
+  //* Injecting dependencies
+  private pcComService: PcBuildService = inject(PcBuildService);
+  private fb: FormBuilder = inject(FormBuilder);
+  private renderer: Renderer2 = inject(Renderer2);
+
   @ViewChildren('componentSites') componentSites?: QueryList<ElementRef>;
 
   components = [
@@ -82,12 +88,6 @@ export class PcBuilderComponent {
     caseId: this.fb.control(0, [Validators.required, Validators.min(1)]),
     powerSupplyId: this.fb.control(0, [Validators.required, Validators.min(1)]),
   });
-
-  constructor(
-    private renderer: Renderer2,
-    private pcComService: PcBuildService,
-    private fb: FormBuilder
-  ) {}
 
   onAddComponent(component: string): void {
     const data: PC = {

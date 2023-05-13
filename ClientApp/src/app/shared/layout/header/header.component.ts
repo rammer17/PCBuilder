@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { SharedModule } from '../../shared.module';
 import { AuthService } from 'src/app/core/services/communication/auth.service';
 import { Observable } from 'rxjs';
@@ -13,9 +13,10 @@ import { RippleModule } from 'primeng/ripple';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  isSignedIn$?: Observable<boolean>;
+  //* Injecting dependencies
+  private authService: AuthService = inject(AuthService);
 
-  constructor(private authService: AuthService) {}
+  isSignedIn$?: Observable<boolean>;
 
   ngOnInit(): void {
     this.isSignedIn$ = this.authService.test();

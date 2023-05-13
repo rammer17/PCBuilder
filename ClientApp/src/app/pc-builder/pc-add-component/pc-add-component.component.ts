@@ -7,6 +7,7 @@ import {
   OnInit,
   Output,
   Renderer2,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
@@ -42,6 +43,18 @@ import { SkeletonModule } from 'primeng/skeleton';
 export class PcAddComponentComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
+  //* Injecting dependencies
+  private renderer: Renderer2 = inject(Renderer2);
+  private pcComService: PcBuildService = inject(PcBuildService);
+  private cpuService: CpuService = inject(CpuService);
+  private cpuCoolerService: CpuCoolerService = inject(CpuCoolerService);
+  private motherboardService: MotherboardService = inject(MotherboardService);
+  private ramService: RamService = inject(RamService);
+  private storageService: StorageService = inject(StorageService);
+  private gpuService: GpuService = inject(GpuService);
+  private caseService: CaseService = inject(CaseService);
+  private psuService: PowerSupplyService = inject(PowerSupplyService);
+  
   @Output() addedComponent: EventEmitter<PCComponent> =
     new EventEmitter<PCComponent>();
   @Output() closeAddComponent: EventEmitter<boolean> =
@@ -65,19 +78,6 @@ export class PcAddComponentComponent
     caseId: 0,
     powerSupplyId: 0,
   };
-
-  constructor(
-    private renderer: Renderer2,
-    private cpuService: CpuService,
-    private cpuCoolerService: CpuCoolerService,
-    private motherboardService: MotherboardService,
-    private ramService: RamService,
-    private storageService: StorageService,
-    private gpuService: GpuService,
-    private caseService: CaseService,
-    private psuService: PowerSupplyService,
-    private pcComService: PcBuildService
-  ) {}
 
   ngOnInit(): void {
     this.pcComService.pc.pipe(takeUntil(this.destroy$)).subscribe({
@@ -115,10 +115,8 @@ export class PcAddComponentComponent
       case 'CPU': {
         this.component$ = this.cpuService
           .getCompatible({
-            cpuCoolerId:
-              this.pc.cpuCoolerId ? this.pc.cpuCoolerId : 0,
-            motherboardId:
-              this.pc.motherboardId ? this.pc.motherboardId : 0,
+            cpuCoolerId: this.pc.cpuCoolerId ? this.pc.cpuCoolerId : 0,
+            motherboardId: this.pc.motherboardId ? this.pc.motherboardId : 0,
           })
           .pipe(take(1));
         break;
@@ -144,8 +142,7 @@ export class PcAddComponentComponent
       case 'Memory': {
         this.component$ = this.ramService
           .getCompatible({
-            motherboardId:
-              this.pc.motherboardId ? this.pc.motherboardId : 0,
+            motherboardId: this.pc.motherboardId ? this.pc.motherboardId : 0,
           })
           .pipe(take(1));
         break;
@@ -165,10 +162,8 @@ export class PcAddComponentComponent
       case 'Case': {
         this.component$ = this.caseService
           .getCompatible({
-            motherboardId:
-              this.pc.motherboardId ? this.pc.motherboardId : 0,
-            powerSupplyId:
-              this.pc.powerSupplyId ? this.pc.powerSupplyId : 0,
+            motherboardId: this.pc.motherboardId ? this.pc.motherboardId : 0,
+            powerSupplyId: this.pc.powerSupplyId ? this.pc.powerSupplyId : 0,
             gpuId: this.pc.gpuId ? this.pc.gpuId : 0,
           })
           .pipe(take(1));

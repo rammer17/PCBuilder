@@ -1,17 +1,37 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PcBuilderComponent } from './pc-builder/pc-builder.component';
-import { PcCommunityBuildsComponent } from './pc-community-builds/pc-community-builds.component';
-import { SignUpComponent } from './auth/signup/signup.component';
-import { SignInComponent } from './auth/signin/signin.component';
 import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   { path: '', component: PcBuilderComponent },
-  { path: 'signin', component: SignInComponent, canActivate: [AuthGuard] },
-  { path: 'signup', component: SignUpComponent, canActivate: [AuthGuard] },
+  {
+    path: 'signin',
+    loadComponent: () =>
+      import('./auth/signin/signin.component').then((c) => c.SignInComponent),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'signup',
+    loadComponent: () =>
+      import('./auth/signup/signup.component').then((c) => c.SignUpComponent),
+    canActivate: [AuthGuard],
+  },
   { path: 'builder', component: PcBuilderComponent },
-  { path: 'community', component: PcCommunityBuildsComponent },
+  {
+    path: 'community',
+    loadComponent: () =>
+      import('./pc-community-builds/pc-community-builds.component').then(
+        (c) => c.PcCommunityBuildsComponent
+      ),
+  },
+  {
+    path: 'account',
+    loadComponent: () =>
+      import('./account/account.component').then(
+        (c) => c.AccountComponent
+      ),
+  },
   { path: '**', redirectTo: 'builder', pathMatch: 'full' },
 ];
 

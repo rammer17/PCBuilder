@@ -5,6 +5,7 @@ import {
   Output,
   Renderer2,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
@@ -30,6 +31,9 @@ import { RippleModule } from 'primeng/ripple';
   styleUrls: ['./share-dialog.component.scss'],
 })
 export class ShareDialogComponent {
+  //* Injecting dependencies
+  private renderer: Renderer2 = inject(Renderer2);
+
   @Output() closeShareDialog: EventEmitter<boolean> =
     new EventEmitter<boolean>();
 
@@ -38,8 +42,6 @@ export class ShareDialogComponent {
   visible: boolean = true;
   listenerFn?: () => void;
   buttonLabel: string = 'Copy';
-
-  constructor(private renderer: Renderer2) {}
 
   ngAfterViewInit(): void {
     const closeBtn = document.querySelector(

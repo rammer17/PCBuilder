@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormGroup,
@@ -29,6 +29,10 @@ import { FormValidationComponent } from 'src/app/shared/form-validation/form-val
   styleUrls: ['./signup.component.scss'],
 })
 export class SignUpComponent {
+  //* Injecting dependencies
+  private fb: FormBuilder = inject(FormBuilder);
+  private userService: UserService = inject(UserService);
+
   signUpForm: FormGroup = this.fb.group({
     name: this.fb.control('', [
       Validators.required,
@@ -46,8 +50,6 @@ export class SignUpComponent {
       Validators.maxLength(30),
     ]),
   });
-
-  constructor(private fb: FormBuilder, private userService: UserService) {}
 
   onSignUp(): void {
     const body: UserSignUpRequest = {
