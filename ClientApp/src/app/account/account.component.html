@@ -1,1 +1,13 @@
-<p-tieredMenu [model]="items"></p-tieredMenu>
+<div class="container-xl">
+    <div class="row my-5 text-center">
+        <h1 class="email-heading">example@email.com</h1>
+    </div>
+    <div class="row my-5">
+        <div class="col-3">
+            <p-tieredMenu [model]="items"></p-tieredMenu>
+        </div>
+        <div class="col-9">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

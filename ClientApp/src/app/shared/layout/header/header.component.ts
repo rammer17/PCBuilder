@@ -1,14 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { SharedModule } from '../../shared.module';
 import { AuthService } from 'src/app/core/services/communication/auth.service';
 import { Observable } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [SharedModule, ButtonModule, RippleModule],
+  imports: [ButtonModule, RippleModule, RouterModule, CommonModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })

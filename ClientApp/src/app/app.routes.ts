@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { PcBuilderComponent } from './pc-builder/pc-builder.component';
+import { Route } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
+import { PcBuilderComponent } from './pc-builder/pc-builder.component';
 
-const routes: Routes = [
+export const APP_ROUTES: Route[] = [
   { path: '', component: PcBuilderComponent },
   {
     path: 'signin',
@@ -27,16 +26,8 @@ const routes: Routes = [
   },
   {
     path: 'account',
-    loadComponent: () =>
-      import('./account/account.component').then(
-        (c) => c.AccountComponent
-      ),
+    loadChildren: () =>
+      import('./account/account.routes').then((r) => r.ACCOUNT_ROUTES),
   },
   { path: '**', redirectTo: 'builder', pathMatch: 'full' },
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}
