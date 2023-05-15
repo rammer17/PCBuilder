@@ -1,1 +1,47 @@
-<p>account-info works!</p>
+<div class="container-fluid py-3">
+  <div class="profile-section-wrapper">
+    <h3 class="profile-description-heading py-2">Profile Description</h3>
+    <p class="profile-description-paragraph my-4">
+      You have not entered a profile description yet
+    </p>
+    <div>
+        <textarea pInputTextarea [(ngModel)]="value"></textarea>
+    </div>
+    <button
+      pButton
+      pRipple
+      label="Edit Description"
+      (click)="onEditDescription()"
+      class="p-button-primary"></button>
+  </div>
+
+  <div class="avatar-section-wrapper mt-4">
+    <h3 class="avatar-heading py-2 mb-3">Manage Avatar</h3>
+    <button
+      pButton
+      pRipple
+      label="Change Avatar"
+      (click)="onChangeAvatar()"
+      class="p-button-primary"></button>
+  </div>
+
+  <div class="password-section-wrapper mt-4">
+    <h3 class="password-heading py-2 mb-3">Password</h3>
+    <button
+      pButton
+      pRipple
+      label="Change Password"
+      (click)="onChangePassword()"
+      class="p-button-primary"></button>
+  </div>
+
+  <div class="delete-section-wrapper mt-4">
+    <h3 class="delete-heading py-2 mb-3">Delete Account</h3>
+    <button
+      pButton
+      pRipple
+      label="Delete Account"
+      (click)="onDeleteAccount()"
+      class="p-button-danger mt-3"></button>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+:host::ng-deep {
+    .container-fluid {
+        color: var(--white);
+        background: rgba(6, 6, 6, 0.4);
+        -webkit-box-shadow: 5px 5px 25px 10px rgba(0, 0, 0, 0.6);
+        -moz-box-shadow: 5px 5px 25px 10px rgba(0, 0, 0, 0.6);
+        box-shadow: 5px 5px 25px 10px rgba(0, 0, 0, 0.6);
+    }
+    .profile-description-heading,
+    .avatar-heading,
+    .password-heading,
+    .delete-heading {
+        border-bottom: 2px solid var(--secondary-medium);
+    }
+}

@@ -8,10 +8,10 @@ export const ACCOUNT_ROUTES: Route[] = [
     path: '',
     component: AccountComponent,
     children: [
-      { path: '', redirectTo: 'profile', pathMatch: 'full' },
+      { path: '', redirectTo: 'info', pathMatch: 'full' },
       { path: 'info', component: AccountInfoComponent },
       { path: 'builds', component: AccountBuildsComponent },
-      { path: '**', redirectTo: 'profile', pathMatch: 'full' },
+      { path: '**', redirectTo: 'info', pathMatch: 'full' },
     ],
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },

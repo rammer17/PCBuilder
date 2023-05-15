@@ -1,8 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MenuItem } from 'primeng/api';
 import { TieredMenuModule } from 'primeng/tieredmenu';
-import { Router } from '@angular/router';
 @Component({
   selector: 'app-account',
   standalone: true,
@@ -11,7 +10,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./account.component.scss'],
 })
 export class AccountComponent {
-  private router: Router = inject(Router);
 
   items: MenuItem[] = [
     {
@@ -28,15 +26,4 @@ export class AccountComponent {
       icon: 'pi pi-list',
     },
   ];
-
-  checkActiveState(givenLink: any) {
-    console.log(this.router.url);
-    if (this.router.url.indexOf(givenLink) === -1) {
-      console.log(false);
-      return false;
-    } else {
-      console.log(true);
-      return true;
-    }
-  }
 }

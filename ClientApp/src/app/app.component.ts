@@ -1,7 +1,6 @@
-import { APP_INITIALIZER, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { LoaderComponent } from './shared/loader/loader.component';
 import { AuthService } from './core/services/communication/auth.service';
-import { HttpClientModule } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
 import { PcCommunityBuildsComponent } from './pc-community-builds/pc-community-builds.component';
 import { FooterComponent } from './shared/layout/footer/footer.component';
@@ -18,7 +17,6 @@ import { CommonModule } from '@angular/common';
     RouterModule,
     CommonModule,
     ToastModule,
-    HttpClientModule,
 
     HeaderComponent,
     FooterComponent,
