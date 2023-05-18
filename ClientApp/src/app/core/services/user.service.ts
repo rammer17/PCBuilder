@@ -1,15 +1,27 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { UserSignInRequest, UserSignUpRequest } from '../models/user.model';
+import { Injectable, inject } from '@angular/core';
+import {
+  UserChangeAvatarRequest,
+  UserChangeDescriptionRequest,
+  UserChangePasswordRequest,
+  UserGetInfoResponse,
+  UserSignInRequest,
+  UserSignUpRequest,
+} from '../models/user.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  //* Injecting dependencies
+  private http: HttpClient = inject(HttpClient);
+
   private readonly url = 'http://localhost:5001';
 
-  constructor(private http: HttpClient) {}
+  getInfo(): Observable<UserGetInfoResponse> {
+    return this.http.get<UserGetInfoResponse>(`${this.url}/User/GetInfo`);
+  }
 
   signIn(body: UserSignInRequest): Observable<any> {
     return this.http.post(`${this.url}/User/SignIn`, body, {
@@ -21,10 +33,19 @@ export class UserService {
     return this.http.post<void>(`${this.url}/User/SignUp`, body);
   }
 
-  delete(id: number): Observable<void> {
-    const queryParams = new HttpParams().set('id', id);
-    return this.http.delete<void>(`${this.url}/User/Delete`, {
-      params: queryParams,
-    });
+  changePassword(body: UserChangePasswordRequest): Observable<void> {
+    return this.http.put<void>(`${this.url}/User/ChangePassword`, body);
+  }
+
+  changeAvatar(body: UserChangeAvatarRequest): Observable<void> {
+    return this.http.put<void>(`${this.url}/User/ChangeAvatar`, body);
+  }
+
+  changeDescription(body: UserChangeDescriptionRequest): Observable<void> {
+    return this.http.put<void>(`${this.url}/User/ChangeDescription`, body);
+  }
+
+  delete(): Observable<void> {
+    return this.http.delete<void>(`${this.url}/User/Delete`);
   }
 }

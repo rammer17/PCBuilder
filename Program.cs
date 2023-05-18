@@ -43,6 +43,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 builder.Services.AddCors();
 builder.Services.AddScoped<IIntersectByPropertyService, IntersectByPropertyService>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

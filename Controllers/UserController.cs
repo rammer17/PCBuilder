@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using PCBuilder.Models.DB;
 using PCBuilder.Models.Request;
+using PCBuilder.Models.Response;
+using PCBuilder.Services;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -16,11 +18,30 @@ namespace PCBuilder.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly PCBuilderDbContext _dbContext;
+        private readonly IJwtService _jwtService;
 
-        public UserController(PCBuilderDbContext dbContext, IConfiguration configuration)
+        public UserController(PCBuilderDbContext dbContext, IConfiguration configuration, IJwtService jwtService)
         {
             _configuration = configuration;
             _dbContext = dbContext;
+            _jwtService = jwtService;
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult GetInfo()
+        {
+            var user = _dbContext.Users.FirstOrDefault(x => x.Id == _jwtService.GetUserId(User));
+            if (user is null) return NotFound();
+            var userInfo = new UserGetInfoResponse
+            {
+                Description = user.Description,
+                Email = user.Email,
+                Role = user.Role,
+                FullName = user.FullName
+            };
+
+            return Ok(userInfo);
         }
 
         [HttpPost]
@@ -59,19 +80,61 @@ namespace PCBuilder.Controllers
         }
         [Authorize]
         [HttpDelete]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id = null)
         {
+            if (id == null)
+            {
+                id = _jwtService.GetUserId(User);
+            }
             var userForDeletion = _dbContext.Users.FirstOrDefault(x => x.Id == id);
 
             if(userForDeletion is null) 
                 return BadRequest("User not found");
 
-            _dbContext.Users.Remove(userForDeletion);
+            if (_jwtService.GetUserId(User) == id || _jwtService.GetUserRole(User) == "Admin")
+            {
+                _dbContext.Users.Remove(userForDeletion);
+                _dbContext.SaveChanges();
+            }   
+
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpPut]
+        public ActionResult ChangePassword(UserChangePasswordRequest request)
+        {
+            var user = _dbContext.Users.FirstOrDefault(x => x.Id == _jwtService.GetUserId(User));
+            if (user == null) return BadRequest("Account not found");
+            var newHashedPassword = ComputeSha256Hash(request.NewPassword);
+            if (newHashedPassword == user.Password) return BadRequest("You must enter a password, different from your current one");
+            user.Password = newHashedPassword;
+
+            _dbContext.Users.Update(user);
             _dbContext.SaveChanges();
 
             return Ok();
         }
 
+        [Authorize]
+        [HttpPut]
+        public ActionResult ChangeAvatar(UserChangeAvatarRequest request)
+        {
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpPut]
+        public ActionResult ChangeDescription(UserChangeDescriptionRequest request)
+        {
+            var user = _dbContext.Users.FirstOrDefault(x => x.Id == _jwtService.GetUserId(User));
+            user.Description = request.NewDescription;
+
+            _dbContext.Users.Update(user);
+            _dbContext.SaveChanges();
+
+            return Ok();
+        }
         private string ComputeSha256Hash(string rawData)
         {
             // Create a SHA256   

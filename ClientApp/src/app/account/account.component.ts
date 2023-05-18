@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MenuItem } from 'primeng/api';
 import { TieredMenuModule } from 'primeng/tieredmenu';
+import { AccountStoreService } from '../core/services/communication/account.store.service';
+import { Observable, tap } from 'rxjs';
+import { Account } from '../core/models/user.model';
 @Component({
   selector: 'app-account',
   standalone: true,
@@ -10,6 +13,18 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
   styleUrls: ['./account.component.scss'],
 })
 export class AccountComponent {
+  //* Injecting dependencies
+  private accountStoreService: AccountStoreService =
+    inject(AccountStoreService);
+
+  accountInfo$?: Observable<Account | null>;
+
+  ngOnInit(): void {
+    this.accountInfo$ = this.accountStoreService.accountInfo.pipe(
+      tap((resp) => console.log(resp))
+    );
+    this.accountStoreService.onLoad();
+  }
 
   items: MenuItem[] = [
     {

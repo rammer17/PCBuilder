@@ -3,7 +3,7 @@ import { AuthService } from 'src/app/core/services/communication/auth.service';
 import { Observable } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 export class HeaderComponent implements OnInit {
   //* Injecting dependencies
   private authService: AuthService = inject(AuthService);
+  private router: Router = inject(Router);
 
   isSignedIn$?: Observable<boolean>;
 
@@ -26,5 +27,6 @@ export class HeaderComponent implements OnInit {
   onSignOut(): void {
     localStorage.removeItem('token');
     this.authService.update();
+    this.router.navigateByUrl('/builder')
   }
 }

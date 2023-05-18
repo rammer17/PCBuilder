@@ -24,7 +24,7 @@
           <i class="pi pi-envelope" style="color: #ffea9c"></i>
           <input
             #focusableEmail
-            (keyup.enter)="focusablePassword.focus()"
+            (keyup.enter)="focusableDescription.focus()"
             formControlName="email"
             pInputText
             type="email"
@@ -33,6 +33,20 @@
             [control]="signUpForm.get('email')!"
             [controlName]="'Email'"
             [maxLength]="40"></form-validation>
+        </span>
+        <span class="p-input-icon-left my-3">
+          <i class="pi pi-book" style="color: #ffea9c"></i>
+          <input
+            #focusableDescription
+            (keyup.enter)="focusablePassword.focus()"
+            formControlName="description"
+            pInputText
+            type="text"
+            placeholder="Enter your description"/>
+          <form-validation
+            [control]="signUpForm.get('description')!"
+            [controlName]="'Description'"
+            [maxLength]="300"></form-validation>
         </span>
         <span class="p-input-icon-left my-3">
           <i class="pi pi-lock" style="color: #ffea9c"></i>

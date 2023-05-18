@@ -44,6 +44,10 @@ export class SignUpComponent {
       Validators.email,
       Validators.maxLength(40),
     ]),
+    description: this.fb.control('', [
+      Validators.required,
+      Validators.maxLength(300),
+    ]),
     password: this.fb.control('', [
       Validators.required,
       Validators.minLength(6),
@@ -55,6 +59,7 @@ export class SignUpComponent {
     const body: UserSignUpRequest = {
       fullName: this.signUpForm.get('name')?.value,
       email: this.signUpForm.get('email')?.value,
+      description: this.signUpForm.get('description')?.value,
       password: this.signUpForm.get('password')?.value,
     };
 

@@ -1,11 +1,10 @@
-﻿namespace PCBuilder.Models.Request
+﻿namespace PCBuilder.Models.Response
 {
-    public class UserSignUpRequest
+    public class UserGetInfoResponse
     {
         public string FullName { get; set; }
         public string Email { get; set; }
         public string Description { get; set; }
-        public string Password { get; set; }
         public string Role { get; set; }
     }
 }

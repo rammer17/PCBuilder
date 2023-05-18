@@ -1,37 +1,117 @@
-<div class="container-fluid py-3">
+<div *ngIf="accountInfo$ | async as accountInfo" class="container-fluid py-3">
   <div class="profile-section-wrapper">
     <h3 class="profile-description-heading py-2">Profile Description</h3>
-    <p class="profile-description-paragraph my-4">
-      You have not entered a profile description yet
-    </p>
-    <div>
-        <textarea pInputTextarea [(ngModel)]="value"></textarea>
-    </div>
+
+    <ng-container *ngIf="!isDescInputVisible">
+      <p class="profile-description-paragraph my-4">
+        <!-- You have not entered a profile description yet -->
+        {{
+          accountInfo.description ||
+            'You have not entered a profile description yet'
+        }}
+      </p>
+    </ng-container>
+
+    <ng-container *ngIf="isDescInputVisible">
+      <form [formGroup]="descriptionForm" class="py-3">
+        <textarea
+          #descInput
+          formControlName="description"
+          maxlength="300"
+          pInputTextarea
+          [(ngModel)]="descValue"></textarea>
+      </form>
+      <button
+        [disabled]="!descriptionForm.valid"
+        pButton
+        pRipple
+        class="p-button-success me-3"
+        label="Save"
+        (click)="onSaveDescription()"></button>
+      <button
+        pButton
+        pRipple
+        class="p-button-danger"
+        label="Discard"
+        (click)="onToggleDescriptionEdit()"></button>
+    </ng-container>
+
     <button
+      *ngIf="!isDescInputVisible"
       pButton
       pRipple
       label="Edit Description"
-      (click)="onEditDescription()"
+      (click)="onToggleDescriptionEdit()"
       class="p-button-primary"></button>
   </div>
 
   <div class="avatar-section-wrapper mt-4">
     <h3 class="avatar-heading py-2 mb-3">Manage Avatar</h3>
+
+    <ng-container *ngIf="isAvatarVisible">
+      <div class="img-wrapper">
+        <img src="../../../assets/img.png" alt="Not Found" />
+      </div>
+      <input
+        #avatarInput
+        type="file"
+        class="avatar-input"
+        (change)="onUploadAvatar()" />
+      <button
+        pButton
+        pRipple
+        class="p-button-success me-3"
+        label="Upload"
+        (click)="avatarInput.click()"></button>
+      <button
+        pButton
+        pRipple
+        class="p-button-danger"
+        label="Discard"
+        (click)="onToggleAvatarEdit()"></button>
+    </ng-container>
+
     <button
+      *ngIf="!isAvatarVisible"
       pButton
       pRipple
-      label="Change Avatar"
-      (click)="onChangeAvatar()"
+      label="Add Avatar"
+      (click)="onToggleAvatarEdit()"
       class="p-button-primary"></button>
   </div>
 
   <div class="password-section-wrapper mt-4">
     <h3 class="password-heading py-2 mb-3">Password</h3>
+
+    <ng-container *ngIf="isPasswordVisible">
+      <form [formGroup]="passwordForm">
+        <p-password
+          [toggleMask]="true"
+          [feedback]="false"
+          formControlName="password"
+          class="d-block mb-3"></p-password>
+      </form>
+      <button
+        [disabled]="!passwordForm.valid"
+        pButton
+        pRipple
+        class="p-button-success me-3"
+        label="Confirm"
+        (click)="onChangePassword()"></button>
+      <button
+        pButton
+        pRipple
+        class="p-button-danger"
+        label="Discard"
+        (click)="onTogglePasswordEdit()"></button>
+    </ng-container>
+
     <button
+      *ngIf="!isPasswordVisible"
       pButton
       pRipple
       label="Change Password"
-      (click)="onChangePassword()"
+      (click)="onTogglePasswordEdit()"
       class="p-button-primary"></button>
   </div>
 
