@@ -88,7 +88,6 @@ export class AccountInfoComponent {
     const body: UserChangePasswordRequest = {
       newPassword: this.passwordForm.get('password')?.value,
     };
-    console.log(this.passwordForm.value, body);
     this.userService
       .changePassword(body)
       .pipe(takeUntil(this.destroy$))

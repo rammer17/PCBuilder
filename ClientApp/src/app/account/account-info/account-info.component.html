@@ -3,8 +3,7 @@
     <h3 class="profile-description-heading py-2">Profile Description</h3>
 
     <ng-container *ngIf="!isDescInputVisible">
-      <p class="profile-description-paragraph my-4">
-        <!-- You have not entered a profile description yet -->
+      <p class="profile-description-paragraph my-4">civore5735@peogi.com
         {{
           accountInfo.description ||
             'You have not entered a profile description yet'
@@ -19,7 +18,7 @@
           formControlName="description"
           maxlength="300"
           pInputTextarea
-          [(ngModel)]="descValue"></textarea>
+          [value]="accountInfo.description"></textarea>
       </form>
       <button
         [disabled]="!descriptionForm.valid"

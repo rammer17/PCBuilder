@@ -21,12 +21,12 @@ export class AccountStoreService {
   }
 
   get accountInfo(): Observable<Account | null> {
+    console.log(this.accountData$.value)
     return this.accountData$.asObservable();
   }
 
   update(newData: Account | null): void {
     if (newData !== null) {
-      console.log({ ...this.accountData$.value, ...{ fullName: 'gergi' } });
       this.accountData$.next({ ...this.accountData$.value, ...newData });
     }
     this.accountData$.next(newData);

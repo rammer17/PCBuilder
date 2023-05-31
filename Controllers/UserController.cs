@@ -71,7 +71,8 @@ namespace PCBuilder.Controllers
                 FullName = request.FullName,
                 Email = request.Email,
                 Password = ComputeSha256Hash(request.Password),
-                Role = request.Role
+                Description = request.Description,
+                Role = "Admin"
             };
             _dbContext.Users.Add(newUser);
             _dbContext.SaveChanges();

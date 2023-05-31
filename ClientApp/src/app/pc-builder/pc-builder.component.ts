@@ -19,6 +19,7 @@ import { ShareDialogComponent } from './share-dialog/share-dialog.component';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { TooltipModule } from 'primeng/tooltip';
+import { ImgbbUploadService } from '../core/services/imgbb-upload.service';
 
 @Component({
   selector: 'app-pc-builder',
@@ -41,6 +42,7 @@ export class PcBuilderComponent {
   private pcComService: PcBuildService = inject(PcBuildService);
   private fb: FormBuilder = inject(FormBuilder);
   private renderer: Renderer2 = inject(Renderer2);
+  private imgbbUploadService = inject(ImgbbUploadService);
 
   @ViewChildren('componentSites') componentSites?: QueryList<ElementRef>;
 
@@ -233,5 +235,10 @@ export class PcBuilderComponent {
           (string, word) => string + word[0].toUpperCase() + word.slice(1)
         ) + 'Id'
     );
+  }
+
+  test(e: any) {
+    console.log('event handler...')
+    this.imgbbUploadService.upload(e.target.files[0]).subscribe(resp => console.log(resp))
   }
 }
