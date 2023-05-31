@@ -2,5 +2,6 @@
 {
     public class UserChangeAvatarRequest
     {
+        public string ImageUrl { get; set; }
     }
 }

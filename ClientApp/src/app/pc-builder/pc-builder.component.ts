@@ -20,6 +20,7 @@ import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { TooltipModule } from 'primeng/tooltip';
 import { ImgbbUploadService } from '../core/services/imgbb-upload.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-pc-builder',
@@ -238,7 +239,9 @@ export class PcBuilderComponent {
   }
 
   test(e: any) {
-    console.log('event handler...')
-    this.imgbbUploadService.upload(e.target.files[0]).subscribe(resp => console.log(resp))
+    this.imgbbUploadService
+      .upload(e.target.files[0])
+      .pipe(tap((resp) => console.log("tap ", resp)))
+      .subscribe((resp) => console.log(resp));
   }
 }

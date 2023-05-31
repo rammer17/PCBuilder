@@ -12,9 +12,10 @@ import {
 } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 import { UserService } from 'src/app/core/services/user.service';
-import { Observable, ReplaySubject, takeUntil } from 'rxjs';
+import { Observable, ReplaySubject, switchMap, takeUntil, tap } from 'rxjs';
 import {
   Account,
+  UserChangeAvatarRequest,
   UserChangeDescriptionRequest,
   UserChangePasswordRequest,
 } from 'src/app/core/models/user.model';
@@ -22,6 +23,7 @@ import { MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/core/services/communication/auth.service';
 import { Router } from '@angular/router';
 import { AccountStoreService } from 'src/app/core/services/communication/account.store.service';
+import { ImgbbUploadService } from 'src/app/core/services/imgbb-upload.service';
 
 @Component({
   selector: 'app-account-info',
@@ -47,6 +49,7 @@ export class AccountInfoComponent {
   private router: Router = inject(Router);
   private accountStoreService: AccountStoreService =
     inject(AccountStoreService);
+  private imgUploadService: ImgbbUploadService = inject(ImgbbUploadService);
 
   @ViewChild('descInput') descInput?: ElementRef;
   @ViewChild('avatarInput') avatarInput?: ElementRef;
@@ -147,8 +150,24 @@ export class AccountInfoComponent {
       });
   }
   onUploadAvatar(): void {
-    const newAvatar = this.avatarInput?.nativeElement.files[0];
-    console.log(newAvatar);
+    const file = this.avatarInput?.nativeElement.files[0];
+    this.imgUploadService
+      .upload(file)
+      .pipe(
+        tap((resp: string) => {
+          this.accountStoreService.update({
+            imageUrl: resp,
+          });
+        }),
+        switchMap((imgUrl: string) => {
+          const body: UserChangeAvatarRequest = {
+            imageUrl: imgUrl,
+          };
+          return this.userService.changeAvatar(body);
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
   ngOnDestroy(): void {

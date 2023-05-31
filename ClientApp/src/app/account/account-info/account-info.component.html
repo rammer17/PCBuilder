@@ -3,7 +3,7 @@
     <h3 class="profile-description-heading py-2">Profile Description</h3>
 
     <ng-container *ngIf="!isDescInputVisible">
-      <p class="profile-description-paragraph my-4">civore5735@peogi.com
+      <p class="profile-description-paragraph my-4">
         {{
           accountInfo.description ||
             'You have not entered a profile description yet'
@@ -48,8 +48,8 @@
     <h3 class="avatar-heading py-2 mb-3">Manage Avatar</h3>
 
     <ng-container *ngIf="isAvatarVisible">
-      <div class="img-wrapper">
-        <img src="../../../assets/img.png" alt="Not Found" />
+      <div class="img-wrapper ms-3 mb-3">
+        <img [src]="accountInfo.imageUrl || 'https://ibb.co/pzRF2mv'" alt="Not Found" />
       </div>
       <input
         #avatarInput

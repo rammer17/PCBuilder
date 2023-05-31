@@ -36,6 +36,7 @@ namespace PCBuilder.Controllers
             var userInfo = new UserGetInfoResponse
             {
                 Description = user.Description,
+                ImageUrl = user.ImageUrl,
                 Email = user.Email,
                 Role = user.Role,
                 FullName = user.FullName
@@ -72,6 +73,7 @@ namespace PCBuilder.Controllers
                 Email = request.Email,
                 Password = ComputeSha256Hash(request.Password),
                 Description = request.Description,
+                ImageUrl = request.ImageUrl,
                 Role = "Admin"
             };
             _dbContext.Users.Add(newUser);
@@ -121,6 +123,15 @@ namespace PCBuilder.Controllers
         [HttpPut]
         public ActionResult ChangeAvatar(UserChangeAvatarRequest request)
         {
+            var user = _dbContext.Users.FirstOrDefault(x => x.Id == _jwtService.GetUserId(User));
+            if(user is null)
+            {
+                return BadRequest("Account not found");
+            }
+            user.ImageUrl = request.ImageUrl;
+            _dbContext.Users.Update(user);
+            _dbContext.SaveChanges();
+
             return Ok();
         }
 

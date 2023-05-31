@@ -2,6 +2,7 @@ export type UserGetInfoResponse = {
   fullName: string;
   email: string;
   description: string;
+  imageUrl: string
   role: string;
 };
 export type UserSignUpRequest = {
@@ -17,7 +18,7 @@ export type UserSignInRequest = {
 };
 
 export type UserChangeAvatarRequest = {
-  newAvatar: string;
+  imageUrl: string;
 };
 
 export type UserChangeDescriptionRequest = {
@@ -32,5 +33,6 @@ export type Account = {
   fullName?: string;
   email?: string;
   description?: string;
+  imageUrl?: string;
   role?: string;
 };

@@ -9,6 +9,7 @@
         public int Threads { get; set; }
         public double BaseClock { get; set; }
         public double MaxBoostClock { get; set; }
+        public string ImageUrl { get; set; }
         // 1:n relationship with Socket
         public Socket Socket { get; set; }
         // n:n relationship with Motherboard

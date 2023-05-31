@@ -20,9 +20,7 @@ export class AccountComponent {
   accountInfo$?: Observable<Account | null>;
 
   ngOnInit(): void {
-    this.accountInfo$ = this.accountStoreService.accountInfo.pipe(
-      tap((resp) => console.log(resp))
-    );
+    this.accountInfo$ = this.accountStoreService.accountInfo;
     this.accountStoreService.onLoad();
   }
 

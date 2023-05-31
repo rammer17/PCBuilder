@@ -11,6 +11,7 @@ namespace PCBuilder.Models.Response
         public int Threads { get; set; }
         public double BaseClock { get; set; }
         public double MaxBoostClock { get; set; }
+        public string ImageUrl { get; set; }
         public string Socket { get; set; }
     }
 }
