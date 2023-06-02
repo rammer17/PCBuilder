@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MenuItem } from 'primeng/api';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { AccountStoreService } from '../core/services/communication/account.store.service';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Account } from '../core/models/user.model';
 @Component({
   selector: 'app-account',
@@ -37,6 +37,11 @@ export class AccountComponent {
       label: 'Personal Builds',
       routerLink: 'builds',
       icon: 'pi pi-list',
+    },
+    {
+      label: 'Admin Panel',
+      routerLink: '/admin',
+      icon: 'pi pi-user-plus',
     },
   ];
 }

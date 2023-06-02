@@ -7,6 +7,7 @@ import { FooterComponent } from './shared/layout/footer/footer.component';
 import { HeaderComponent } from './shared/layout/header/header.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AccountStoreService } from './core/services/communication/account.store.service';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,8 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent {
   private authService = inject(AuthService);
+  private accountStoreService = inject(AccountStoreService);
+
 
   private url: string = 'http://localhost:5001';
   public loaderComponent = LoaderComponent;
@@ -42,5 +45,6 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.authService.onLoadApplication();
+    this.accountStoreService.onLoad();
   }
 }

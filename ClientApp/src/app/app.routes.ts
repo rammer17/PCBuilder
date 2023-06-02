@@ -29,5 +29,10 @@ export const APP_ROUTES: Route[] = [
     loadChildren: () =>
       import('./account/account.routes').then((r) => r.ACCOUNT_ROUTES),
   },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./admin/admin.routes').then((r) => r.ADMIN_ROUTES),
+  },
   { path: '**', redirectTo: 'builder', pathMatch: 'full' },
 ];

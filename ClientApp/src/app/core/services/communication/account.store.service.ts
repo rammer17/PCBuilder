@@ -45,4 +45,8 @@ export class AccountStoreService {
       this.firstTimeLoading = false;
     }
   }
+
+  isAdmin(): boolean {
+    return this.accountData$.value?.role === 'Admin' ? true : false;
+  }
 }
