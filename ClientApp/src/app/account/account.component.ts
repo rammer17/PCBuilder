@@ -39,9 +39,27 @@ export class AccountComponent {
       icon: 'pi pi-list',
     },
     {
+      separator: true,
+    },
+    {
       label: 'Admin Panel',
-      routerLink: '/admin',
+      routerLink: '',
       icon: 'pi pi-user-plus',
+      items: [
+        {
+          label: 'Users',
+          routerLink: '/admin/users',
+          icon: 'pi pi-users',
+        },
+        {
+          separator: true,
+        },
+        {
+          label: 'Components',
+          routerLink: '/admin/components',
+          icon: 'pi pi-list',
+        },
+      ],
     },
   ];
 }

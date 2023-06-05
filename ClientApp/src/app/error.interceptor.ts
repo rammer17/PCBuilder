@@ -11,7 +11,7 @@ import { MessageService } from 'primeng/api';
 import { Observable, retry, tap } from 'rxjs';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(private router: Router, private messageService: MessageService) {}
@@ -20,13 +20,14 @@ export class ErrorInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log('err intercept')
+    console.log('err intercept');
     return next.handle(req).pipe(
       retry(1),
       tap(
         (event: HttpEvent<any>) => event,
         (error: any) => {
           if (error instanceof HttpErrorResponse) {
+            console.log(error)
             if (error.status === 403) {
               this.messageService.add({
                 key: 'tc',
@@ -71,6 +72,14 @@ export class ErrorInterceptor implements HttpInterceptor {
                 life: 3000,
               });
               this.router.navigate(['/signin']);
+            } else if (error.status === 500) {
+              this.messageService.add({
+                key: 'tc',
+                severity: 'error',
+                summary: 'Error',
+                detail: `Unauthorized`,
+                life: 3000,
+              });
             } else {
               this.messageService.add({
                 key: 'tc',

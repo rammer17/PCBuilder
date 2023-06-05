@@ -18,16 +18,33 @@
   .p-tieredmenu .p-menuitem-link .p-menuitem-icon,
   .p-tieredmenu .p-menuitem-link:not(.p-disabled):hover .p-menuitem-icon,
   .p-tieredmenu .p-menuitem-link:not(.p-disabled):focus .p-menuitem-text,
-  .p-tieredmenu .p-menuitem-link:not(.p-disabled):hover .p-menuitem-text {
+  .p-tieredmenu .p-menuitem-link:not(.p-disabled):hover .p-menuitem-text,
+  .p-tieredmenu
+    .p-menuitem.p-menuitem-active
+    > .p-menuitem-link
+    .p-menuitem-icon,
+  .p-tieredmenu
+    .p-menuitem.p-menuitem-active
+    > .p-menuitem-link
+    .p-submenu-icon,
+  .p-tieredmenu .p-menuitem-link .p-submenu-icon {
     color: var(--secondary-dark);
   }
-  .p-tieredmenu .p-menuitem-link .p-menuitem-text {
+  .p-tieredmenu .p-menuitem-link .p-menuitem-text,
+  .p-tieredmenu
+    .p-menuitem.p-menuitem-active
+    > .p-menuitem-link
+    .p-menuitem-text {
     color: var(--white);
   }
   .email-heading {
-  color: var(--secondary-dark);
+    color: var(--secondary-dark);
   }
   .test {
     color: red !important;
+  }
+  .p-tieredmenu .p-submenu-list,
+  .p-tieredmenu .p-menuitem.p-menuitem-active > .p-menuitem-link {
+    background: var(--primary-dark);
   }
 }
