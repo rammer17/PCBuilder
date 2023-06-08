@@ -56,7 +56,7 @@ export class AccountComponent {
         },
         {
           label: 'Components',
-          routerLink: '/admin/components',
+          routerLink: '/components',
           icon: 'pi pi-list',
         },
       ],

@@ -15,6 +15,7 @@ import { UserSignInRequest } from 'src/app/core/models/user.model';
 import { Router } from '@angular/router';
 import { FormValidationComponent } from 'src/app/shared/form-validation/form-validation.component';
 import { AuthService } from 'src/app/core/services/communication/auth.service';
+import { AccountStoreService } from 'src/app/core/services/communication/account.store.service';
 
 @Component({
   selector: 'app-signin',
@@ -36,6 +37,7 @@ export class SignInComponent {
   private userService: UserService = inject(UserService);
   private router: Router = inject(Router);
   private authService: AuthService = inject(AuthService);
+  private accountStoreService: AccountStoreService = inject(AccountStoreService);
 
   signInForm: FormGroup = this.fb.group({
     email: this.fb.control('', [Validators.required]),
@@ -58,6 +60,7 @@ export class SignInComponent {
         complete: () => {
           this.signInForm.reset();
           this.authService.update();
+          this.accountStoreService.onLoad(true);
           this.router.navigateByUrl('/builder');
         },
       });

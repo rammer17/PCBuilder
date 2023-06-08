@@ -32,8 +32,8 @@ export class AccountStoreService {
     this.accountData$.next(newData);
   }
 
-  onLoad(): void {
-    if (this.firstTimeLoading) {
+  onLoad(forceLoad?: boolean): void {
+    if (this.firstTimeLoading || forceLoad) {
       this.userService
         .getInfo()
         .pipe(take(1))

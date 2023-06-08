@@ -34,5 +34,10 @@ export const APP_ROUTES: Route[] = [
     loadChildren: () =>
       import('./admin/admin.routes').then((r) => r.ADMIN_ROUTES),
   },
+  {
+    path: 'components',
+    loadChildren: () =>
+      import('./pc-parts/pc-parts.routes').then((r) => r.PC_PARTS_ROUTES),
+  },
   { path: '**', redirectTo: 'builder', pathMatch: 'full' },
 ];
