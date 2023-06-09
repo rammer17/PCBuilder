@@ -1,0 +1,41 @@
+:host::ng-deep {
+  .wrapper {
+    background: var(--primary-dark);
+    color: var(--white);
+  }
+  form {
+    width: fit-content;
+    background-color: var(--primary-medium);
+  }
+  .input-wrapper {
+    width: 100%;
+    input,
+    select {
+      height: 48px;
+      background: var(--input-idle);
+      border-radius: 8px;
+      border: 2px solid var(--input-border);
+      outline: none;
+      transition: 0.1s;
+      color: var(--white);
+      padding: 6px;
+    }
+    input:focus,
+    select:focus {
+      background: var(--input-focus);
+      border-color: var(--secondary-medium);
+    }
+    input.ng-valid:not(:focus),
+    select.ng-valid:not(:focus) {
+      border-color: var(--success);
+    }
+  }
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .number {
+    
+  }
+}

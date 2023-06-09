@@ -27,6 +27,7 @@ namespace PCBuilder.Controllers
                 Id = x.Id,
                 Manufacturer = x.Manufacturer,
                 Model = x.Model,
+                ImageUrl = x.ImageUrl,
                 Type = x.Type,
                 Capacity = x.Capacity,
                 FormFactor = x.FormFactor,
@@ -57,6 +58,7 @@ namespace PCBuilder.Controllers
             {
                 Manufacturer = request.Manufacturer,
                 Model = request.Model,
+                ImageUrl = request.ImageUrl,
                 Type = request.Type,
                 Capacity = request.Capacity,
                 FormFactor = request.FormFactor,

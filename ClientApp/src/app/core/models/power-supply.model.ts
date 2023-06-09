@@ -4,6 +4,7 @@ export type PowerSupplyGetResponse = {
   id: number;
   manufacturer: string;
   model: string;
+  imageUrl: string;
   type: string;
   efficiencyRating: string;
   formFactor: string;
@@ -18,6 +19,7 @@ export type PowerSupplyGetCompatibleRequest = {
 export type PowerSupplyAddRequest = {
   manufacturer: string;
   model: string;
+  imageUrl: string;
   type: string;
   efficiencyRating: string;
   formFactor: string;

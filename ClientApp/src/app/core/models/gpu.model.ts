@@ -2,6 +2,7 @@ export type GpuGetResponse = {
   id: number;
   manufacturer: string;
   model: string;
+  imageUrl: string;
   baseClock: number;
   maxBoostClock: number;
   memorySize: number;
@@ -19,6 +20,7 @@ export type GpuGetCompatibleRequest = {
 export type GpuAddRequest = {
   manufacturer: string;
   model: string;
+  imageUrl: string;
   baseClock: number;
   maxBoostClock: number;
   memorySize: number;

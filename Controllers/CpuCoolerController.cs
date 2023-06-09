@@ -27,6 +27,7 @@ namespace PCBuilder.Controllers
             {
                 Id = x.Id,
                 Manufacturer = x.Manufacturer,
+                ImageUrl = x.ImageUrl,
                 Model = x.Model,
                 Type = x.Type,
                 TDP = x.TDP,
@@ -62,6 +63,7 @@ namespace PCBuilder.Controllers
                     Id = x.Id,
                     Manufacturer = x.Manufacturer,
                     Model = x.Model,
+                    ImageUrl = x.ImageUrl,
                     Type = x.Type,
                     TDP = x.TDP,
                     NoiseLevel = x.NoiseLevel,
@@ -75,6 +77,7 @@ namespace PCBuilder.Controllers
                     Id = x.Id,
                     Manufacturer = x.Manufacturer,
                     Model = x.Model,
+                    ImageUrl = x.ImageUrl,
                     Type = x.Type,
                     TDP = x.TDP,
                     NoiseLevel = x.NoiseLevel,
@@ -93,6 +96,7 @@ namespace PCBuilder.Controllers
             {
                 Manufacturer = request.Manufacturer,
                 Model = request.Model,
+                ImageUrl = request.ImageUrl,
                 Type = request.Type,
                 TDP = request.TDP,
                 NoiseLevel = request.NoiseLevel,

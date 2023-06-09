@@ -2,11 +2,12 @@ export type CpuGetResponse = {
   id: number;
   manufacturer: string;
   model: string;
-  cores?: number;
-  threads?: number;
-  baseClock?: number;
-  maxBoostClock?: number;
-  socket?: string;
+  imageUrl: string;
+  cores: number;
+  threads: number;
+  baseClock: number;
+  maxBoostClock: number;
+  socket: string;
 };
 
 export type CpuGetCompatibleRequest = {
@@ -17,9 +18,10 @@ export type CpuGetCompatibleRequest = {
 export type CpuAddRequest = {
   manufacturer: string;
   model: string;
+  imageUrl: string;
   cores: number;
   threads: number;
   baseClock: number;
   maxBoostClock: number;
-  socket: string;
+  socketId: number;
 };

@@ -31,7 +31,10 @@
     transform-origin: bottom right;
     transition: transform 0.2s ease-in-out;
   }
-  .row {
-    background-color: rgba(0, 0, 0, 0.549);
+  .row:first-of-type {
+    background-color: rgba(0, 0, 0, 0.6);
+    -webkit-box-shadow: 5px 5px 25px 10px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 5px 5px 25px 10px rgba(0, 0, 0, 0.6);
+    box-shadow: 5px 5px 25px 10px rgba(0, 0, 0, 0.6);
   }
 }

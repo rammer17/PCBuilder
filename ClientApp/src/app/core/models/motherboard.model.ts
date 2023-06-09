@@ -2,6 +2,7 @@ export type MotherboardGetResponse = {
   id: number;
   manufacturer: string;
   model: string;
+  imageUrl: string;
   formFactor: string;
   socket: number;
   chipset: number;
@@ -20,9 +21,10 @@ export type MotherboardGetCompatibleRequest = {
 export type MotherboardAddRequest = {
   manufacturer: string;
   model: string;
+  imageUrl: string;
   formFactor: string;
-  socket: number;
-  chipset: number;
+  socketId: number;
+  chipsetId: number;
   memorySlots: number;
   memoryType: string;
   memorySpeed: number;

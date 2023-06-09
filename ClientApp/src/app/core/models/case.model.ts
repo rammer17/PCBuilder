@@ -2,6 +2,7 @@ export type CaseGetResponse = {
   id: number;
   manufacturer: string;
   model: string;
+  imageUrl: string;
   type: string;
   formFactor: string;
   maxGpuHeight: number;
@@ -17,6 +18,7 @@ export type CaseGetCompatibleRequest = {
 export type CaseAddRequest = {
   manufacturer: string;
   model: string;
+  imageUrl: string;
   type: string;
   formFactor: string;
   maxGpuHeight: number;

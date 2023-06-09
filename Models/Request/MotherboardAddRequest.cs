@@ -4,6 +4,7 @@
     {
         public string Manufacturer { get; set; }
         public string Model { get; set; }
+        public string ImageUrl { get; set; }
         public string FormFactor { get; set; }
         public int SocketId { get; set; }
         public int ChipsetId { get; set; }

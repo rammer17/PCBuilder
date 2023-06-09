@@ -2,6 +2,7 @@ export type RamGetResponse = {
   id: number;
   manufacturer: string;
   model: string;
+  imageUrl: string;
   capacity: number;
   frequency: number;
   type: string;
@@ -15,6 +16,7 @@ export type RamGetCompatibleRequest = {
 export type RamAddRequest = {
   manufacturer: string;
   model: string;
+  imageUrl: string;
   capacity: number;
   frequency: number;
   type: string;

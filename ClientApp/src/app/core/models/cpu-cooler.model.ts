@@ -1,12 +1,14 @@
+
 export type CpuCoolerGetResponse = {
   id: number;
   manufacturer: string;
   model: string;
-  type?: string;
-  tdp?: number;
-  sockets?: string[];
-  maxRPM?: number;
-  noiseLevel?: number;
+  imageUrl: string;
+  type: string;
+  tdp: number;
+  sockets: string[];
+  maxRPM: number;
+  noiseLevel: number;
 };
 
 export type CpuCoolerGetCompatibleRequest = {
@@ -16,6 +18,7 @@ export type CpuCoolerGetCompatibleRequest = {
 export type CpuCoolerAddRequest = {
   manufacturer: string;
   model: string;
+  imageUrl: string;
   type: string;
   tdp: number;
   socketIds: number[];

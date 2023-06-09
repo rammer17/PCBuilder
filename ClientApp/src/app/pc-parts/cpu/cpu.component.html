@@ -1,1 +1,55 @@
-<p>cpu works!</p>
+<div class="wrapper d-flex justify-content-center align-items-center">
+  <form [formGroup]="cpuForm!">
+    <h1 class="text-center my-4">Create CPU</h1>
+
+    <div class="d-flex justify-content-between">
+      <div class="input-wrapper d-flex flex-column px-3">
+        <span class="my-2">Manufacturer</span>
+        <select formControlName="manufacturer">
+          <option value="" disabled selected hidden>Please Choose...</option>
+          <option value="AMD">AMD</option>
+          <option value="Intel">Intel</option>
+        </select>
+      </div>
+
+      <div class="input-wrapper d-flex flex-column px-3">
+        <span class="my-2">Model</span>
+        <input formControlName="model" type="text" />
+      </div>
+
+      <div class="input-wrapper d-flex flex-column px-3">
+        <span class="my-2">Socket</span>
+        <select formControlName="manufacturer">
+          <option value="" disabled selected hidden>Please Choose...</option>
+          <option value="AM5">AM5</option>
+          <option value="AM4">AM4</option>
+          <option value="LGA1700">LGA1700</option>
+        </select>
+      </div>
+    </div>
+
+    <div formGroupName="cpu" class="cpu-form-specific-inputs">
+      <div class="d-flex justify-content-between">
+        <div class="input-wrapper number d-flex flex-column px-3">
+          <span class="my-2">Cores</span>
+          <input formControlName="cores" type="number" />
+        </div>
+
+        <div class="input-wrapper number d-flex flex-column px-3">
+          <span class="my-2">Threads</span>
+          <input formControlName="threads" type="number" />
+        </div>
+
+        <div class="input-wrapper number d-flex flex-column px-3">
+          <span class="my-2">Base Clock</span>
+          <input formControlName="baseClock" type="number" />
+        </div>
+
+        <div class="input-wrapper number d-flex flex-column px-3">
+          <span class="my-2">Max Boost Clock</span>
+          <input formControlName="maxBoostClock" type="number" />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

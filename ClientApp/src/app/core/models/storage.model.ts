@@ -2,6 +2,7 @@ export type StorageGetResponse = {
   id: number;
   manufacturer: string;
   model: string;
+  imageUrl: string;
   type: string;
   capacity: number;
   formFactor: string;
@@ -13,6 +14,7 @@ export type StorageGetResponse = {
 export type StorageAddRequest = {
   manufacturer: string;
   model: string;
+  imageUrl: string;
   type: string;
   capacity: number;
   formFactor: string;

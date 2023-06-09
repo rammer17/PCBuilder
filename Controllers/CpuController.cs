@@ -29,11 +29,11 @@ namespace PCBuilder.Controllers
                 Id = x.Id,
                 Manufacturer = x.Manufacturer,
                 Model = x.Model,
+                ImageUrl = x.ImageUrl,
                 Cores = x.Cores,
                 Threads = x.Threads,
                 BaseClock = x.BaseClock,
                 MaxBoostClock = x.MaxBoostClock,
-                ImageUrl = x.ImageUrl,
                 Socket = x.Socket.Name
             }).ToList();
 
@@ -65,11 +65,11 @@ namespace PCBuilder.Controllers
                     Id = x.Id,
                     Manufacturer = x.Manufacturer,
                     Model = x.Model,
+                    ImageUrl = x.ImageUrl,
                     Cores = x.Cores,
                     Threads = x.Threads,
                     BaseClock = x.BaseClock,
                     MaxBoostClock = x.MaxBoostClock,
-                    ImageUrl = x.ImageUrl,
                     Socket = x.Socket.Name,
                 }).ToList();
             }
@@ -85,11 +85,11 @@ namespace PCBuilder.Controllers
                     Id = x.Id,
                     Manufacturer = x.Manufacturer,
                     Model = x.Model,
+                    ImageUrl = x.ImageUrl,
                     Cores = x.Cores,
                     Threads = x.Threads,
                     BaseClock = x.BaseClock,
                     MaxBoostClock = x.MaxBoostClock,
-                    ImageUrl = x.ImageUrl,
                     Socket = x.Socket.Name,
                 }).ToList();
             }
@@ -102,11 +102,11 @@ namespace PCBuilder.Controllers
                     Id = x.Id,
                     Manufacturer = x.Manufacturer,
                     Model = x.Model,
+                    ImageUrl = x.ImageUrl,
                     Cores = x.Cores,
                     Threads = x.Threads,
                     BaseClock = x.BaseClock,
                     MaxBoostClock = x.MaxBoostClock,
-                    ImageUrl = x.ImageUrl,
                     Socket = x.Socket.Name,
                 }).ToList();
             }
@@ -125,11 +125,11 @@ namespace PCBuilder.Controllers
             {
                 Manufacturer = request.Manufacturer,
                 Model = request.Model,
+                ImageUrl = request.ImageUrl,
                 Cores = request.Cores,
                 Threads = request.Threads,
                 BaseClock = request.BaseClock,
                 MaxBoostClock = request.MaxBoostClock,
-                ImageUrl = request.ImageUrl,
                 Socket = _dbContext.Sockets.FirstOrDefault(x => x.Id == request.SocketId),
                 CompatibleMotherboards = new List<Motherboard>()
             };
