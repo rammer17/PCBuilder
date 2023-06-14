@@ -8,7 +8,8 @@
   font-family: 'Rubik', sans-serif;
 }
 
-.p-button-primary {
+.p-button-primary,
+.p-button:enabled:active {
   background: var(--secondary-medium);
   border: 2px solid var(--secondary-dark);
   color: var(--black);

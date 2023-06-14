@@ -1,5 +1,5 @@
 <div class="wrapper d-flex justify-content-center align-items-center">
-  <form [formGroup]="cpuForm!">
+  <form [formGroup]="cpuForm!" class="p-4 my-5">
     <h1 class="text-center my-4">Create CPU</h1>
 
     <div class="d-flex justify-content-between">
@@ -15,16 +15,6 @@
       <div class="input-wrapper d-flex flex-column px-3">
         <span class="my-2">Model</span>
         <input formControlName="model" type="text" />
-      </div>
-
-      <div class="input-wrapper d-flex flex-column px-3">
-        <span class="my-2">Socket</span>
-        <select formControlName="manufacturer">
-          <option value="" disabled selected hidden>Please Choose...</option>
-          <option value="AM5">AM5</option>
-          <option value="AM4">AM4</option>
-          <option value="LGA1700">LGA1700</option>
-        </select>
       </div>
     </div>
 
@@ -49,7 +39,83 @@
           <span class="my-2">Max Boost Clock</span>
           <input formControlName="maxBoostClock" type="number" />
         </div>
+
+        <div class="input-wrapper d-flex flex-column px-3">
+          <span class="my-2">Socket</span>
+          <select formControlName="socketId">
+            <option value="" disabled selected hidden>Please Choose...</option>
+            <option value="1">AM5</option>
+            <option value="2">AM4</option>
+            <option value="3">LGA1700</option>
+          </select>
+        </div>
       </div>
+    </div>
+
+    <div class="img-input-wrapper p-3 m-3">
+      <div class="input-selection d-flex align-items-center w-100">
+        <input
+          #componentImgInput
+          type="file"
+          (change)="testing()"
+          class="d-none" />
+        <button
+          pButton
+          pRipple
+          class="p-button-primary"
+          label="Select Image"
+          (click)="componentImgInput.click()"></button>
+        <div class="drag-drop-wrapper">
+          <i class="pi pi-upload p-3 pe-1"></i>
+          <span>Drop files here...</span>
+        </div>
+      </div>
+      <ul *ngIf="componentImage" class="m-0 p-0">
+        <hr />
+        <li>
+          <div class="d-flex justify-content-between align-items-center my-2">
+            <div class="img-info-wrapper">
+              <ng-container *ngIf="componentImage?.loaded; else spinner">
+                <i class="pi pi-check"></i>
+              </ng-container>
+              <ng-template #spinner>
+                <i class="pi pi-spin pi-spinner"></i>
+              </ng-template>
+
+              {{ componentImage.title }}
+              <span class="img-size-label">
+                {{ componentImage.size / 1000000 }} MB
+              </span>
+            </div>
+            <i
+              *ngIf="componentImage.loaded"
+              class="pi pi-trash"
+              (click)="onRemoveImage()"></i>
+          </div>
+          <div class="progress" *ngIf="!componentImage.loaded">
+            <div
+              class="progress-bar progress-bar-striped progress-bar-animated"
+              [ngStyle]="{ width: proggress + '%' }"></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="action-buttons">
+      <button
+        pButton
+        pRipple
+        label="Create Component"
+        class="p-button-success mx-3"
+        (click)="onCreateComponent()"
+        [disabled]="checkFormValidity()"></button>
+      <button
+        pButton
+        pRipple
+        label="Reset Form"
+        (click)="onResetForm()"
+        class="p-button-danger">
+      </button>
     </div>
   </form>
 </div>

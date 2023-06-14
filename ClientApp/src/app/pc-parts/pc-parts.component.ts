@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PCParts } from './pc-parts.enum';
 import { Router, RouterModule } from '@angular/router';
@@ -23,6 +23,8 @@ export class PcPartsComponent {
   //* Injecting Dependencies
   private router: Router = inject(Router);
   private fb: FormBuilder = inject(FormBuilder);
+
+  @ViewChild('formView') formView?: ElementRef;
 
   partsForm: FormGroup = this.fb.group({
     manufacturer: this.fb.control('', [Validators.required]),
@@ -128,5 +130,6 @@ export class PcPartsComponent {
         break;
       }
     }
+    this.formView?.nativeElement.scrollIntoView();
   }
 }

@@ -20,7 +20,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log('err intercept');
+    // console.log('err intercept');
     return next.handle(req).pipe(
       retry(1),
       tap(

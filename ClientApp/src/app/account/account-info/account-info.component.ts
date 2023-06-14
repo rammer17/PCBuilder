@@ -12,7 +12,7 @@ import {
 } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 import { UserService } from 'src/app/core/services/user.service';
-import { Observable, ReplaySubject, switchMap, takeUntil, tap } from 'rxjs';
+import { Observable, ReplaySubject, of, switchMap, takeUntil, tap } from 'rxjs';
 import {
   Account,
   UserChangeAvatarRequest,
@@ -24,6 +24,7 @@ import { AuthService } from 'src/app/core/services/communication/auth.service';
 import { Router } from '@angular/router';
 import { AccountStoreService } from 'src/app/core/services/communication/account.store.service';
 import { ImgbbUploadService } from 'src/app/core/services/imgbb-upload.service';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-account-info',
@@ -154,16 +155,30 @@ export class AccountInfoComponent {
     this.imgUploadService
       .upload(file)
       .pipe(
-        tap((resp: string) => {
-          this.accountStoreService.update({
-            imageUrl: resp,
-          });
+        tap((event: HttpEvent<any>) => {
+          switch (event.type) {
+            case HttpEventType.UploadProgress: {
+              const progress = Math.round((event.loaded / event.total!) * 100);
+              console.log(progress);
+              break;
+            }
+            case HttpEventType.Response: {
+              const url = event.body.data.url;
+              this.accountStoreService.update({
+                imageUrl: url,
+              });
+            }
+          }
         }),
-        switchMap((imgUrl: string) => {
-          const body: UserChangeAvatarRequest = {
-            imageUrl: imgUrl,
-          };
-          return this.userService.changeAvatar(body);
+        switchMap((event: HttpEvent<any>) => {
+          if (event.type == HttpEventType.Response) {
+            console.log('response event');
+            const body: UserChangeAvatarRequest = {
+              imageUrl: event.body['data']['url'],
+            };
+            return this.userService.changeAvatar(body);
+          }
+          return of(event);
         }),
         takeUntil(this.destroy$)
       )
