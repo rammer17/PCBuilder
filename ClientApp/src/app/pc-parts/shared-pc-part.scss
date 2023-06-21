@@ -1,0 +1,72 @@
+:host::ng-deep {
+  .wrapper {
+    color: var(--white);
+  }
+  form {
+    width: fit-content;
+    background-color: var(--primary-dark);
+    -webkit-box-shadow: 5px 5px 25px 10px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 5px 5px 25px 10px rgba(0, 0, 0, 0.6);
+    box-shadow: 5px 5px 25px 10px rgba(0, 0, 0, 0.6);
+  }
+
+  .input-wrapper {
+    width: 100%;
+    input,
+    select {
+      height: 48px;
+      background: var(--input-idle);
+      border-radius: 8px;
+      border: 2px solid var(--input-border);
+      outline: none;
+      transition: 0.1s;
+      color: var(--white);
+      padding: 6px;
+    }
+    input:focus,
+    select:focus {
+      background: var(--input-focus);
+      border-color: var(--secondary-medium);
+    }
+    input.ng-valid:not(:focus),
+    select.ng-valid:not(:focus) {
+      border-color: var(--success);
+    }
+  }
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  li {
+    list-style: none;
+  }
+  .img-size-label {
+    border-radius: 12px;
+    background-color: var(--primary-light);
+    border-color: var(--input-border);
+    padding: 6px;
+    font-size: smaller;
+  }
+  i {
+    transition: 0.1s;
+  }
+  i.pi.pi-trash:hover {
+    color: var(--danger);
+    cursor: pointer;
+  }
+  i.pi.pi-check {
+    color: var(--success);
+  }
+  .progress-bar {
+    background-color: var(--secondary-dark);
+  }
+  .progress {
+    background-color: var(--primary-light);
+  }
+  .img-input-wrapper {
+    background-color: var(--input-idle);
+    border: 2px dashed var(--primary-light);
+    border-radius: 4px;
+  }
+}

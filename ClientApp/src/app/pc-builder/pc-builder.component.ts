@@ -115,56 +115,56 @@ export class PcBuilderComponent {
     let details: string = '';
     if ('cores' in component) {
       details = `${component.manufacturer} ${component.model} ${component.socket} ${component.cores}-Core Processor`;
-      this.renderComponent(0, details);
+      this.renderComponent(0, details, component.imageUrl);
       this.pcForm.patchValue({
         cpuId: component.id,
       });
       return;
     } else if ('maxRPM' in component) {
       details = `${component.manufacturer} ${component.model} ${component.type} Cooler`;
-      this.renderComponent(1, details);
+      this.renderComponent(1, details, component.imageUrl);
       this.pcForm.patchValue({
         cpuCoolerId: component.id,
       });
       return;
     } else if ('wifi' in component) {
       details = `${component.manufacturer} ${component.model} ${component.chipset} ${component.formFactor} ${component.socket}`;
-      this.renderComponent(2, details);
+      this.renderComponent(2, details, component.imageUrl);
       this.pcForm.patchValue({
         motherboardId: component.id,
       });
       return;
     } else if ('frequency' in component) {
       details = `${component.manufacturer} ${component.model} ${component.type} ${component.capacity}GB ${component.frequency}MHz`;
-      this.renderComponent(3, details);
+      this.renderComponent(3, details, component.imageUrl);
       this.pcForm.patchValue({
         ramId: component.id,
       });
       return;
     } else if ('readSpeed' in component) {
       details = `${component.manufacturer} ${component.model} ${component.type} ${component.formFactor}" ${component.capacity}MB ${component.interface}`;
-      this.renderComponent(4, details);
+      this.renderComponent(4, details, component.imageUrl);
       this.pcForm.patchValue({
         storageId: component.id,
       });
       return;
     } else if ('height' in component) {
       details = `${component.manufacturer} ${component.model} ${component.memoryType} ${component.memorySize}GB`;
-      this.renderComponent(5, details);
+      this.renderComponent(5, details, component.imageUrl);
       this.pcForm.patchValue({
         gpuId: component.id,
       });
       return;
     } else if ('maxGpuWidth' in component) {
       details = `${component.manufacturer} ${component.model} ${component.formFactor} ${component.type}`;
-      this.renderComponent(6, details);
+      this.renderComponent(6, details, component.imageUrl);
       this.pcForm.patchValue({
         caseId: component.id,
       });
       return;
     } else if ('wattage' in component) {
       details = `${component.manufacturer} ${component.model} ${component.wattage}W ${component.formFactor} ${component.efficiencyRating} ${component.type}`;
-      this.renderComponent(7, details);
+      this.renderComponent(7, details, component.imageUrl);
       this.pcForm.patchValue({
         powerSupplyId: component.id,
       });
@@ -172,7 +172,11 @@ export class PcBuilderComponent {
     }
   }
 
-  private renderComponent(index: number, details: string): void {
+  private renderComponent(
+    index: number,
+    details: string,
+    imageUrl: string
+  ): void {
     const componentWrapperEl = this.renderer.createElement('div');
     const imgContainerEl = this.renderer.createElement('div');
     const imgEl = this.renderer.createElement('img');
@@ -185,6 +189,8 @@ export class PcBuilderComponent {
     this.renderer.setAttribute(componentWrapperEl, 'class', 'd-flex');
     this.renderer.setAttribute(imgContainerEl, 'class', 'img-container mx-2');
     this.renderer.setAttribute(imgEl, 'alt', 'Not found');
+    this.renderer.setAttribute(imgEl, 'src', imageUrl);
+    this.renderer.setAttribute(imgEl, 'class', 'img');
     this.renderer.setAttribute(descriptionEl, 'class', 'mx-2');
 
     this.renderer.appendChild(imgContainerEl, imgEl);
@@ -241,7 +247,7 @@ export class PcBuilderComponent {
   test(e: any) {
     this.imgbbUploadService
       .upload(e.target.files[0])
-      .pipe(tap((resp) => console.log("tap ", resp)))
+      .pipe(tap((resp) => console.log('tap ', resp)))
       .subscribe((resp) => console.log(resp));
   }
 }

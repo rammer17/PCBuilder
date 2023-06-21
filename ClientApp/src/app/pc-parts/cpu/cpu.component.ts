@@ -3,13 +3,12 @@ import {
   Component,
   DestroyRef,
   ElementRef,
-  EventEmitter,
-  Output,
+  OnDestroy,
+  OnInit,
   ViewChild,
   inject,
 } from '@angular/core';
 import {
-  FormBuilder,
   FormGroup,
   FormGroupDirective,
   ReactiveFormsModule,
@@ -22,45 +21,37 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { CommonModule } from '@angular/common';
 import { Image } from '../image.model';
-import { CpuService } from 'src/app/core/services/cpu.service';
 import { CpuAddRequest } from 'src/app/core/models/cpu.model';
+import { CpuService } from 'src/app/core/services/cpu.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-cpu',
   standalone: true,
   imports: [ReactiveFormsModule, ButtonModule, RippleModule, CommonModule],
   templateUrl: './cpu.component.html',
-  styleUrls: ['./cpu.component.scss'],
+  styleUrls: ['../shared-pc-part.scss'],
 })
-export class CpuComponent {
+export class CpuComponent implements OnInit, OnDestroy {
   //* Injecting dependecies
-  private fb: FormBuilder = inject(FormBuilder);
   private rootFormGroup: FormGroupDirective = inject(FormGroupDirective);
   private destroyRef: DestroyRef = inject(DestroyRef);
   private imgUploadService: ImgbbUploadService = inject(ImgbbUploadService);
   private cpuService: CpuService = inject(CpuService);
+  private messageService: MessageService = inject(MessageService);
 
-  @Output() test: EventEmitter<void> = new EventEmitter<void>();
   @ViewChild('componentImgInput') componentImgInput?: ElementRef;
 
   cpuForm?: FormGroup;
-
-  proggress: number = 0;
-
+  progress: number = 0;
   componentImage?: Image;
 
   ngOnInit(): void {
-    const test = this.rootFormGroup.control;
-    // console.log(this.rootFormGroup.control.get('cpu'));
-
     this.cpuForm = this.rootFormGroup.control;
     this.cpuForm.get('cpu')?.addValidators(Validators.required);
-    // console.log(this.rootFormGroup.control.get('manufacturer'))
-
-    // console.log(this.cpuForm);
   }
 
-  testing() {
+  onUploadImage() {
     const file = this.componentImgInput?.nativeElement.files[0];
     this.componentImage = {
       size: file.size,
@@ -73,7 +64,7 @@ export class CpuComponent {
         tap((event: HttpEvent<any>) => {
           switch (event.type) {
             case HttpEventType.UploadProgress: {
-              this.proggress = Math.round((event.loaded / event.total!) * 100);
+              this.progress = Math.round((event.loaded / event.total!) * 100);
               break;
             }
             case HttpEventType.Response: {
@@ -116,14 +107,31 @@ export class CpuComponent {
   }
 
   onCreateComponent(): void {
-    // if (!this.cpuForm) return;
-    console.log(this.cpuForm?.value);
-    // const body: CpuAddRequest = {
-    //   manufacturer: this.cpuForm.get('manufacturer')?.value,
-    //   model: this.cpuForm.get('model')?.value,
-    //   imageUrl: this.componentImage!.url,
+    if (!this.cpuForm) return;
+    const body: CpuAddRequest = {
+      manufacturer: this.cpuForm.get('manufacturer')?.value,
+      model: this.cpuForm.get('model')?.value,
+      imageUrl: this.cpuForm.get('imageUrl')?.value,
+      cores: this.cpuForm.get('cpu')?.get('cores')?.value,
+      threads: this.cpuForm.get('cpu')?.get('threads')?.value,
+      baseClock: this.cpuForm.get('cpu')?.get('baseClock')?.value,
+      maxBoostClock: this.cpuForm.get('cpu')?.get('maxBoostClock')?.value,
+      socketId: this.cpuForm.get('cpu')?.get('socketId')?.value,
+    };
+    this.cpuService
+      .add(body)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((resp: any) => {
+        this.messageService.add({
+          key: 'tc',
+          severity: 'success',
+          detail: 'CPU was added successfully!',
+          life: 3000,
+        });
+      });
+  }
 
-    // };
-    // this.cpuService.add(body).pipe(takeUntilDestroyed()).subscribe();
+  ngOnDestroy(): void {
+    this.onResetForm();
   }
 }

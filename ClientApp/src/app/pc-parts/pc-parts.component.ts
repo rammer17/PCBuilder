@@ -9,7 +9,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CpuComponent } from './cpu/cpu.component';
 
 @Component({
   selector: 'app-pc-part-selection',
@@ -130,6 +129,6 @@ export class PcPartsComponent {
         break;
       }
     }
-    this.formView?.nativeElement.scrollIntoView();
+    this.formView?.nativeElement.scrollIntoView()
   }
 }

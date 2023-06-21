@@ -8,11 +8,17 @@ import { RamGetResponse } from './ram.model';
 import { StorageGetResponse } from './storage.model';
 
 export type PCComponent =
-  | CpuGetResponse
-  | CpuCoolerGetResponse
-  | MotherboardGetResponse
-  | RamGetResponse
-  | StorageGetResponse
-  | GpuGetResponse
-  | CaseGetResponse
-  | PowerSupplyGetResponse;
+  | (BaseComponent & CpuGetResponse)
+  | (BaseComponent & CpuCoolerGetResponse)
+  | (BaseComponent & MotherboardGetResponse)
+  | (BaseComponent & RamGetResponse)
+  | (BaseComponent & StorageGetResponse)
+  | (BaseComponent & GpuGetResponse)
+  | (BaseComponent & CaseGetResponse)
+  | (BaseComponent & PowerSupplyGetResponse);
+
+type BaseComponent = {
+  manufacturer: string;
+  model: string;
+  imageUrl: string;
+};

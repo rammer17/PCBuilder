@@ -1,1 +1,148 @@
-<p>gpu works!</p>
+<div class="wrapper d-flex justify-content-center align-items-center">
+  <form [formGroup]="gpuForm!" class="p-4 my-5">
+    <h1 class="text-center my-4">Create GPU</h1>
+
+    <div class="d-flex justify-content-between">
+      <div class="input-wrapper d-flex flex-column px-3">
+        <span class="my-2">Manufacturer</span>
+        <select formControlName="manufacturer">
+          <option value="" disabled selected hidden>Please Choose...</option>
+          <option value="ASUS">ASUS</option>
+          <option value="EVGA">EVGA</option>
+          <option value="MSI">MSI</option>
+          <option value="Gigabyte">Gigabyte</option>
+          <option value="Sapphire">Sapphire</option>
+          <option value="Zotac">Zotac</option>
+          <option value="XFX">XFX/option></option>
+          <option value="Palit">Palit</option>
+          <option value="PNY">PNY</option>
+          <option value="PowerColor">PowerColor</option>
+          <option value="Inno3D">Inno3D</option>
+          <option value="Gainward">Gainward</option>
+          <option value="Biostar">Biostar</option>
+          <option value="ASRock">ASRock</option>
+        </select>
+      </div>
+
+      <div class="input-wrapper d-flex flex-column px-3">
+        <span class="my-2">Model</span>
+        <input formControlName="model" type="text" />
+      </div>
+    </div>
+
+    <div formGroupName="gpu" class="cpu-form-specific-inputs">
+      <div class="d-flex justify-content-between">
+        <div class="input-wrapper number d-flex flex-column px-3">
+          <span class="my-2">Base Clock</span>
+          <input formControlName="baseClock" type="number" />
+        </div>
+
+        <div class="input-wrapper number d-flex flex-column px-3">
+          <span class="my-2">Max Boost Clock</span>
+          <input formControlName="maxBoostClock" type="number" />
+        </div>
+
+        <div class="input-wrapper number d-flex flex-column px-3">
+          <span class="my-2">Memory Size</span>
+          <input formControlName="memorySize" type="number" />
+        </div>
+
+        <div class="input-wrapper d-flex flex-column px-3">
+          <span class="my-2">Memory Type</span>
+          <select formControlName="memoryType">
+            <option value="" disabled selected hidden>Please Choose...</option>
+            <option value="GDDR6">GDDR6</option>
+            <option value="GDDR5">GDDR5</option>
+            <option value="DDR4">DDR4</option>
+          </select>
+        </div>
+      </div>
+      <div class="d-flex justify-content-between">
+        <div class="input-wrapper number d-flex flex-column px-3">
+            <span class="my-2">Memory Bus</span>
+            <input formControlName="memoryBus" type="number" />
+        </div>
+        
+        <div class="input-wrapper number d-flex flex-column px-3">
+            <span class="my-2">Total Power Draw</span>
+            <input formControlName="tdp" type="number" />
+        </div>
+        
+        <div class="input-wrapper number d-flex flex-column px-3">
+            <span class="my-2">Height</span>
+            <input formControlName="height" type="number" />
+        </div>
+        
+        <div class="input-wrapper number d-flex flex-column px-3">
+            <span class="my-2">Width</span>
+            <input formControlName="width" type="number" />
+        </div>
+      </div>
+    </div>
+
+    <div class="img-input-wrapper p-3 m-3">
+      <div class="input-selection d-flex align-items-center w-100">
+        <input
+          #componentImgInput
+          type="file"
+          (change)="onUploadImage()"
+          class="d-none" />
+        <button
+          pButton
+          pRipple
+          class="p-button-primary"
+          label="Select Image"
+          (click)="componentImgInput.click()"></button>
+        <div class="drag-drop-wrapper">
+          <i class="pi pi-upload p-3 pe-1"></i>
+          <span>Drop files here...</span>
+        </div>
+      </div>
+      <ul *ngIf="componentImage" class="m-0 p-0">
+        <hr />
+        <li>
+          <div class="d-flex justify-content-between align-items-center my-2">
+            <div class="img-info-wrapper">
+              <ng-container *ngIf="componentImage?.loaded; else spinner">
+                <i class="pi pi-check"></i>
+              </ng-container>
+              <ng-template #spinner>
+                <i class="pi pi-spin pi-spinner"></i>
+              </ng-template>
+
+              {{ componentImage.title }}
+              <span class="img-size-label">
+                {{ componentImage.size / 1000000 }} MB
+              </span>
+            </div>
+            <i
+              *ngIf="componentImage.loaded"
+              class="pi pi-trash"
+              (click)="onRemoveImage()"></i>
+          </div>
+          <div class="progress" *ngIf="!componentImage.loaded">
+            <div
+              class="progress-bar progress-bar-striped progress-bar-animated"
+              [ngStyle]="{ width: progress + '%' }"></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="action-buttons">
+      <button
+        pButton
+        pRipple
+        label="Create Component"
+        class="p-button-success mx-3"
+        (click)="onCreateComponent()"
+        [disabled]="checkFormValidity()"></button>
+      <button
+        pButton
+        pRipple
+        label="Reset Form"
+        (click)="onResetForm()"
+        class="p-button-danger"></button>
+    </div>
+  </form>
+</div>

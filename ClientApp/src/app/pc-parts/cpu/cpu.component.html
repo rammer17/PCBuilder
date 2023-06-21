@@ -40,6 +40,7 @@
           <input formControlName="maxBoostClock" type="number" />
         </div>
 
+        
         <div class="input-wrapper d-flex flex-column px-3">
           <span class="my-2">Socket</span>
           <select formControlName="socketId">
@@ -57,7 +58,7 @@
         <input
           #componentImgInput
           type="file"
-          (change)="testing()"
+          (change)="onUploadImage()"
           class="d-none" />
         <button
           pButton
@@ -95,7 +96,7 @@
           <div class="progress" *ngIf="!componentImage.loaded">
             <div
               class="progress-bar progress-bar-striped progress-bar-animated"
-              [ngStyle]="{ width: proggress + '%' }"></div>
+              [ngStyle]="{ width: progress + '%' }"></div>
           </div>
         </li>
       </ul>
