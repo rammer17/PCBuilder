@@ -1,26 +1,22 @@
 <div class="wrapper d-flex justify-content-center align-items-center">
-  <form [formGroup]="gpuForm!" class="p-4 my-5">
-    <h1 class="text-center my-4">Create GPU</h1>
+  <form [formGroup]="cpuCoolerForm!" class="p-4 my-5">
+    <h1 class="text-center my-4">Create Cpu Cooler</h1>
 
     <div class="d-flex justify-content-between">
       <div class="input-wrapper d-flex flex-column px-3">
         <span class="my-2">Manufacturer</span>
         <select formControlName="manufacturer">
           <option value="" disabled selected hidden>Please Choose...</option>
-          <option value="ASUS">ASUS</option>
-          <option value="EVGA">EVGA</option>
-          <option value="MSI">MSI</option>
-          <option value="Gigabyte">Gigabyte</option>
-          <option value="Sapphire">Sapphire</option>
-          <option value="Zotac">Zotac</option>
-          <option value="XFX">XFX/option></option>
-          <option value="Palit">Palit</option>
-          <option value="PNY">PNY</option>
-          <option value="PowerColor">PowerColor</option>
-          <option value="Inno3D">Inno3D</option>
-          <option value="Gainward">Gainward</option>
-          <option value="Biostar">Biostar</option>
-          <option value="ASRock">ASRock</option>
+          <option value="Noctua">Noctua</option>
+          <option value="Cooler Master">Cooler Master</option>
+          <option value="Corsair">Corsair</option>
+          <option value="be quiet">be quiet</option>
+          <option value="NZXT">NZXT</option>
+          <option value="Arctic">Arctic</option>
+          <option value="Scythe">Scythe/option></option>
+          <option value="Fractal Design">Fractal Design</option>
+          <option value="Phanteks">Phanteks</option>
+          <option value="Thermaltake">Thermaltake</option>
         </select>
       </div>
 
@@ -30,52 +26,45 @@
       </div>
     </div>
 
-    <div formGroupName="gpu" class="cpu-form-specific-inputs">
+    <div formGroupName="cpuCooler" class="cpu-form-specific-inputs">
       <div class="d-flex justify-content-between">
-        <div class="input-wrapper number d-flex flex-column px-3">
-          <span class="my-2">Base Clock</span>
-          <input formControlName="baseClock" type="number" />
-        </div>
-
-        <div class="input-wrapper number d-flex flex-column px-3">
-          <span class="my-2">Max Boost Clock</span>
-          <input formControlName="maxBoostClock" type="number" />
-        </div>
-
-        <div class="input-wrapper number d-flex flex-column px-3">
-          <span class="my-2">Memory Size</span>
-          <input formControlName="memorySize" type="number" />
+        <div class="input-wrapper d-flex flex-column px-3">
+          <span class="my-2">Socket</span>
+          <select formControlName="socketIds">
+            <option value="" disabled selected hidden>Please Choose...</option>
+            <option *ngFor="let socket of socket$ | async" [value]="socket.id">
+              {{ socket.name }}
+            </option>
+          </select>
+          <!-- <p-multiSelect
+            [options]="(socket$ | async)!"
+            formControlName="socketIds"
+            optionLabel="name"></p-multiSelect> -->
         </div>
 
         <div class="input-wrapper d-flex flex-column px-3">
-          <span class="my-2">Memory Type</span>
-          <select formControlName="memoryType">
+          <span class="my-2">Type</span>
+          <select formControlName="type">
             <option value="" disabled selected hidden>Please Choose...</option>
-            <option value="GDDR6">GDDR6</option>
-            <option value="GDDR5">GDDR5</option>
-            <option value="DDR4">DDR4</option>
+            <option value="Liquid">Liquid</option>
+            <option value="Air">Air</option>
           </select>
         </div>
       </div>
       <div class="d-flex justify-content-between">
-        <div class="input-wrapper number d-flex flex-column px-3">
-          <span class="my-2">Memory Bus</span>
-          <input formControlName="memoryBus" type="number" />
-        </div>
-
         <div class="input-wrapper number d-flex flex-column px-3">
           <span class="my-2">Total Power Draw</span>
           <input formControlName="tdp" type="number" />
         </div>
 
         <div class="input-wrapper number d-flex flex-column px-3">
-          <span class="my-2">Height</span>
-          <input formControlName="height" type="number" />
+          <span class="my-2">Max RPM</span>
+          <input formControlName="maxRPM" type="number" />
         </div>
 
         <div class="input-wrapper number d-flex flex-column px-3">
-          <span class="my-2">Width</span>
-          <input formControlName="width" type="number" />
+          <span class="my-2">Noise Level</span>
+          <input formControlName="noiseLevel" type="number" />
         </div>
       </div>
     </div>

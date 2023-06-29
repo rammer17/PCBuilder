@@ -18,37 +18,49 @@ import {
 } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { ImgbbUploadService } from 'src/app/core/services/imgbb-upload.service';
 import { Image } from '../image.model';
-import { GpuAddRequest } from 'src/app/core/models/gpu.model';
-import { GpuService } from 'src/app/core/services/gpu.service';
+import { CpuCoolerAddRequest } from 'src/app/core/models/cpu-cooler.model';
+import { CpuCoolerService } from 'src/app/core/services/cpu-cooler.service';
 import { MessageService } from 'primeng/api';
-
+import { SocketService } from 'src/app/core/services/socket.service';
+import { SocketGetResponse } from 'src/app/core/models/socket.model';
+import { MultiSelectModule } from 'primeng/multiselect';
 @Component({
-  selector: 'app-gpu',
+  selector: 'app-cpuCooler',
   standalone: true,
-  imports: [ReactiveFormsModule, ButtonModule, RippleModule, CommonModule],
-  templateUrl: './gpu.component.html',
+  imports: [
+    ReactiveFormsModule,
+    ButtonModule,
+    RippleModule,
+    CommonModule,
+    MultiSelectModule,
+  ],
+  templateUrl: './cpu-cooler.component.html',
   styleUrls: ['../shared-pc-part.scss'],
 })
-export class GpuComponent implements OnInit, OnDestroy {
+export class CpuCoolerComponent implements OnInit, OnDestroy {
   //* Injecting dependencies
   private rootFormGroup: FormGroupDirective = inject(FormGroupDirective);
   private destroyRef: DestroyRef = inject(DestroyRef);
   private imgUploadService: ImgbbUploadService = inject(ImgbbUploadService);
-  private gpuService: GpuService = inject(GpuService);
+  private cpuCoolerService: CpuCoolerService = inject(CpuCoolerService);
   private messageService: MessageService = inject(MessageService);
+  private socketService: SocketService = inject(SocketService);
 
   @ViewChild('componentImgInput') componentImgInput?: ElementRef;
 
-  gpuForm?: FormGroup;
+  cpuCoolerForm?: FormGroup;
   progress: number = 0;
   componentImage?: Image;
 
+  socket$?: Observable<SocketGetResponse[]>;
+
   ngOnInit(): void {
-    this.gpuForm = this.rootFormGroup.control;
-    this.gpuForm.get('gpu')?.addValidators(Validators.required);
+    this.cpuCoolerForm = this.rootFormGroup.control;
+    this.cpuCoolerForm.get('cpuCooler')?.addValidators(Validators.required);
+    this.socket$ = this.socketService.getAll();
   }
 
   onUploadImage() {
@@ -69,7 +81,7 @@ export class GpuComponent implements OnInit, OnDestroy {
             }
             case HttpEventType.Response: {
               const url = event.body.data.url;
-              this.gpuForm?.patchValue({
+              this.cpuCoolerForm?.patchValue({
                 imageUrl: url,
               });
               this.componentImage!.loaded = true;
@@ -82,15 +94,15 @@ export class GpuComponent implements OnInit, OnDestroy {
   }
   onRemoveImage(): void {
     this.componentImage = undefined;
-    this.gpuForm?.controls['imageUrl'].setErrors({ incorrect: true });
+    this.cpuCoolerForm?.controls['imageUrl'].setErrors({ incorrect: true });
   }
 
   checkFormValidity(): boolean {
     if (
-      !this.gpuForm?.controls['gpu'].valid ||
-      !this.gpuForm.controls['manufacturer'].valid ||
-      !this.gpuForm.controls['model'].valid ||
-      !this.gpuForm.controls['imageUrl'].valid
+      !this.cpuCoolerForm?.controls['cpuCooler'].valid ||
+      !this.cpuCoolerForm.controls['manufacturer'].valid ||
+      !this.cpuCoolerForm.controls['model'].valid ||
+      !this.cpuCoolerForm.controls['imageUrl'].valid
     ) {
       return true;
     }
@@ -98,39 +110,39 @@ export class GpuComponent implements OnInit, OnDestroy {
   }
 
   onResetForm(): void {
-    this.gpuForm?.reset({
-      manufacturer: this.gpuForm.get('manufacturer')?.value,
+    this.cpuCoolerForm?.reset({
+      manufacturer: this.cpuCoolerForm.get('manufacturer')?.value,
     });
-    this.gpuForm?.controls['gpu'].reset({
-      memoryType: '',
+    this.cpuCoolerForm?.controls['cpuCooler'].reset({
+      socketIds: '',
+      type: '',
     });
-    this.gpuForm?.get('gpu')?.removeValidators(Validators.required);
+    this.cpuCoolerForm?.get('cpuCooler')?.removeValidators(Validators.required);
     this.componentImage = undefined;
   }
 
   onCreateComponent(): void {
-    if (!this.gpuForm) return;
-    const body: GpuAddRequest = {
-      manufacturer: this.gpuForm.get('manufacturer')?.value,
-      model: this.gpuForm.get('model')?.value,
-      imageUrl: this.gpuForm.get('imageUrl')?.value,
-      baseClock: this.gpuForm.get('gpu')?.get('baseClock')?.value,
-      maxBoostClock: this.gpuForm.get('gpu')?.get('maxBoostClock')?.value,
-      memorySize: this.gpuForm.get('gpu')?.get('memorySize')?.value,
-      memoryType: this.gpuForm.get('gpu')?.get('memoryType')?.value,
-      memoryBus: this.gpuForm.get('gpu')?.get('memoryBus')?.value,
-      tdp: this.gpuForm.get('gpu')?.get('tdp')?.value,
-      height: this.gpuForm.get('gpu')?.get('height')?.value,
-      width: this.gpuForm.get('gpu')?.get('width')?.value,
+    if (!this.cpuCoolerForm) return;
+    const body: CpuCoolerAddRequest = {
+      manufacturer: this.cpuCoolerForm.get('manufacturer')?.value,
+      model: this.cpuCoolerForm.get('model')?.value,
+      imageUrl: this.cpuCoolerForm.get('imageUrl')?.value,
+      socketIds: [
+        ...this.cpuCoolerForm.get('cpuCooler')?.get('socketIds')?.value,
+      ],
+      type: this.cpuCoolerForm.get('cpuCooler')?.get('type')?.value,
+      tdp: this.cpuCoolerForm.get('cpuCooler')?.get('tdp')?.value,
+      maxRPM: this.cpuCoolerForm.get('cpuCooler')?.get('maxRPM')?.value,
+      noiseLevel: this.cpuCoolerForm.get('cpuCooler')?.get('noiseLevel')?.value,
     };
-    this.gpuService
+    this.cpuCoolerService
       .add(body)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((resp: any) => {
         this.messageService.add({
           key: 'tc',
           severity: 'success',
-          detail: 'GPU was added successfully!',
+          detail: 'Cpu Cooler was added successfully!',
           life: 3000,
         });
         this.onResetForm();

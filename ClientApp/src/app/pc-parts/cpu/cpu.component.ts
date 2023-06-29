@@ -103,6 +103,7 @@ export class CpuComponent implements OnInit, OnDestroy {
     this.cpuForm?.controls['cpu'].reset({
       socketId: '',
     });
+    this.cpuForm?.get('cpu')?.removeValidators(Validators.required);
     this.componentImage = undefined;
   }
 
