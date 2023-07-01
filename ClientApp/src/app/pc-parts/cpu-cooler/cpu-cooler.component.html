@@ -3,23 +3,10 @@
     <h1 class="text-center my-4">Create Cpu Cooler</h1>
 
     <div class="d-flex justify-content-between">
-      <div class="input-wrapper d-flex flex-column px-3">
-        <span class="my-2">Manufacturer</span>
-        <select formControlName="manufacturer">
-          <option value="" disabled selected hidden>Please Choose...</option>
-          <option value="Noctua">Noctua</option>
-          <option value="Cooler Master">Cooler Master</option>
-          <option value="Corsair">Corsair</option>
-          <option value="be quiet">be quiet</option>
-          <option value="NZXT">NZXT</option>
-          <option value="Arctic">Arctic</option>
-          <option value="Scythe">Scythe/option></option>
-          <option value="Fractal Design">Fractal Design</option>
-          <option value="Phanteks">Phanteks</option>
-          <option value="Thermaltake">Thermaltake</option>
-        </select>
-      </div>
-
+      <app-manufacturer
+        class="w-100"
+        [controlName]="'manufacturer'"
+        [manufacturers]="manufacturers"></app-manufacturer>
       <div class="input-wrapper d-flex flex-column px-3">
         <span class="my-2">Model</span>
         <input formControlName="model" type="text" />
@@ -36,10 +23,6 @@
               {{ socket.name }}
             </option>
           </select>
-          <!-- <p-multiSelect
-            [options]="(socket$ | async)!"
-            formControlName="socketIds"
-            optionLabel="name"></p-multiSelect> -->
         </div>
 
         <div class="input-wrapper d-flex flex-column px-3">
@@ -69,54 +52,7 @@
       </div>
     </div>
 
-    <div class="img-input-wrapper p-3 m-3">
-      <div class="input-selection d-flex align-items-center w-100">
-        <input
-          #componentImgInput
-          type="file"
-          (change)="onUploadImage()"
-          class="d-none" />
-        <button
-          pButton
-          pRipple
-          class="p-button-primary"
-          label="Select Image"
-          (click)="componentImgInput.click()"></button>
-        <div class="drag-drop-wrapper">
-          <i class="pi pi-upload p-3 pe-1"></i>
-          <span>Drop files here...</span>
-        </div>
-      </div>
-      <ul *ngIf="componentImage" class="m-0 p-0">
-        <hr />
-        <li>
-          <div class="d-flex justify-content-between align-items-center my-2">
-            <div class="img-info-wrapper">
-              <ng-container *ngIf="componentImage?.loaded; else spinner">
-                <i class="pi pi-check"></i>
-              </ng-container>
-              <ng-template #spinner>
-                <i class="pi pi-spin pi-spinner"></i>
-              </ng-template>
-
-              {{ componentImage.title }}
-              <span class="img-size-label">
-                {{ componentImage.size / 1000000 }} MB
-              </span>
-            </div>
-            <i
-              *ngIf="componentImage.loaded"
-              class="pi pi-trash"
-              (click)="onRemoveImage()"></i>
-          </div>
-          <div class="progress" *ngIf="!componentImage.loaded">
-            <div
-              class="progress-bar progress-bar-striped progress-bar-animated"
-              [ngStyle]="{ width: progress + '%' }"></div>
-          </div>
-        </li>
-      </ul>
-    </div>
+    <app-image [formGroup]="cpuCoolerForm!" #imageComponentRef></app-image>
 
     <div class="action-buttons">
       <button

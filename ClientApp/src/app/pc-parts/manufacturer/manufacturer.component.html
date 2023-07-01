@@ -1,0 +1,11 @@
+<div class="d-flex justify-content-between w-100">
+  <div class="input-wrapper d-flex flex-column px-3">
+    <span class="my-2">Manufacturer</span>
+    <select [formControlName]="controlName!">
+      <option value="" disabled selected hidden>Please Choose...</option>
+      <option *ngFor="let manufacturer of manufacturers" [value]="manufacturer">
+        {{ manufacturer }}
+      </option>
+    </select>
+  </div>
+</div>

@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { HttpEvent, HttpEventType } from '@angular/common/http';
 import {
   Component,
   DestroyRef,
-  ElementRef,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -18,17 +16,24 @@ import {
 } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
-import { tap } from 'rxjs';
-import { ImgbbUploadService } from 'src/app/core/services/imgbb-upload.service';
-import { Image } from '../image.model';
 import { GpuAddRequest } from 'src/app/core/models/gpu.model';
 import { GpuService } from 'src/app/core/services/gpu.service';
 import { MessageService } from 'primeng/api';
+import { ManufacturerComponent } from '../manufacturer/manufacturer.component';
+import { ImageComponent } from '../image/image.component';
+import { PcPartsService } from 'src/app/core/services/pc-parts.service';
 
 @Component({
   selector: 'app-gpu',
   standalone: true,
-  imports: [ReactiveFormsModule, ButtonModule, RippleModule, CommonModule],
+  imports: [
+    ReactiveFormsModule,
+    ButtonModule,
+    RippleModule,
+    CommonModule,
+    ManufacturerComponent,
+    ImageComponent,
+  ],
   templateUrl: './gpu.component.html',
   styleUrls: ['../shared-pc-part.scss'],
 })
@@ -36,53 +41,37 @@ export class GpuComponent implements OnInit, OnDestroy {
   //* Injecting dependencies
   private rootFormGroup: FormGroupDirective = inject(FormGroupDirective);
   private destroyRef: DestroyRef = inject(DestroyRef);
-  private imgUploadService: ImgbbUploadService = inject(ImgbbUploadService);
   private gpuService: GpuService = inject(GpuService);
+  private pcPartService: PcPartsService = inject(PcPartsService);
   private messageService: MessageService = inject(MessageService);
 
-  @ViewChild('componentImgInput') componentImgInput?: ElementRef;
+  @ViewChild('imageComponentRef') imageComponentRef?: ImageComponent;
+
+  manufacturers: string[] = [
+    'ASUS',
+    'EVGA',
+    'MSI',
+    'Gigabyte',
+    'Sapphire',
+    'Zotac',
+    'XFX',
+    'Palit',
+    'PNY',
+    'PowerColor',
+    'Inno3D',
+    'Gainward',
+    'Biostar',
+    'ASRock',
+  ];
 
   gpuForm?: FormGroup;
-  progress: number = 0;
-  componentImage?: Image;
 
   ngOnInit(): void {
     this.gpuForm = this.rootFormGroup.control;
     this.gpuForm.get('gpu')?.addValidators(Validators.required);
-  }
-
-  onUploadImage() {
-    const file = this.componentImgInput?.nativeElement.files[0];
-    this.componentImage = {
-      size: file.size,
-      loaded: false,
-      title: file.name,
-    };
-    this.imgUploadService
-      .upload(file)
-      .pipe(
-        tap((event: HttpEvent<any>) => {
-          switch (event.type) {
-            case HttpEventType.UploadProgress: {
-              this.progress = Math.round((event.loaded / event.total!) * 100);
-              break;
-            }
-            case HttpEventType.Response: {
-              const url = event.body.data.url;
-              this.gpuForm?.patchValue({
-                imageUrl: url,
-              });
-              this.componentImage!.loaded = true;
-            }
-          }
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
-  }
-  onRemoveImage(): void {
-    this.componentImage = undefined;
-    this.gpuForm?.controls['imageUrl'].setErrors({ incorrect: true });
+    this.gpuForm.patchValue({
+      manufacturer: '',
+    });
   }
 
   checkFormValidity(): boolean {
@@ -98,14 +87,9 @@ export class GpuComponent implements OnInit, OnDestroy {
   }
 
   onResetForm(): void {
-    this.gpuForm?.reset({
-      manufacturer: this.gpuForm.get('manufacturer')?.value,
-    });
-    this.gpuForm?.controls['gpu'].reset({
-      memoryType: '',
-    });
+    this.pcPartService.resetForm(this.gpuForm!);
+    this.imageComponentRef?.onResetImage();
     this.gpuForm?.get('gpu')?.removeValidators(Validators.required);
-    this.componentImage = undefined;
   }
 
   onCreateComponent(): void {

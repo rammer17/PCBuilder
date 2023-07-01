@@ -1,8 +1,6 @@
-import { HttpEvent, HttpEventType } from '@angular/common/http';
 import {
   Component,
   DestroyRef,
-  ElementRef,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -14,21 +12,28 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { tap } from 'rxjs';
-import { ImgbbUploadService } from 'src/app/core/services/imgbb-upload.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { CommonModule } from '@angular/common';
-import { Image } from '../image.model';
 import { CpuAddRequest } from 'src/app/core/models/cpu.model';
 import { CpuService } from 'src/app/core/services/cpu.service';
 import { MessageService } from 'primeng/api';
+import { ManufacturerComponent } from '../manufacturer/manufacturer.component';
+import { ImageComponent } from '../image/image.component';
+import { PcPartsService } from 'src/app/core/services/pc-parts.service';
 
 @Component({
   selector: 'app-cpu',
   standalone: true,
-  imports: [ReactiveFormsModule, ButtonModule, RippleModule, CommonModule],
+  imports: [
+    ReactiveFormsModule,
+    ButtonModule,
+    RippleModule,
+    CommonModule,
+    ManufacturerComponent,
+    ImageComponent,
+  ],
   templateUrl: './cpu.component.html',
   styleUrls: ['../shared-pc-part.scss'],
 })
@@ -36,52 +41,21 @@ export class CpuComponent implements OnInit, OnDestroy {
   //* Injecting dependecies
   private rootFormGroup: FormGroupDirective = inject(FormGroupDirective);
   private destroyRef: DestroyRef = inject(DestroyRef);
-  private imgUploadService: ImgbbUploadService = inject(ImgbbUploadService);
   private cpuService: CpuService = inject(CpuService);
+  private pcPartService: PcPartsService = inject(PcPartsService);
   private messageService: MessageService = inject(MessageService);
 
-  @ViewChild('componentImgInput') componentImgInput?: ElementRef;
+  @ViewChild('imageComponentRef') imageComponentRef?: ImageComponent;
 
+  manufacturers: string[] = ['AMD', 'Intel'];
   cpuForm?: FormGroup;
-  progress: number = 0;
-  componentImage?: Image;
 
   ngOnInit(): void {
     this.cpuForm = this.rootFormGroup.control;
     this.cpuForm.get('cpu')?.addValidators(Validators.required);
-  }
-
-  onUploadImage() {
-    const file = this.componentImgInput?.nativeElement.files[0];
-    this.componentImage = {
-      size: file.size,
-      loaded: false,
-      title: file.name,
-    };
-    this.imgUploadService
-      .upload(file)
-      .pipe(
-        tap((event: HttpEvent<any>) => {
-          switch (event.type) {
-            case HttpEventType.UploadProgress: {
-              this.progress = Math.round((event.loaded / event.total!) * 100);
-              break;
-            }
-            case HttpEventType.Response: {
-              const url = event.body.data.url;
-              this.cpuForm?.patchValue({
-                imageUrl: url,
-              });
-              this.componentImage!.loaded = true;
-            }
-          }
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
-  }
-  onRemoveImage(): void {
-    this.componentImage = undefined;
+    this.cpuForm.patchValue({
+      manufacturer: '',
+    });
   }
 
   checkFormValidity(): boolean {
@@ -97,14 +71,9 @@ export class CpuComponent implements OnInit, OnDestroy {
   }
 
   onResetForm(): void {
-    this.cpuForm?.reset({
-      manufacturer: this.cpuForm.get('manufacturer')?.value,
-    });
-    this.cpuForm?.controls['cpu'].reset({
-      socketId: '',
-    });
+    this.pcPartService.resetForm(this.cpuForm!);
+    this.imageComponentRef?.onResetImage();
     this.cpuForm?.get('cpu')?.removeValidators(Validators.required);
-    this.componentImage = undefined;
   }
 
   onCreateComponent(): void {
